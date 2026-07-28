@@ -1,3 +1,15 @@
+/*
+---------------------------------------------------------
+Projeto : SIGEC
+Autor   : Lindomar Andrade
+
+Descrição:
+Script responsável pela criação completa do banco de dados
+do Sistema Integrado de Gestão de Execução Criminal.
+---------------------------------------------------------
+*/
+
+
 CREATE DATABASE SIGEC;
 GO
 
@@ -78,10 +90,5 @@ data_cadastro DATE NOT NULL,
 
 FOREIGN KEY (id_pedido_exame) REFERENCES pedido_exame(id),
 FOREIGN KEY (id_profissional) REFERENCES profissional(id),
-FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
-
-ALTER TABLE entrevista
-DROP COLUMN laudo_entregue;
-
-SELECT * FROM entrevista;
