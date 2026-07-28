@@ -1,9 +1,12 @@
 package br.com.sigec.dao;
 
 import br.com.sigec.model.Profissional;
+import br.com.sigec.model.TipoProfissional;
 import br.com.sigec.util.Conexao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfissionalDAO {
 
@@ -21,11 +24,101 @@ public class ProfissionalDAO {
 
             //Se uma chave foi retornada, atualiza o objeto com o ID gerado pelo banco.
             if(resposta.next()){
-                profissional.setId(resposta.getInt("id"));
+                profissional.setId(resposta.getInt(1));
             }
 
         }catch (SQLException e){
             throw  new RuntimeException(e);
         }
+    }
+
+    public Profissional buscarPorId(int id){
+        try(Connection conexao = Conexao.conectar()){
+            String sql = "SELECT * FROM profissional WHERE id = ?";
+            PreparedStatement comando = conexao.prepareStatement(sql);
+            comando.setInt(1,id);
+
+            ResultSet resultado = comando.executeQuery();
+            if(resultado.next()){
+                return montarProfissional(resultado);
+            }
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public List<Profissional> buscarPorNome(String nome){
+        try(Connection conexao = Conexao.conectar()){
+            String sql = "SELECT * FROM profissional WHERE nome LIKE ?";
+            PreparedStatement comando = conexao.prepareStatement(sql);
+            comando.setString(1,"%"+nome+"%");
+            ResultSet resultado = comando.executeQuery();
+            List<Profissional> profissionais = new ArrayList<>();
+
+            while(resultado.next()){
+                profissionais.add(montarProfissional(resultado));
+            }
+            return profissionais;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Profissional> listarTodos(){
+        try(Connection conexao = Conexao.conectar()){
+            String sql = "SELECT * FROM profissional";
+            PreparedStatement comando = conexao.prepareStatement(sql);
+            ResultSet resultado = comando.executeQuery();
+            List<Profissional> profissionais =new ArrayList<>();
+
+            while(resultado.next()){
+                profissionais.add(montarProfissional(resultado));
+            }
+            return profissionais;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void atualizar(Profissional profissional){
+        try(Connection conexao = Conexao.conectar()){
+            String sql = "UPDATE profissional SET (nome = ?,tipo=? ,ativo=? ) WHERE id =?";
+            PreparedStatement comando = conexao.prepareStatement(sql);
+            comando.setString(1, profissional.getNome());
+            comando.setString(2,profissional.getTipo().name());
+            comando.setBoolean(3, profissional.isAtivo());
+            comando.setInt(4,profissional.getId());
+            comando.executeUpdate();
+
+        }catch (SQLException e ){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void excluir(Profissional profissional){
+        try(Connection conexao = Conexao.conectar()){
+            String sql = "DELETE FROM profissional WHERE id = ?";
+            PreparedStatement comando = conexao.prepareStatement(sql);
+            comando.setInt(1,profissional.getId());
+            comando.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    private Profissional montarProfissional(ResultSet resultado) throws SQLException{
+        Profissional profissional = new Profissional();
+        profissional.setId(resultado.getInt("id"));
+        profissional.setNome(resultado.getString("nome"));
+        String tipo = resultado.getString("tipo");
+        profissional.setTipo(TipoProfissional.valueOf(tipo));
+        profissional.setAtivo(resultado.getBoolean("ativo"));
+        return profissional;
     }
 }
