@@ -11,20 +11,21 @@ import java.util.List;
 public class ProfissionalDAO {
 
     public void inserir(Profissional profissional){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "INSERT INTO profissional (nome, tipo, ativo) VALUES(? , ?, ?)";
-            PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO profissional (nome, tipo, ativo) VALUES(? , ?, ?)";
+        try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+
             comando.setString(1, profissional.getNome());
 
             //O enum é convertido para String para que seu nome seja armazenado no banco.
             comando.setString(2,profissional.getTipo().name());
             comando.setBoolean(3, profissional.isAtivo());
             comando.executeUpdate();
-            ResultSet resposta = comando.getGeneratedKeys();
 
-            //Se uma chave foi retornada, atualiza o objeto com o ID gerado pelo banco.
-            if(resposta.next()){
-                profissional.setId(resposta.getInt(1));
+            try(ResultSet resposta = comando.getGeneratedKeys()){
+                //Se uma chave foi retornada, atualiza o objeto com o ID gerado pelo banco.
+                if(resposta.next()){
+                    profissional.setId(resposta.getInt(1));
+                }
             }
 
         }catch (SQLException e){
@@ -33,15 +34,15 @@ public class ProfissionalDAO {
     }
 
     public Profissional buscarPorId(int id){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM profissional WHERE id = ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "SELECT * FROM profissional WHERE id = ?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setInt(1,id);
-
-            ResultSet resultado = comando.executeQuery();
-            if(resultado.next()){
-                return montarProfissional(resultado);
+            try(ResultSet resultado = comando.executeQuery()){
+                if(resultado.next()){
+                    return montarProfissional(resultado);
+                }
             }
+
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
@@ -49,16 +50,20 @@ public class ProfissionalDAO {
     }
 
     public List<Profissional> buscarPorNome(String nome){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM profissional WHERE nome LIKE ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "SELECT * FROM profissional WHERE nome LIKE ?";
+
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
+
             comando.setString(1,"%"+nome+"%");
-            ResultSet resultado = comando.executeQuery();
+
             List<Profissional> profissionais = new ArrayList<>();
 
-            while(resultado.next()){
-                profissionais.add(montarProfissional(resultado));
+            try(ResultSet resultado = comando.executeQuery()){
+                while(resultado.next()){
+                    profissionais.add(montarProfissional(resultado));
+                }
             }
+
             return profissionais;
 
         } catch (SQLException e) {
@@ -67,15 +72,15 @@ public class ProfissionalDAO {
     }
 
     public List<Profissional> listarTodos(){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM profissional";
-            PreparedStatement comando = conexao.prepareStatement(sql);
-            ResultSet resultado = comando.executeQuery();
+        String sql = "SELECT * FROM profissional";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             List<Profissional> profissionais =new ArrayList<>();
-
-            while(resultado.next()){
-                profissionais.add(montarProfissional(resultado));
+            try(ResultSet resultado = comando.executeQuery()){
+                while(resultado.next()){
+                    profissionais.add(montarProfissional(resultado));
+                }
             }
+
             return profissionais;
 
         }catch (SQLException e){
@@ -84,9 +89,8 @@ public class ProfissionalDAO {
     }
 
     public void atualizar(Profissional profissional){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "UPDATE profissional SET (nome = ?,tipo=? ,ativo=? ) WHERE id =?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "UPDATE profissional SET (nome = ?,tipo=? ,ativo=? ) WHERE id =?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setString(1, profissional.getNome());
             comando.setString(2,profissional.getTipo().name());
             comando.setBoolean(3, profissional.isAtivo());
@@ -99,9 +103,8 @@ public class ProfissionalDAO {
     }
 
     public void excluir(Profissional profissional){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "DELETE FROM profissional WHERE id = ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "DELETE FROM profissional WHERE id = ?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setInt(1,profissional.getId());
             comando.executeUpdate();
 

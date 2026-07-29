@@ -8,6 +8,7 @@ import br.com.sigec.util.Conexao;
 import java.sql.Types;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class PedidoExameDAO {
 
@@ -44,8 +45,7 @@ public class PedidoExameDAO {
     }
 
     public PedidoExame buscarPorId(int id){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = """
+        String sql = """
                     SELECT
                         pe.id,
                         pe.data_solicitacao,
@@ -67,12 +67,14 @@ public class PedidoExameDAO {
                     WHERE pe.id = ?
                    
                     """;
-            PreparedStatement comando = conexao.prepareStatement(sql);
-            comando.setInt(1,id);
-            ResultSet resultado = comando.executeQuery();
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
 
-            if(resultado.next()){
-              return montarPedidoExame(resultado);
+            comando.setInt(1,id);
+
+            try(ResultSet resultado = comando.executeQuery()){
+                if(resultado.next()){
+                    return montarPedidoExame(resultado);
+                }
             }
 
         }catch (SQLException e){
@@ -87,11 +89,11 @@ public class PedidoExameDAO {
 
         pedido.setId(resultado.getInt("id"));
         pedido.setStatus(StatusPedidoExame.valueOf(resultado.getString("status")));
-        pedido.setDataCadastro(resultado.getDate("data_cadastro").toLocalDate());
-        pedido.setDataSolicitacao(resultado.getDate("data_solicitacao").toLocalDate());
+        pedido.setDataCadastro(converteData(resultado, "data_cadastro"));
+        pedido.setDataSolicitacao(converteData(resultado,"data_solicitacao"));
         pedido.setNumeroProcesso(resultado.getString("numero_processo"));
         pedido.setNumeroSEI(resultado.getString("numero_sei"));
-        pedido.setDataConclusao(resultado.getDate("data_conclusao").toLocalDate());
+        pedido.setDataConclusao(converteData(resultado,"data_conclusao"));
 
         Usuario usuario = new Usuario(resultado.getInt("usuario_id"), resultado.getString("usuario_login"));
         pedido.setUsuario(usuario);
@@ -103,5 +105,16 @@ public class PedidoExameDAO {
         pedido.setSentenciado(sentenciado);
         return pedido;
 
+    }
+
+    private LocalDate converteData(ResultSet resposta, String nomeDaColuna) throws SQLException {
+
+        Date data = resposta.getDate(nomeDaColuna);
+
+        if (data != null) {
+            return data.toLocalDate();
+        }
+
+        return null;
     }
 }

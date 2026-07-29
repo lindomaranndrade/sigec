@@ -9,16 +9,16 @@ import java.util.List;
 public class BeneficioDAO {
 
     public void inserir(Beneficio beneficio){
-        try(Connection conexao = Conexao.conectar();){
-            String sql = "INSERT INTO beneficio (descricao) VALUES (?);";
-            PreparedStatement comando = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO beneficio (descricao) VALUES (?)";
+        try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+
             comando.setString(1, beneficio.getDescricao());
             comando.executeUpdate();
-            ResultSet chaves = comando.getGeneratedKeys();
-
-            if(chaves.next()){
-                beneficio.setId(chaves.getInt(1));
-            }
+           try( ResultSet chaves = comando.getGeneratedKeys()){
+               if(chaves.next()){
+                   beneficio.setId(chaves.getInt(1));
+               }
+           }
 
         } catch (SQLException e) {
            throw new RuntimeException(e);
@@ -26,17 +26,17 @@ public class BeneficioDAO {
     }
 
     public Beneficio buscarPorId(int id){
-        try(Connection conexao = Conexao.conectar();){
-            String sql = "SELECT * FROM beneficio WHERE id = ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "SELECT * FROM beneficio WHERE id = ?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setInt(1,id);
-            ResultSet resultado =  comando.executeQuery();
 
-            if(resultado.next()){
-                Beneficio beneficio = new Beneficio();
-                beneficio.setId(resultado.getInt("id"));
-                beneficio.setDescricao(resultado.getString("descricao"));
-                return beneficio;
+            try(ResultSet resultado =  comando.executeQuery()){
+                if(resultado.next()){
+                    Beneficio beneficio = new Beneficio();
+                    beneficio.setId(resultado.getInt("id"));
+                    beneficio.setDescricao(resultado.getString("descricao"));
+                    return beneficio;
+                }
             }
 
         } catch (SQLException e) {
@@ -45,20 +45,22 @@ public class BeneficioDAO {
 
         return null;
     }
-    public List<Beneficio> buscarPorNome(String descricao){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM beneficio WHERE descricao LIKE ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
-            comando.setString(1,"%" + descricao + "%");
-            ResultSet resultado = comando.executeQuery();
-            List<Beneficio> listaBeneficios = new ArrayList<>();
 
-            while(resultado.next()){
-                Beneficio beneficio = new Beneficio();
-                beneficio.setId(resultado.getInt("id"));
-                beneficio.setDescricao(resultado.getString("descricao"));
-                listaBeneficios.add(beneficio);
+    public List<Beneficio> buscarPorNome(String descricao){
+        String sql = "SELECT * FROM beneficio WHERE descricao LIKE ?";
+        try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql)){
+
+            comando.setString(1,"%" + descricao + "%");
+            List<Beneficio> listaBeneficios = new ArrayList<>();
+            try(ResultSet resultado = comando.executeQuery()) {
+                while(resultado.next()){
+                    Beneficio beneficio = new Beneficio();
+                    beneficio.setId(resultado.getInt("id"));
+                    beneficio.setDescricao(resultado.getString("descricao"));
+                    listaBeneficios.add(beneficio);
+                }
             }
+
             return listaBeneficios;
 
         } catch (SQLException e) {
@@ -67,18 +69,18 @@ public class BeneficioDAO {
     }
 
     public List<Beneficio> listarTodos(){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM beneficio";
-            PreparedStatement comando = conexao.prepareStatement(sql);
-            ResultSet resultado = comando.executeQuery();
+        String sql = "SELECT * FROM beneficio";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             List<Beneficio> beneficios = new ArrayList<>();
-
-            while(resultado.next()){
-                Beneficio beneficio = new Beneficio();
-                beneficio.setId(resultado.getInt("id"));
-                beneficio.setDescricao(resultado.getString("descricao"));
-                beneficios.add(beneficio);
+            try(ResultSet resultado = comando.executeQuery()){
+                while(resultado.next()){
+                    Beneficio beneficio = new Beneficio();
+                    beneficio.setId(resultado.getInt("id"));
+                    beneficio.setDescricao(resultado.getString("descricao"));
+                    beneficios.add(beneficio);
+                }
             }
+
             return beneficios;
 
         }catch (SQLException e){
@@ -87,9 +89,9 @@ public class BeneficioDAO {
     }
 
     public void atualizar(Beneficio beneficio){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "UPDATE beneficio SET descricao = ? WHERE id = ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "UPDATE beneficio SET descricao = ? WHERE id = ?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
+
             comando.setString(1,beneficio.getDescricao());
             comando.setInt(2,beneficio.getId());
             comando.executeUpdate();
@@ -100,9 +102,9 @@ public class BeneficioDAO {
     }
 
     public void excluir(int id){
-        try(Connection conexao = Conexao.conectar()){
-          String sql = "DELETE FROM beneficio WHERE id = ?";
-          PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "DELETE FROM beneficio WHERE id = ?";
+        try(Connection conexao = Conexao.conectar();  PreparedStatement comando = conexao.prepareStatement(sql)){
+
           comando.setInt(1,id);
           int linhasAfetads = comando.executeUpdate();
             System.out.println("linhasAfetads = " + linhasAfetads);

@@ -10,16 +10,15 @@ import java.util.List;
 public class SentenciadoDAO {
 
     public void inserir(Sentenciado sentenciado){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "INSERT INTO sentenciado(matricula, nome) VALUES (?, ?)";
-            PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO sentenciado(matricula, nome) VALUES (?, ?)";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             comando.setString(1, sentenciado.getMatricula());
             comando.setString(2, sentenciado.getNome());
             comando.executeUpdate();
-            ResultSet resposta = comando.getGeneratedKeys();
-
-            if(resposta.next()){
-                sentenciado.setId(resposta.getInt(1));
+            try(ResultSet resposta = comando.getGeneratedKeys()){
+                if(resposta.next()){
+                    sentenciado.setId(resposta.getInt(1));
+                }
             }
 
         }catch (SQLException e){
@@ -28,14 +27,14 @@ public class SentenciadoDAO {
     }
 
     public Sentenciado buscarPorId(int id){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM sentenciado WHERE id = ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "SELECT * FROM sentenciado WHERE id = ?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setInt(1,id);
-            ResultSet resposta = comando.executeQuery();
+            try(ResultSet resposta = comando.executeQuery()){
 
-            if(resposta.next()){
-               return montarSentenciado(resposta);
+                if(resposta.next()){
+                    return montarSentenciado(resposta);
+                }
             }
 
         }catch (SQLException e){
@@ -45,15 +44,14 @@ public class SentenciadoDAO {
     }
 
     public List<Sentenciado> buscarPorNome(String nome){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM sentenciado WHERE nome LIKE ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "SELECT * FROM sentenciado WHERE nome LIKE ?";
+        try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setString(1,"%"+nome+"%");
-            ResultSet resposta = comando.executeQuery();
             List<Sentenciado> sentenciados = new ArrayList<>();
-
-            while(resposta.next()){
-                sentenciados.add(montarSentenciado(resposta));
+            try(ResultSet resposta = comando.executeQuery()){
+                while(resposta.next()){
+                    sentenciados.add(montarSentenciado(resposta));
+                }
             }
             return sentenciados;
 
@@ -63,14 +61,13 @@ public class SentenciadoDAO {
     }
 
     public List<Sentenciado> listarTodos(){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "SELECT * FROM sentenciado";
-            PreparedStatement comando = conexao.prepareStatement(sql);
-            ResultSet resposta = comando.executeQuery();
+        String sql = "SELECT * FROM sentenciado";
+        try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql)){
             List<Sentenciado> sentenciados = new ArrayList<>();
-
-            while(resposta.next()){
-                sentenciados.add(montarSentenciado(resposta));
+            try(ResultSet resposta = comando.executeQuery()){
+                while(resposta.next()){
+                    sentenciados.add(montarSentenciado(resposta));
+                }
             }
             return sentenciados;
         }catch(SQLException e){
@@ -79,9 +76,9 @@ public class SentenciadoDAO {
     }
 
     public void atualizar(Sentenciado sentenciado){
-        try(Connection conexao = Conexao.conectar()){
-            String sql = "UPDATE sentenciado SET(matricula = ?, nome=?) WHERE id = ?";
-            PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "UPDATE sentenciado SET(matricula = ?, nome=?) WHERE id = ?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
+
             comando.setString(1, sentenciado.getMatricula());
             comando.setString(2,sentenciado.getNome());
             comando.setInt(3,sentenciado.getId());
@@ -93,9 +90,8 @@ public class SentenciadoDAO {
     }
 
     public void excluir(Sentenciado sentenciado){
-        try(Connection conexao = Conexao.conectar()){
-           String sql = "DELETE FROM sentenciado WHERE id = ?";
-           PreparedStatement comando = conexao.prepareStatement(sql);
+        String sql = "DELETE FROM sentenciado WHERE id = ?";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
            comando.setInt(1,sentenciado.getId());
            comando.executeUpdate();
 
@@ -104,7 +100,7 @@ public class SentenciadoDAO {
         }
     }
 
-    public Sentenciado montarSentenciado(ResultSet resposta) throws SQLException{
+    private Sentenciado montarSentenciado(ResultSet resposta) throws SQLException{
         Sentenciado sentenciado = new Sentenciado();
         sentenciado.setId(resposta.getInt("id"));
         sentenciado.setNome(resposta.getString("nome"));
