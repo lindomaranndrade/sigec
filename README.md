@@ -34,7 +34,11 @@ src
 └── br.com.sigec.view
 
 banco
-└── Scripts de criação do banco de dados
+├── scripts
+│   └── Scripts de criação do banco de dados
+└── modelos
+    ├── Modelo conceitual
+    └── Modelo lógico
 ```
 
 ---
