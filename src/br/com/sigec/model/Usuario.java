@@ -17,7 +17,12 @@ public class Usuario {
         this.login = login;
         this.senha = senha;
         this.ativo = true;
-}
+    }
+
+    public Usuario(int id, String login){
+        this.id = id;
+        this.login=login;
+    }
 
     public int getId() {
         return id;

@@ -15,6 +15,10 @@ public class Sentenciado {
         this.nome = nome;
     }
 
+    public Sentenciado(int id){
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

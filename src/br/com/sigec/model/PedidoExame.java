@@ -11,7 +11,11 @@ public class PedidoExame {
     private String numeroProcesso;
     private String numeroSEI;
     private LocalDate dataConclusao;
+
+    //Se relaciona com Sentenciado
     private Sentenciado sentenciado;
+
+    //Se relaciona com usuario
     private Usuario usuario;
     private List<PedidoBeneficio> pedidosBeneficios;
 
@@ -40,8 +44,16 @@ public class PedidoExame {
         return status;
     }
 
+    public void setStatus(StatusPedidoExame status) {
+        this.status = status;
+    }
+
     public LocalDate getDataCadastro() {
         return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
     public LocalDate getDataSolicitacao() {
@@ -80,8 +92,16 @@ public class PedidoExame {
         return sentenciado;
     }
 
+    public void setSentenciado(Sentenciado sentenciado) {
+        this.sentenciado = sentenciado;
+    }
+
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
