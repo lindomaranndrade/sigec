@@ -36,6 +36,10 @@ public class Reiteracao {
         return pedido;
     }
 
+    public void setPedido(PedidoExame pedido) {
+        this.pedido = pedido;
+    }
+
     public LocalDate getDataReiteracao() {
         return dataReiteracao;
     }
@@ -62,6 +66,14 @@ public class Reiteracao {
 
     public LocalDate getDataCadastro() {
         return dataCadastro;
+    }
+
+    public void setDataReiteracao(LocalDate dataReiteracao) {
+        this.dataReiteracao = dataReiteracao;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
     @Override
