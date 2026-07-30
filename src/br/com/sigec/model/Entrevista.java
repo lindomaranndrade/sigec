@@ -37,8 +37,16 @@ public class Entrevista {
         return pedidoExame;
     }
 
+    public void setPedidoExame(PedidoExame pedidoExame) {
+        this.pedidoExame = pedidoExame;
+    }
+
     public Profissional getProfissional() {
         return profissional;
+    }
+
+    public void setProfissional(Profissional profissional) {
+        this.profissional = profissional;
     }
 
     public LocalDate getDataEntrevista() {
@@ -53,11 +61,15 @@ public class Entrevista {
         return usuario;
     }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public LocalDate getDataEntregaLaudo() {
         return dataEntregaLaudo;
     }
 
-    public void registrarEntregaLaudo(LocalDate dataEntregaLaudo) {
+    public void setDataEntregaLaudo(LocalDate dataEntregaLaudo) {
         this.dataEntregaLaudo = dataEntregaLaudo;
     }
 
@@ -65,4 +77,20 @@ public class Entrevista {
         return dataCadastro;
     }
 
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    @Override
+    public String toString() {
+        return "Entrevista{" +
+                "id=" + id +
+                ", pedidoExame=" + pedidoExame.toString() +
+                ", profissional=" + profissional +
+                ", dataEntrevista=" + dataEntrevista +
+                ", usuario=" + usuario.toString() +
+                ", dataEntregaLaudo=" + dataEntregaLaudo +
+                ", dataCadastro=" + dataCadastro +
+                '}';
+    }
 }

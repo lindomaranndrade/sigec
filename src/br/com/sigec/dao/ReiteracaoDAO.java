@@ -15,8 +15,8 @@ public class ReiteracaoDAO {
 
     public void inserir(Reiteracao reiteracao){
         String sql = """
-                INSERT INTO reiteracao(id_pedido_exame, data_reiteracao, id_usuario, observacoes, despacho)
-                            VALUES(?, ?, ?, ?, ?)
+                INSERT INTO reiteracao(id_pedido_exame, data_reiteracao, id_usuario, observacoes, despacho, data_cadastro)
+                            VALUES(?, ?, ?, ?, ?, ?)
                 """;
 
         try(
@@ -28,6 +28,7 @@ public class ReiteracaoDAO {
             comando.setInt(3,reiteracao.getUsuario().getId());
             comando.setString(4,reiteracao.getObservacoes());
             comando.setString(5,reiteracao.getDespacho());
+            comando.setDate(6,java.sql.Date.valueOf(reiteracao.getDataCadastro()));
             comando.executeUpdate();
 
             try(ResultSet resultado = comando.getGeneratedKeys()){
@@ -117,7 +118,6 @@ public class ReiteracaoDAO {
                 UPDATE reiteracao
                 SET id_pedido_exame = ?, 
                     data_reiteracao = ?, 
-                    id_usuario= ?, 
                     observacoes = ?, 
                     despacho = ?
                 WHERE reiteracao.id = ?;
@@ -126,10 +126,9 @@ public class ReiteracaoDAO {
                 PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setInt(1,reiteracao.getPedido().getId());
             comando.setDate(2, Date.valueOf(reiteracao.getDataReiteracao()));
-            comando.setInt(3,reiteracao.getUsuario().getId());
-            comando.setString(4, reiteracao.getObservacoes());
-            comando.setString(5, reiteracao.getDespacho());
-            comando.setInt(6,reiteracao.getId());
+            comando.setString(3, reiteracao.getObservacoes());
+            comando.setString(4, reiteracao.getDespacho());
+            comando.setInt(5,reiteracao.getId());
 
             comando.executeUpdate();
 
