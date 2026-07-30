@@ -2,17 +2,46 @@
 
 Sistema Integrado de Gestão de Execução Criminal desenvolvido em Java.
 
-## Sobre o projeto
+---
 
-O SIGEC é um projeto desenvolvido com o objetivo de aprofundar conhecimentos em Java, Programação Orientada a Objetos, JDBC e SQL Server.
+## Sobre o Projeto
 
-Todo o sistema está sendo construído sem frameworks de persistência, permitindo compreender detalhadamente o funcionamento da comunicação entre a aplicação e o banco de dados.
+O SIGEC (Sistema Integrado de Gestão de Execução Criminal) é um projeto desenvolvido com o objetivo de aprofundar conhecimentos em Java, Programação Orientada a Objetos, JDBC e SQL Server através da construção de um sistema de gerenciamento de processos da execução penal.
 
-Além do desenvolvimento das funcionalidades, o projeto busca aplicar boas práticas de organização de código, arquitetura em camadas e gerenciamento de recursos utilizando `try-with-resources`.
+O projeto foi concebido como uma experiência prática de aprendizado, aplicando conceitos de desenvolvimento de software, modelagem de banco de dados, arquitetura em camadas e persistência de dados em um cenário próximo ao encontrado em aplicações corporativas.
 
 ---
 
-## Tecnologias
+## Diferencial do Projeto
+
+Toda a camada de persistência foi desenvolvida manualmente utilizando JDBC, sem o uso de frameworks de persistência como:
+
+- Hibernate
+- JPA
+- Spring Data JPA
+
+O objetivo foi compreender detalhadamente o funcionamento da comunicação entre uma aplicação Java e um banco de dados relacional antes da adoção de frameworks que abstraem essas operações.
+
+Durante o desenvolvimento foram estudados e aplicados conceitos como:
+
+- Gerenciamento de conexões JDBC
+- PreparedStatement
+- ResultSet
+- CRUD completo
+- Recuperação de chaves geradas
+- Relacionamentos entre entidades
+- Chaves estrangeiras
+- Chaves compostas
+- Mapeamento objeto-relacional manual
+- Conversão de tipos Java e SQL
+- Tratamento de exceções
+- Gerenciamento de recursos com try-with-resources
+
+A proposta é construir uma base sólida de conhecimento sobre persistência de dados antes da utilização de tecnologias como Spring Boot, JPA e Hibernate.
+
+---
+
+## Tecnologias Utilizadas
 
 - Java 21
 - JDBC
@@ -23,9 +52,27 @@ Além do desenvolvimento das funcionalidades, o projeto busca aplicar boas prát
 
 ---
 
-## Estrutura do projeto
+## Arquitetura
 
+O projeto utiliza uma arquitetura em camadas:
+
+```text
+View
+ ↓
+Service
+ ↓
+DAO
+ ↓
+SQL Server
 ```
+
+Cada camada possui responsabilidades específicas, promovendo organização, manutenção e evolução do sistema.
+
+---
+
+## Estrutura do Projeto
+
+```text
 src
 ├── br.com.sigec.dao
 ├── br.com.sigec.model
@@ -43,56 +90,140 @@ banco
 
 ---
 
-## Funcionalidades implementadas
+## Funcionalidades Implementadas
+
+### Infraestrutura
 
 - Conexão com SQL Server
-- Arquitetura em camadas (DAO, Model, Service e View)
+- Arquitetura em Camadas
 - Persistência utilizando JDBC
-- CRUD de Benefícios
-- CRUD de Usuários
-- CRUD de Profissionais
-- CRUD de Sentenciados
-- Estrutura inicial do módulo de Pedidos de Exames
-- Utilização de Enums persistidos no banco de dados
-- Conversão entre `LocalDate` e `java.sql.Date`
-- Uso de `PreparedStatement`
-- Uso de `ResultSet`
-- Utilização de `try-with-resources` para gerenciamento automático de recursos JDBC
-- Recuperação de chaves geradas (`RETURN_GENERATED_KEYS`)
+- Utilização de PreparedStatement
+- Utilização de ResultSet
+- Utilização de try-with-resources
+- Conversão entre LocalDate e java.sql.Date
+- Persistência de enums
+- Recuperação de chaves geradas (RETURN_GENERATED_KEYS)
+- Mapeamento manual de entidades e relacionamentos
+
+### Módulos Implementados
+
+#### Usuários
+
+- Inserir
+- Buscar por ID
+- Atualizar
+- Excluir
+- Listar todos
+
+#### Benefícios
+
+- Inserir
+- Buscar por ID
+- Atualizar
+- Excluir
+- Listar todos
+
+#### Profissionais
+
+- Inserir
+- Buscar por ID
+- Atualizar
+- Excluir
+- Listar todos
+
+#### Sentenciados
+
+- Inserir
+- Buscar por ID
+- Atualizar
+- Excluir
+- Listar todos
+
+#### Reiterações
+
+- Inserir
+- Buscar por ID
+- Atualizar
+- Excluir
+- Listar todos
+
+#### Pedidos de Exame
+
+- Inserir
+- Buscar por ID
+- Atualizar
+- Excluir
+- Listar todos
+- Relacionamento com Sentenciado
+- Relacionamento com Usuário
+- Relacionamento com Reiteração
+
+#### Entrevistas
+
+- Inserir
+- Buscar por ID
+- Atualizar
+- Excluir
+- Listar todos
+- Relacionamento com Pedido de Exame
+- Relacionamento com Profissional
+- Relacionamento com Usuário
+
+#### Pedido x Benefício
+
+Implementação de relacionamento N:N utilizando chave composta.
+
+- Inserir associação
+- Excluir associação
+- Listar todos
+- Listar por Pedido de Exame
+- Listar por Benefício
 
 ---
 
-## Funcionalidades em desenvolvimento
+## Conceitos Aplicados
 
-- Finalização do módulo de Pedidos de Exames
-- Cadastro de Entrevistas
-- Camada Service
-- Interface gráfica (Swing)
-- Sistema de autenticação
-- Relatórios em PDF
-
----
-
-## Objetivos de aprendizagem
-
-Durante o desenvolvimento deste projeto estão sendo estudados os seguintes conceitos:
+Durante o desenvolvimento deste projeto estão sendo estudados e praticados:
 
 - Programação Orientada a Objetos
+- Encapsulamento
+- Herança
+- Polimorfismo
 - JDBC
 - SQL Server
 - DAO (Data Access Object)
 - Arquitetura em Camadas
+- Modelagem Relacional
 - Persistência de Dados
+- Chaves Primárias
+- Chaves Estrangeiras
+- Chaves Compostas
+- Relacionamentos 1:N
+- Relacionamentos N:N
 - Tratamento de Exceções
-- Mapeamento objeto-relacional manual
-- Boas práticas de gerenciamento de recursos JDBC
-- Git e GitHub
+- Mapeamento Objeto-Relacional Manual
+- Gerenciamento de Recursos JDBC
+- Git
+- GitHub
 
 ---
 
-## Como executar
+## Funcionalidades em Desenvolvimento
 
-1. Execute o script localizado na pasta `banco`.
+- Camada Service
+- Regras de negócio
+- Validações de domínio
+- Sistema de autenticação
+- Controle de permissões de usuário
+- Interface gráfica
+- Relatórios em PDF
+- Dashboard gerencial
+
+---
+
+## Como Executar
+
+1. Execute os scripts SQL localizados na pasta `banco/scripts`.
 2. Configure a conexão com o SQL Server na classe `Conexao`.
 3. Abra o projeto no IntelliJ IDEA.
 4. Execute a aplicação.
@@ -102,20 +233,37 @@ Durante o desenvolvimento deste projeto estão sendo estudados os seguintes conc
 ## Status do Projeto
 
 | Módulo | Status |
-|--------|--------|
+|----------|----------|
+| Banco de Dados | Concluído |
 | Benefícios | Concluído |
 | Usuários | Concluído |
 | Profissionais | Concluído |
 | Sentenciados | Concluído |
-| Pedidos de Exames | Em desenvolvimento |
-| Entrevistas | Planejado |
-| Camada Service | Planejado |
-| Interface gráfica (Swing) | Planejado |
-| Sistema de autenticação | Planejado |
-| Relatórios em PDF | Planejado |
+| Reiterações | Concluído |
+| Pedidos de Exame | Concluído |
+| Entrevistas | Concluído |
+| Pedido x Benefício | Concluído |
+| Camada DAO | Concluída |
+| Camada Service | Em desenvolvimento |
+| Interface Gráfica | Planejado |
+| Sistema de Autenticação | Planejado |
+| Relatórios PDF | Planejado |
+
+---
+
+## Próximas Etapas
+
+- Implementar a camada Service
+- Centralizar regras de negócio
+- Desenvolver o sistema de autenticação
+- Construir a interface gráfica
+- Implementar geração de relatórios PDF
+- Evoluir o projeto para utilização de frameworks modernos em etapas futuras
+
+---
 
 ## Autor
 
 **Lindomar Andrade**
 
-Projeto desenvolvido para fins de estudo e aperfeiçoamento em desenvolvimento Java.
+Projeto desenvolvido para fins de estudo e aperfeiçoamento em desenvolvimento Java, com foco no aprendizado dos fundamentos de persistência de dados, arquitetura em camadas e desenvolvimento de aplicações corporativas.
