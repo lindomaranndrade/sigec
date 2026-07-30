@@ -28,4 +28,12 @@ public class PedidoBeneficio {
     public void setBeneficio(Beneficio beneficio) {
         this.beneficio = beneficio;
     }
+
+    @Override
+    public String toString() {
+        return "PedidoBeneficio{" +
+                "pedido=" + pedido +
+                ", beneficio=" + beneficio +
+                '}';
+    }
 }
