@@ -76,7 +76,7 @@ public class SentenciadoDAO {
     }
 
     public void atualizar(Sentenciado sentenciado){
-        String sql = "UPDATE sentenciado SET(matricula = ?, nome=?) WHERE id = ?";
+        String sql = "UPDATE sentenciado SET matricula = ?, nome=? WHERE id = ?";
         try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
 
             comando.setString(1, sentenciado.getMatricula());
