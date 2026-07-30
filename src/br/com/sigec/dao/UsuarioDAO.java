@@ -55,6 +55,21 @@ public class UsuarioDAO {
         return null;
     }
 
+    public boolean existeLogin(String login){
+        String sql = "SELECT 1 FROM usuario WHERE login = ?";
+
+        try(Connection conexao = Conexao.conectar();
+        PreparedStatement comando = conexao.prepareStatement(sql)){
+            comando.setString(1, login);
+            try(ResultSet resultado = comando.executeQuery()){
+                return resultado.next();
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Usuario> buscarPorNome(String nome){
         String sql = "SELECT * FROM usuario WHERE nome LIKE ?";
         try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
