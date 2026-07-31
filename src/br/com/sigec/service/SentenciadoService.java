@@ -7,8 +7,8 @@ public class SentenciadoService {
     private SentenciadoDAO sentenciadoDAO;
     private static final int TAMANHO_MINIMO_NOME = 3;
     private static final int TAMANHO_MAXIMO_NOME = 100;
-    private static final int TAMANHO_MINIMO_MATRICULA= 7;
-    private static final int TAMANHO_MAXIMO_MATRICULA= 8;
+    private static final int TAMANHO_MINIMO_MATRICULA= 5;
+    private static final int TAMANHO_MAXIMO_MATRICULA= 7;
 
 
     public SentenciadoService(){
@@ -32,12 +32,7 @@ public class SentenciadoService {
 
         validarMatriculaObrigatoria(sentenciado);
 
-        sentenciado.setMatricula(
-                sentenciado.getMatricula()
-                        .replace(".", "")
-                        .replace("-", "")
-                        .trim()
-        );
+        sentenciado.setMatricula(normalizarMatricula(sentenciado.getMatricula()));
 
         validarMatriculaSomenteNumeros(sentenciado);
         validarTamanhoMinimoMatricula(sentenciado);
@@ -121,6 +116,22 @@ public class SentenciadoService {
                     "Já existe um sentenciado com essa matrícula."
             );
         }
+    }
+
+    private String normalizarMatricula(String matricula){
+        String matriculaNormalizada = matricula
+                .replace(".", "")
+                .replace("-", "")
+                .trim()
+                .replaceFirst("^0+", "");
+
+        if(matriculaNormalizada.isEmpty()){
+            throw new IllegalArgumentException(
+                    "Matrícula inválida."
+            );
+        }
+
+        return matriculaNormalizada;
     }
 
     public void atualizarNome(Sentenciado sentenciado){
