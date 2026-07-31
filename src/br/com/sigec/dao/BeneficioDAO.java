@@ -46,7 +46,7 @@ public class BeneficioDAO {
         return null;
     }
 
-    public List<Beneficio> buscarPorNome(String descricao){
+    public List<Beneficio> buscarPorDescricao(String descricao){
         String sql = "SELECT * FROM beneficio WHERE descricao LIKE ?";
         try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql)){
 
@@ -62,6 +62,22 @@ public class BeneficioDAO {
             }
 
             return listaBeneficios;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean descricaoExiste(String descricao){
+        String sql = "SELECT 1 FROM beneficio WHERE descricao = ?";
+        try(Connection conexao = Conexao.conectar();
+            PreparedStatement comando = conexao.prepareStatement(sql)){
+
+            comando.setString(1, descricao );
+            try(ResultSet resultado = comando.executeQuery()) {
+                  return resultado.next();
+
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

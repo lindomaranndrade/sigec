@@ -7,6 +7,7 @@ public class UsuarioService {
     private UsuarioDAO usuarioDAO;
     private static final int TAMANHO_MINIMO_SENHA = 6;
     private static final int TAMANHO_MINIMO_LOGIN = 3;
+
     public UsuarioService(){
         this.usuarioDAO = new UsuarioDAO();
     }
