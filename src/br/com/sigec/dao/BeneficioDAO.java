@@ -9,10 +9,11 @@ import java.util.List;
 public class BeneficioDAO {
 
     public void inserir(Beneficio beneficio){
-        String sql = "INSERT INTO beneficio (descricao) VALUES (?)";
+        String sql = "INSERT INTO beneficio (descricao, sigla) VALUES (?, ?)";
         try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
 
             comando.setString(1, beneficio.getDescricao());
+            comando.setString(2, beneficio.getSigla());
             comando.executeUpdate();
            try( ResultSet chaves = comando.getGeneratedKeys()){
                if(chaves.next()){
@@ -35,6 +36,7 @@ public class BeneficioDAO {
                     Beneficio beneficio = new Beneficio();
                     beneficio.setId(resultado.getInt("id"));
                     beneficio.setDescricao(resultado.getString("descricao"));
+                    beneficio.setSigla(resultado.getString("sigla"));
                     return beneficio;
                 }
             }
@@ -57,6 +59,7 @@ public class BeneficioDAO {
                     Beneficio beneficio = new Beneficio();
                     beneficio.setId(resultado.getInt("id"));
                     beneficio.setDescricao(resultado.getString("descricao"));
+                    beneficio.setSigla(resultado.getString("sigla"));
                     listaBeneficios.add(beneficio);
                 }
             }
@@ -93,6 +96,7 @@ public class BeneficioDAO {
                     Beneficio beneficio = new Beneficio();
                     beneficio.setId(resultado.getInt("id"));
                     beneficio.setDescricao(resultado.getString("descricao"));
+                    beneficio.setSigla(resultado.getString("sigla"));
                     beneficios.add(beneficio);
                 }
             }
@@ -105,11 +109,12 @@ public class BeneficioDAO {
     }
 
     public void atualizar(Beneficio beneficio){
-        String sql = "UPDATE beneficio SET descricao = ? WHERE id = ?";
+        String sql = "UPDATE beneficio SET descricao = ?, sigla = ? WHERE id = ?";
         try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
 
             comando.setString(1,beneficio.getDescricao());
-            comando.setInt(2,beneficio.getId());
+            comando.setString(2,beneficio.getSigla());
+            comando.setInt(3,beneficio.getId());
             comando.executeUpdate();
             
         }catch (SQLException e){

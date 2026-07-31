@@ -9,16 +9,12 @@ public class TesteBeneficioDAO {
     public static void main(String[] args) {
         Beneficio beneficio = new Beneficio();
         BeneficioDAO dao = new BeneficioDAO();
-        List<Beneficio> beneficios = new ArrayList<>();
-        beneficio = dao.buscarPorId(1);
-        beneficio.setDescricao("REGIME-SEMIABERTO");
-        dao.atualizar(beneficio);
+        beneficio.setDescricao("Progressão de Regime ");
+        beneficio.setSigla("LC");
+        dao.inserir(beneficio);
 
-
-
-        for(Beneficio b: beneficios){
-            System.out.println(b);
-        }
+        System.out.println("Dados apos a inserção: ");
+        System.out.println("dao.buscarPorId(5) = " + dao.buscarPorId(5));
 
     }
 }

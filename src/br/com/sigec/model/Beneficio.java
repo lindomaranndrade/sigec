@@ -3,13 +3,22 @@ package br.com.sigec.model;
 public class Beneficio {
     private int id;
     private String descricao;
-
+    private String sigla;
     public Beneficio(){
 
     }
 
-    public Beneficio(String descricao){
+    public Beneficio(String descricao, String sigla){
         this.descricao = descricao;
+        this.sigla = sigla;
+    }
+
+    public String getSigla() {
+        return sigla;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 
     public int getId() {
@@ -33,6 +42,7 @@ public class Beneficio {
         return "Beneficio{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
+                ", sigla='" + sigla + '\'' +
                 '}';
     }
 }
