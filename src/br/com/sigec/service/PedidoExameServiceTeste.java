@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class PedidoExameServiceTeste {
     private static PedidoExameService service =
             new PedidoExameService();
-    
+
     public static void main(String[] args) {
         testarPedidoNulo();
         testarSentenciadoNulo();

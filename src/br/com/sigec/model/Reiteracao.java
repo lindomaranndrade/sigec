@@ -64,6 +64,10 @@ public class Reiteracao {
         return usuario;
     }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public LocalDate getDataCadastro() {
         return dataCadastro;
     }

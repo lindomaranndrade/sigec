@@ -114,26 +114,29 @@ public class ReiteracaoDAO {
     }
 
     public void atualizar(Reiteracao reiteracao){
-        String sql = """
-                UPDATE reiteracao
-                SET id_pedido_exame = ?, 
-                    data_reiteracao = ?, 
-                    observacoes = ?, 
-                    despacho = ?
-                WHERE reiteracao.id = ?;
-                """;
-        try (Connection conexao = Conexao.conectar();
-                PreparedStatement comando = conexao.prepareStatement(sql)){
-            comando.setInt(1,reiteracao.getPedido().getId());
-            comando.setDate(2, Date.valueOf(reiteracao.getDataReiteracao()));
-            comando.setString(3, reiteracao.getObservacoes());
-            comando.setString(4, reiteracao.getDespacho());
-            comando.setInt(5,reiteracao.getId());
 
+        String sql = """
+            UPDATE reiteracao
+            SET data_reiteracao = ?,
+                observacoes = ?,
+                despacho = ?
+            WHERE id = ?;
+            """;
+
+        try(Connection conexao = Conexao.conectar();
+            PreparedStatement comando = conexao.prepareStatement(sql)){
+
+            comando.setDate(1,Date.valueOf(reiteracao.getDataReiteracao()));
+            comando.setString(2,reiteracao.getObservacoes());
+            comando.setString(3,reiteracao.getDespacho());
+            comando.setInt(4,reiteracao.getId());
             comando.executeUpdate();
 
-        }catch (SQLException e){
-            throw new RuntimeException(e);
+        }catch(SQLException e){
+            throw new RuntimeException(
+                    "Erro ao atualizar reiteração.",
+                    e
+            );
         }
     }
 
