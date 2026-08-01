@@ -93,39 +93,53 @@ public class EntrevistaDAO {
         return null;
     }
     public void atualizar(Entrevista entrevista) {
+
         String sql = """
-            UPDATE entrevista
-            SET
-                id_pedido_exame = ?,
-                id_profissional = ?,
-                data_entrevista = ?,
-                id_usuario = ?,
-                data_entrega_laudo = ?
-            WHERE id = ?
-            """;
+        UPDATE entrevista
+        SET
+            id_profissional = ?,
+            data_entrevista = ?,
+            data_entrega_laudo = ?
+        WHERE id = ?
+        """;
 
         try (Connection conexao = Conexao.conectar();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
-            comando.setInt(1, entrevista.getPedidoExame().getId());
-            comando.setInt(2, entrevista.getProfissional().getId());
-            comando.setDate(3,
-                    Date.valueOf(entrevista.getDataEntrevista()));
-            comando.setInt(4, entrevista.getUsuario().getId());
+            comando.setInt(
+                    1,
+                    entrevista.getProfissional().getId()
+            );
+
+            comando.setDate(
+                    2,
+                    Date.valueOf(entrevista.getDataEntrevista())
+            );
 
             if (entrevista.getDataEntregaLaudo() != null) {
-                comando.setDate(5,
-                        Date.valueOf(entrevista.getDataEntregaLaudo()));
+                comando.setDate(
+                        3,
+                        Date.valueOf(entrevista.getDataEntregaLaudo())
+                );
             } else {
-                comando.setNull(5, Types.DATE);
+                comando.setNull(
+                        3,
+                        Types.DATE
+                );
             }
 
-            comando.setInt(6, entrevista.getId());
+            comando.setInt(
+                    4,
+                    entrevista.getId()
+            );
 
             comando.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(
+                    "Erro ao atualizar entrevista.",
+                    e
+            );
         }
     }
 
