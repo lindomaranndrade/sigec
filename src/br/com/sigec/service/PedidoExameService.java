@@ -1,10 +1,14 @@
 package br.com.sigec.service;
 
+import br.com.sigec.dao.EntrevistaDAO;
 import br.com.sigec.dao.PedidoExameDAO;
+import br.com.sigec.model.Entrevista;
 import br.com.sigec.model.PedidoExame;
 import br.com.sigec.model.StatusPedidoExame;
+import br.com.sigec.model.TipoProfissional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoExameService {
@@ -31,6 +35,7 @@ public class PedidoExameService {
         validarPedidoNaoConcluido(pedidoExame);
         validarPedidoNaoCancelado(pedidoExame);
         validarNumeroSeiObrigatorio(pedidoExame);
+        validarAtendimentosObrigatorios(pedidoExame);
         pedidoExame.setDataConclusao(LocalDate.now());
         pedidoExame.setStatus(StatusPedidoExame.CONCLUIDO);
         pedidoExameDAO.atualizar(pedidoExame);
@@ -95,5 +100,13 @@ public class PedidoExameService {
         }
     }
 
+    private void validarAtendimentosObrigatorios(PedidoExame pedidoExame){
+        EntrevistaDAO entrevistaDAO = new EntrevistaDAO();
+        if(!entrevistaDAO.foiAtendidoPorAmbos(pedidoExame.getId())){
+            throw new IllegalArgumentException(
+                    "Não é possível concluir o pedido. É necessário atendimento do psicólogo e do assistente social."
+            );
+        }
+    }
 
 }

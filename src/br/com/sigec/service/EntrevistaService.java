@@ -3,6 +3,7 @@ package br.com.sigec.service;
 import br.com.sigec.dao.EntrevistaDAO;
 import br.com.sigec.model.Entrevista;
 import br.com.sigec.model.StatusPedidoExame;
+import br.com.sigec.model.TipoProfissional;
 
 import java.time.LocalDate;
 

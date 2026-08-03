@@ -247,4 +247,31 @@ public class EntrevistaDAO {
         return data != null ? data.toLocalDate() : null;
     }
 
+    public boolean foiAtendidoPorAmbos(int idPedido) {
+        String sql = """
+        SELECT COUNT(DISTINCT p.tipo)
+        FROM entrevista e
+        INNER JOIN profissional p
+            ON e.id_profissional = p.id
+        WHERE e.id_pedido_exame = ?
+        """;
+
+        try(Connection conexao = Conexao.conectar();
+            PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+            comando.setInt(1, idPedido);
+
+            try(ResultSet resultado = comando.executeQuery()) {
+
+                if(resultado.next()) {
+                    return resultado.getInt(1) >= 2;
+                }
+            }
+
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
+    }
 }

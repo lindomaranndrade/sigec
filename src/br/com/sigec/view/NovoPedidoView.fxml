@@ -40,7 +40,7 @@
             <VBox spacing="6">
                 <Label text="Matrícula do sentenciado" styleClass="field-label"/>
                 <HBox spacing="8" alignment="CENTER_LEFT">
-                    <TextField fx:id="txtMatricula" promptText="Ex.: 123456" styleClass="search-field" HBox.hgrow="ALWAYS"/>
+                    <TextField fx:id="txtMatricula" promptText="Ex.: 123456" styleClass="search-field" HBox.hgrow="ALWAYS" onAction="#handlePesquisarSentenciado"/>
                     <Button fx:id="btnPesquisarSentenciado" text="Pesquisar sentenciado" styleClass="btn-secondary" onAction="#handlePesquisarSentenciado"/>
                 </HBox>
             </VBox>
