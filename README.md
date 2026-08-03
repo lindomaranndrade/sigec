@@ -8,7 +8,7 @@ Sistema Integrado de Gestão de Execução Criminal desenvolvido em Java.
 
 O SIGEC (Sistema Integrado de Gestão de Execução Criminal) é um projeto desenvolvido com o objetivo de aprofundar conhecimentos em Java, Programação Orientada a Objetos, JDBC e SQL Server através da construção de um sistema de gerenciamento de processos da execução penal.
 
-O projeto foi concebido como uma experiência prática de aprendizado, aplicando conceitos de desenvolvimento de software, modelagem de banco de dados, arquitetura em camadas e persistência de dados em um cenário próximo ao encontrado em aplicações corporativas.
+O projeto foi concebido como uma experiência prática de aprendizado, aplicando conceitos de desenvolvimento de software, modelagem de banco de dados, arquitetura em camadas, regras de negócio e persistência de dados em um cenário próximo ao encontrado em aplicações corporativas.
 
 ---
 
@@ -16,26 +16,26 @@ O projeto foi concebido como uma experiência prática de aprendizado, aplicando
 
 Toda a camada de persistência foi desenvolvida manualmente utilizando JDBC, sem o uso de frameworks de persistência como:
 
-- Hibernate
-- JPA
-- Spring Data JPA
+* Hibernate
+* JPA
+* Spring Data JPA
 
 O objetivo foi compreender detalhadamente o funcionamento da comunicação entre uma aplicação Java e um banco de dados relacional antes da adoção de frameworks que abstraem essas operações.
 
 Durante o desenvolvimento foram estudados e aplicados conceitos como:
 
-- Gerenciamento de conexões JDBC
-- PreparedStatement
-- ResultSet
-- CRUD completo
-- Recuperação de chaves geradas
-- Relacionamentos entre entidades
-- Chaves estrangeiras
-- Chaves compostas
-- Mapeamento objeto-relacional manual
-- Conversão de tipos Java e SQL
-- Tratamento de exceções
-- Gerenciamento de recursos com try-with-resources
+* Gerenciamento de conexões JDBC
+* PreparedStatement
+* ResultSet
+* CRUD completo
+* Recuperação de chaves geradas
+* Relacionamentos entre entidades
+* Chaves estrangeiras
+* Chaves compostas
+* Mapeamento objeto-relacional manual
+* Conversão de tipos Java e SQL
+* Tratamento de exceções
+* Gerenciamento de recursos com try-with-resources
 
 A proposta é construir uma base sólida de conhecimento sobre persistência de dados antes da utilização de tecnologias como Spring Boot, JPA e Hibernate.
 
@@ -43,12 +43,13 @@ A proposta é construir uma base sólida de conhecimento sobre persistência de 
 
 ## Tecnologias Utilizadas
 
-- Java 21
-- JDBC
-- SQL Server
-- IntelliJ IDEA
-- Git
-- GitHub
+* Java 21
+* JavaFX
+* JDBC
+* SQL Server
+* IntelliJ IDEA
+* Git
+* GitHub
 
 ---
 
@@ -94,90 +95,92 @@ banco
 
 ### Infraestrutura
 
-- Conexão com SQL Server
-- Arquitetura em Camadas
-- Persistência utilizando JDBC
-- Utilização de PreparedStatement
-- Utilização de ResultSet
-- Utilização de try-with-resources
-- Conversão entre LocalDate e java.sql.Date
-- Persistência de enums
-- Recuperação de chaves geradas (RETURN_GENERATED_KEYS)
-- Mapeamento manual de entidades e relacionamentos
+* Conexão com SQL Server
+* Arquitetura em Camadas
+* Persistência utilizando JDBC
+* Utilização de PreparedStatement
+* Utilização de ResultSet
+* Utilização de try-with-resources
+* Conversão entre LocalDate e java.sql.Date
+* Persistência de enums
+* Recuperação de chaves geradas (RETURN_GENERATED_KEYS)
+* Mapeamento manual de entidades e relacionamentos
+* Camada Service para centralização das regras de negócio
 
 ### Módulos Implementados
 
 #### Usuários
 
-- Inserir
-- Buscar por ID
-- Atualizar
-- Excluir
-- Listar todos
+* Inserir
+* Buscar por ID
+* Atualizar
+* Excluir
+* Listar todos
 
 #### Benefícios
 
-- Inserir
-- Buscar por ID
-- Atualizar
-- Excluir
-- Listar todos
+* Inserir
+* Buscar por ID
+* Atualizar
+* Excluir
+* Listar todos
 
 #### Profissionais
 
-- Inserir
-- Buscar por ID
-- Atualizar
-- Excluir
-- Listar todos
+* Inserir
+* Buscar por ID
+* Atualizar
+* Excluir
+* Listar todos
 
 #### Sentenciados
 
-- Inserir
-- Buscar por ID
-- Atualizar
-- Excluir
-- Listar todos
+* Inserir
+* Buscar por ID
+* Atualizar
+* Excluir
+* Listar todos
 
 #### Reiterações
 
-- Inserir
-- Buscar por ID
-- Atualizar
-- Excluir
-- Listar todos
+* Inserir
+* Buscar por ID
+* Atualizar
+* Excluir
+* Listar todos
 
 #### Pedidos de Exame
 
-- Inserir
-- Buscar por ID
-- Atualizar
-- Excluir
-- Listar todos
-- Relacionamento com Sentenciado
-- Relacionamento com Usuário
-- Relacionamento com Reiteração
+* Inserir
+* Buscar por ID
+* Atualizar
+* Excluir
+* Listar todos
+* Relacionamento com Sentenciado
+* Relacionamento com Usuário
+* Relacionamento com Reiteração
+* Validação de regras de negócio para conclusão de pedidos
 
 #### Entrevistas
 
-- Inserir
-- Buscar por ID
-- Atualizar
-- Excluir
-- Listar todos
-- Relacionamento com Pedido de Exame
-- Relacionamento com Profissional
-- Relacionamento com Usuário
+* Inserir
+* Buscar por ID
+* Atualizar
+* Excluir
+* Listar todos
+* Relacionamento com Pedido de Exame
+* Relacionamento com Profissional
+* Relacionamento com Usuário
 
 #### Pedido x Benefício
 
 Implementação de relacionamento N:N utilizando chave composta.
 
-- Inserir associação
-- Excluir associação
-- Listar todos
-- Listar por Pedido de Exame
-- Listar por Benefício
+* Inserir associação
+* Excluir associação
+* Listar todos
+* Listar por Pedido de Exame
+* Listar por Benefício
 
 ---
 
@@ -185,39 +188,35 @@ Implementação de relacionamento N:N utilizando chave composta.
 
 Durante o desenvolvimento deste projeto estão sendo estudados e praticados:
 
-- Programação Orientada a Objetos
-- Encapsulamento
-- Herança
-- Polimorfismo
-- JDBC
-- SQL Server
-- DAO (Data Access Object)
-- Arquitetura em Camadas
-- Modelagem Relacional
-- Persistência de Dados
-- Chaves Primárias
-- Chaves Estrangeiras
-- Chaves Compostas
-- Relacionamentos 1:N
-- Relacionamentos N:N
-- Tratamento de Exceções
-- Mapeamento Objeto-Relacional Manual
-- Gerenciamento de Recursos JDBC
-- Git
-- GitHub
+* Programação Orientada a Objetos
+* Encapsulamento
+* JDBC
+* SQL Server
+* DAO (Data Access Object)
+* Service Layer
+* Arquitetura em Camadas
+* Modelagem Relacional
+* Persistência de Dados
+* Chaves Primárias
+* Chaves Estrangeiras
+* Chaves Compostas
+* Relacionamentos 1:N
+* Relacionamentos N:N
+* Tratamento de Exceções
+* Mapeamento Objeto-Relacional Manual
+* Gerenciamento de Recursos JDBC
+* Git
+* GitHub
 
 ---
 
 ## Funcionalidades em Desenvolvimento
 
-- Camada Service
-- Regras de negócio
-- Validações de domínio
-- Sistema de autenticação
-- Controle de permissões de usuário
-- Interface gráfica
-- Relatórios em PDF
-- Dashboard gerencial
+* Sistema de autenticação
+* Controle de permissões de usuário
+* Interface gráfica JavaFX
+* Relatórios em PDF
+* Dashboard gerencial
 
 ---
 
@@ -232,33 +231,43 @@ Durante o desenvolvimento deste projeto estão sendo estudados e praticados:
 
 ## Status do Projeto
 
-| Módulo | Status |
-|----------|----------|
-| Banco de Dados | Concluído |
-| Benefícios | Concluído |
-| Usuários | Concluído |
-| Profissionais | Concluído |
-| Sentenciados | Concluído |
-| Reiterações | Concluído |
-| Pedidos de Exame | Concluído |
-| Entrevistas | Concluído |
-| Pedido x Benefício | Concluído |
-| Camada DAO | Concluída |
-| Camada Service | Em desenvolvimento |
-| Interface Gráfica | Planejado |
-| Sistema de Autenticação | Planejado |
-| Relatórios PDF | Planejado |
+| Módulo                  | Status             |
+| ----------------------- | ------------------ |
+| Banco de Dados          | Concluído          |
+| Benefícios              | Concluído          |
+| Usuários                | Concluído          |
+| Profissionais           | Concluído          |
+| Sentenciados            | Concluído          |
+| Reiterações             | Concluído          |
+| Pedidos de Exame        | Concluído          |
+| Entrevistas             | Concluído          |
+| Pedido x Benefício      | Concluído          |
+| Camada DAO              | Concluída          |
+| Camada Service          | Concluída          |
+| Interface Gráfica       | Em desenvolvimento |
+| Sistema de Autenticação | Planejado          |
+| Relatórios PDF          | Planejado          |
 
 ---
 
 ## Próximas Etapas
 
-- Implementar a camada Service
-- Centralizar regras de negócio
-- Desenvolver o sistema de autenticação
-- Construir a interface gráfica
-- Implementar geração de relatórios PDF
-- Evoluir o projeto para utilização de frameworks modernos em etapas futuras
+* Implementar autenticação de usuários
+* Implementar controle de permissões
+* Finalizar a interface gráfica em JavaFX
+* Implementar geração de relatórios PDF
+* Desenvolver dashboard gerencial
+* Evoluir o projeto para utilização de frameworks modernos em etapas futuras
+
+---
+
+## Observações
+
+A interface gráfica (camada View) está sendo desenvolvida com auxílio de ferramentas de Inteligência Artificial para acelerar a construção das telas e a prototipação visual da aplicação.
+
+Toda a modelagem do banco de dados, arquitetura do sistema, implementação das entidades, camada DAO, camada Service, integração com SQL Server via JDBC, regras de negócio e demais funcionalidades foram desenvolvidas pelo autor como parte do processo de aprendizado e aprofundamento em desenvolvimento Java.
+
+O uso de IA está restrito ao apoio na construção da interface gráfica, não substituindo o desenvolvimento da lógica de negócio e da persistência de dados do sistema.
 
 ---
 
@@ -266,4 +275,4 @@ Durante o desenvolvimento deste projeto estão sendo estudados e praticados:
 
 **Lindomar Andrade**
 
-Projeto desenvolvido para fins de estudo e aperfeiçoamento em desenvolvimento Java, com foco no aprendizado dos fundamentos de persistência de dados, arquitetura em camadas e desenvolvimento de aplicações corporativas.
+Projeto desenvolvido para fins de estudo e aperfeiçoamento em desenvolvimento Java, com foco no aprendizado dos fundamentos de persistência de dados, arquitetura em camadas, regras de negócio e desenvolvimento de aplicações corporativas.
