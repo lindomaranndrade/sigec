@@ -5,6 +5,7 @@ import br.com.sigec.model.PedidoExame;
 import br.com.sigec.model.StatusPedidoExame;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class PedidoExameService {
     private PedidoExameDAO pedidoExameDAO;
@@ -33,6 +34,10 @@ public class PedidoExameService {
         pedidoExame.setDataConclusao(LocalDate.now());
         pedidoExame.setStatus(StatusPedidoExame.CONCLUIDO);
         pedidoExameDAO.atualizar(pedidoExame);
+    }
+
+    public List<PedidoExame> listarPendentes(){
+        return pedidoExameDAO.listarPentendes();
     }
 
     private void validarPedidoNaoConcluido(PedidoExame pedidoExame){

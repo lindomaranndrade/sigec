@@ -176,6 +176,58 @@ public class PedidoExameDAO {
         }
     }
 
+    public List<PedidoExame> listarPentendes() {
+
+        String sql = """
+        SELECT
+            pe.id,
+            pe.data_solicitacao,
+            pe.status,
+            pe.data_cadastro,
+            pe.numero_processo,
+            pe.numero_sei,
+            pe.data_conclusao,
+
+            u.id AS usuario_id,
+            u.login AS usuario_login,
+
+            s.id AS sentenciado_id,
+            s.nome AS sentenciado_nome,
+            s.matricula AS sentenciado_matricula
+
+        FROM pedido_exame pe
+        INNER JOIN usuario u
+            ON pe.id_usuario = u.id
+        INNER JOIN sentenciado s
+            ON pe.id_sentenciado = s.id
+        WHERE pe.status IN ('CADASTRADO', 'SOLICITADO')
+        """;
+
+        try (
+                Connection conexao = Conexao.conectar();
+                PreparedStatement comando =
+                        conexao.prepareStatement(sql);
+                ResultSet resultado =
+                        comando.executeQuery()) {
+
+            List<PedidoExame> pedidosPendentes =
+                    new ArrayList<>();
+
+            while (resultado.next()) {
+
+                pedidosPendentes.add(
+                        montarPedidoExame(resultado)
+                );
+
+            }
+
+            return pedidosPendentes;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void excluir(PedidoExame pedido){
         String sql = "DELETE FROM pedido_exame WHERE id = ?";
 

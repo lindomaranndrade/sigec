@@ -236,4 +236,36 @@ public class PedidoBeneficioDAO {
                 beneficio
         );
     }
+
+    public boolean existeVinculo(
+            int idPedido,
+            int idBeneficio) {
+
+        String sql = """
+            SELECT 1
+            FROM pedido_beneficio
+            WHERE id_pedido_exame = ?
+              AND id_beneficio = ?
+            """;
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement comando =
+                     conexao.prepareStatement(sql)) {
+
+            comando.setInt(1, idPedido);
+            comando.setInt(2, idBeneficio);
+
+            try (ResultSet resultado =
+                         comando.executeQuery()) {
+
+                return resultado.next();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "Erro ao verificar vínculo.",
+                    e
+            );
+        }
+    }
 }
