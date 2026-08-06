@@ -261,15 +261,6 @@ Durante o desenvolvimento deste projeto estão sendo estudados e praticados:
 
 ---
 
-## Observações
-
-A interface gráfica (camada View) está sendo desenvolvida com auxílio de ferramentas de Inteligência Artificial para acelerar a construção das telas e a prototipação visual da aplicação.
-
-Toda a modelagem do banco de dados, arquitetura do sistema, implementação das entidades, camada DAO, camada Service, integração com SQL Server via JDBC, regras de negócio e demais funcionalidades foram desenvolvidas pelo autor como parte do processo de aprendizado e aprofundamento em desenvolvimento Java.
-
-O uso de IA está restrito ao apoio na construção da interface gráfica, não substituindo o desenvolvimento da lógica de negócio e da persistência de dados do sistema.
-
----
 
 ## Autor
 
