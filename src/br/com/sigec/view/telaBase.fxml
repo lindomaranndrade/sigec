@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="1296.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="734.0" fitWidth="1346.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/bkpBase.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="contentPane" layoutX="311.0" layoutY="26.0" prefHeight="681.0" prefWidth="970.0" style="-fx-background-color: white; -fx-border-radius: 20; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 4);" />
+      <Pane layoutX="15.0" layoutY="175.0" prefHeight="470.0" prefWidth="285.0">
+         <children>
+            <Button fx:id="btnExames" layoutX="22.0" layoutY="40.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="214.0" styleClass="menu-button" stylesheets="@style.css" text="Exames" />
+            <Button fx:id="btnSentenciados" layoutX="22.0" layoutY="100.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="214.0" styleClass="menu-button" stylesheets="@style.css" text="Sentenciados" />
+            <Button fx:id="btnProfissionais" layoutX="22.0" layoutY="160.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="214.0" styleClass="menu-button" stylesheets="@style.css" text="Profissionais" />
+            <Button fx:id="btnRelatorios" layoutX="22.0" layoutY="220.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="214.0" styleClass="menu-button" stylesheets="@style.css" text="Relatórios" />
+            <Button fx:id="btnUsuarios" layoutX="22.0" layoutY="280.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="214.0" styleClass="menu-button" stylesheets="@style.css" text="Usuários" />
+         </children>
+      </Pane>
+      <Button fx:id="btnSair" alignment="CENTER" layoutX="22.0" layoutY="668.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="214.0" styleClass="menu-button" stylesheets="@style.css" text="Sair" />
+      <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="-2.0" layoutY="667.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/btnSair.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

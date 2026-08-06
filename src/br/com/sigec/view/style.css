@@ -1,0 +1,24 @@
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-background-radius: 10;
+}
+
+.menu-button-active {
+    -fx-background-color: #3BA44C;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+}
+
+.menu-button:pressed {
+    -fx-background-color: #236B43;
+}
