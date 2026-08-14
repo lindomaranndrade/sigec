@@ -5,17 +5,17 @@ import br.com.sigec.model.Usuario;
 
 public class SessaoUsuario {
     private static UsuarioDAO usuarioDAO = new UsuarioDAO();
-    private static Usuario usuario = usuarioDAO.buscarPorId(1);
+    private static Usuario usuarioLogado = usuarioDAO.buscarPorId(1);
 
-    public static Usuario getUsuario() {
-        return usuario;
+    public static Usuario getUsuarioLogado() {
+        return usuarioLogado;
     }
 
-    public static void setUsuario(Usuario usuario) {
-        SessaoUsuario.usuario = usuario;
+    public static void setUsuarioLogado(Usuario usuarioLogado) {
+        SessaoUsuario.usuarioLogado = usuarioLogado;
     }
 
-    public void limpar(){
-        usuario = null;
+    static void limpar(){
+        usuarioLogado = null;
     }
 }

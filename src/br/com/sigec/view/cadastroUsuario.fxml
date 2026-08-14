@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.CadastroUsuarioController">
+   <children>
+      <Label styleClass="form-title" stylesheets="@style.css" text="Usuarios" />
+      <Label styleClass="form-subtitle" stylesheets="@style.css" text="Gerenciamento de usuários do sistema" />
+      <Label styleClass="form-label" stylesheets="@style.css" text="Nome completo:" />
+      <TextField fx:id="txtNome" promptText="Digite o nome completo" styleClass="text-field" stylesheets="@style.css" />
+      <Label styleClass="form-label" stylesheets="@style.css" text="Login:" />
+      <TextField fx:id="txtLogin" promptText="Digite o login" styleClass="text-field" stylesheets="@style.css" />
+      <Label styleClass="form-label" stylesheets="@style.css" text="Senha:" />
+      <PasswordField fx:id="txtSenha" promptText="Digite a senha" styleClass="password-field" stylesheets="@style.css" />
+      <Label styleClass="form-label" stylesheets="@style.css" text="Confirmar senha:" />
+      <PasswordField fx:id="txtConfirmarSenha" onAction="#cadastrar" promptText="Digite a senha" styleClass="password-field" stylesheets="@style.css" />
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#cadastrar" styleClass="form-button" stylesheets="@style.css" text="Cadastrar" />
+            <Button fx:id="btnLimpar" mnemonicParsing="false" onAction="#limpar" styleClass="secondary-button" stylesheets="@style.css" text="Limpar">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

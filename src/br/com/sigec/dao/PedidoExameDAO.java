@@ -1,9 +1,6 @@
 package br.com.sigec.dao;
 
-import br.com.sigec.model.PedidoExame;
-import br.com.sigec.model.Sentenciado;
-import br.com.sigec.model.StatusPedidoExame;
-import br.com.sigec.model.Usuario;
+import br.com.sigec.model.*;
 import br.com.sigec.util.Conexao;
 import java.sql.Types;
 
@@ -14,34 +11,78 @@ import java.util.List;
 
 public class PedidoExameDAO {
 
-    public void inserir(PedidoExame pedido){
-        String sql = """
-                    INSERT INTO pedido_exame(id_sentenciado, data_cadastro, data_solicitacao, status, id_usuario, 
-                    numero_processo, numero_sei, data_conclusao)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """;
-        try(Connection conexao = Conexao.conectar();PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            comando.setInt(1,pedido.getSentenciado().getId());
-            comando.setDate(2,java.sql.Date.valueOf(pedido.getDataCadastro()));
-            comando.setDate(3,java.sql.Date.valueOf(pedido.getDataSolicitacao()));
-            comando.setString(4,pedido.getStatus().name());
-            comando.setInt(5,pedido.getUsuario().getId());
-            comando.setString(6,pedido.getNumeroProcesso());
-            comando.setString(7, pedido.getNumeroSEI());
+    public void inserir(PedidoExame pedido) {
 
-            // Regra de negócio:
-            // Um pedido recém-cadastrado ainda não foi concluído.
-            // Portanto, a data de conclusão deve ser gravada como NULL.
-            comando.setNull(8,Types.DATE);
-            comando.executeUpdate();
+        String sqlPedido = """
+                INSERT INTO pedido_exame(
+                    id_sentenciado,
+                    data_cadastro,
+                    data_solicitacao,
+                    status,
+                    id_usuario,
+                    numero_processo,
+                    numero_sei,
+                    data_conclusao
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """;
 
-                try(ResultSet resposta = comando.getGeneratedKeys()){
-                    if(resposta.next()){
-                        pedido.setId(resposta.getInt(1));
-                    }
+        String sqlBeneficio = """
+                INSERT INTO pedido_beneficio(
+                    id_pedido_exame,
+                    id_beneficio
+                )
+                VALUES (?, ?)
+            """;
+
+        try (
+                Connection conexao = Conexao.conectar();
+                PreparedStatement comandoPedido =
+                        conexao.prepareStatement(
+                                sqlPedido,
+                                Statement.RETURN_GENERATED_KEYS
+                        );
+                PreparedStatement comandoBeneficio =
+                        conexao.prepareStatement(sqlBeneficio)
+        ) {
+
+            // Insere o PedidoExame
+            comandoPedido.setInt(1, pedido.getSentenciado().getId());
+            comandoPedido.setDate(2, java.sql.Date.valueOf(pedido.getDataCadastro()));
+            comandoPedido.setDate(3, java.sql.Date.valueOf(pedido.getDataSolicitacao()));
+            comandoPedido.setString(4, pedido.getStatus().name());
+            comandoPedido.setInt(5, pedido.getUsuario().getId());
+            comandoPedido.setString(6, pedido.getNumeroProcesso());
+            comandoPedido.setString(7, pedido.getNumeroSEI());
+            comandoPedido.setNull(8, Types.DATE);
+
+            comandoPedido.executeUpdate();
+
+            // Recupera o ID gerado do PedidoExame
+            try (ResultSet resposta = comandoPedido.getGeneratedKeys()) {
+
+                if (resposta.next()) {
+                    pedido.setId(resposta.getInt(1));
                 }
+            }
 
-        }catch(SQLException e){
+            // Insere os benefícios relacionados ao pedido
+            for (PedidoBeneficio pedidoBeneficio : pedido.getPedidosBeneficios()) {
+
+                comandoBeneficio.setInt(
+                        1,
+                        pedido.getId()
+                );
+
+                comandoBeneficio.setInt(
+                        2,
+                        pedidoBeneficio.getBeneficio().getId()
+                );
+
+                comandoBeneficio.executeUpdate();
+            }
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -176,7 +217,7 @@ public class PedidoExameDAO {
         }
     }
 
-    public List<PedidoExame> listarPentendes() {
+    public List<PedidoExame> listarPendendes() {
 
         String sql = """
         SELECT
@@ -276,5 +317,30 @@ public class PedidoExameDAO {
         }
 
         return null;
+    }
+
+    public boolean existePedidoAtivoParaSentenciadoEBeneficio(PedidoExame pedidoExame, Beneficio beneficio){
+        String sql = """
+                SELECT
+                1
+                FROM pedido_exame pe INNER JOIN sentenciado s ON pe.id_sentenciado = s.id
+                     INNER JOIN pedido_beneficio pb ON pe.id = pb.id_pedido_exame
+                     INNER JOIN beneficio b ON b.id = pb.id_beneficio
+                WHERE pe.status NOT IN ('CONCLUIDO', 'CANCELADO', 'TRANSFERIDO')
+                AND s.matricula = ? AND b.id = ?
+                """;
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
+            comando.setString(1,pedidoExame.getSentenciado().getMatricula());
+            comando.setInt(2,beneficio.getId());
+
+            ResultSet resultado = comando.executeQuery();
+            if(resultado.next()){
+                return true;
+            }
+
+        return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

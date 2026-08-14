@@ -18,6 +18,7 @@
       xmlns="http://javafx.com/javafx/26"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="br.com.sigec.controller.LoginController">
+
    <children>
       <ImageView fitHeight="734.0" fitWidth="1331.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -36,7 +37,7 @@
                </image>
             </ImageView>
             <Text fill="#0b2a5b" layoutX="78.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Sigoi UI; -fx-font-size: 15;" text="Senha:" />
-            <PasswordField fx:id="txtSenha" layoutX="127.0" layoutY="348.0" prefHeight="38.0" prefWidth="397.0" />
+            <PasswordField fx:id="txtSenha" onAction="#entrar" layoutX="127.0" layoutY="348.0" prefHeight="38.0" prefWidth="397.0" />
             <ImageView fitHeight="27.0" fitWidth="33.0" layoutX="86.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/icone_senha.png" />

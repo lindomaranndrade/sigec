@@ -1,5 +1,7 @@
 package br.com.sigec.model;
 
+import br.com.sigec.session.SessaoUsuario;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,12 +25,12 @@ public class PedidoExame {
 
     }
 
-    public PedidoExame(Sentenciado sentenciado,LocalDate dataSolicitacao, String numeroProcesso, Usuario usuario){
+    public PedidoExame(Sentenciado sentenciado,LocalDate dataSolicitacao, String numeroProcesso){
         this.sentenciado = sentenciado;
         this.dataCadastro = LocalDate.now();
         this.dataSolicitacao = dataSolicitacao;
         this.numeroProcesso = numeroProcesso;
-        this.usuario = usuario;
+        this.usuario = SessaoUsuario.getUsuarioLogado();
         this.status = StatusPedidoExame.CADASTRADO;
     }
 
@@ -102,6 +104,14 @@ public class PedidoExame {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public List<PedidoBeneficio> getPedidosBeneficios() {
+        return pedidosBeneficios;
+    }
+
+    public void setPedidosBeneficios(List<PedidoBeneficio> pedidosBeneficios) {
+        this.pedidosBeneficios = pedidosBeneficios;
     }
 
     @Override

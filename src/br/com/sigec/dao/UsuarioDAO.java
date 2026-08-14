@@ -69,6 +69,35 @@ public class UsuarioDAO {
             throw new RuntimeException(e);
         }
     }
+    public Usuario buscarPorLogin(String login) {
+        String sql = "SELECT * FROM usuario WHERE login = ? AND ativo = 1";
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+            comando.setString(1, login);
+
+            try (ResultSet resultado = comando.executeQuery()) {
+
+                if (resultado.next()) {
+                    Usuario usuario = new Usuario();
+
+                    usuario.setId(resultado.getInt("id"));
+                    usuario.setNome(resultado.getString("nome"));
+                    usuario.setLogin(resultado.getString("login"));
+                    usuario.setSenha(resultado.getString("senha"));
+                    usuario.setAtivo(resultado.getBoolean("ativo"));
+
+                    return usuario;
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
 
     public List<Usuario> buscarPorNome(String nome){
         String sql = "SELECT * FROM usuario WHERE nome LIKE ?";

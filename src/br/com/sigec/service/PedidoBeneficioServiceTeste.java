@@ -197,8 +197,7 @@ public class PedidoBeneficioServiceTeste {
                 new PedidoExame(
                         sentenciado,
                         LocalDate.now().minusDays(10),
-                        "000123",
-                        usuario
+                        "000123"
                 );
 
         pedido.setId(1);

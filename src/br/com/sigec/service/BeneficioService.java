@@ -3,6 +3,8 @@ package br.com.sigec.service;
 import br.com.sigec.dao.BeneficioDAO;
 import br.com.sigec.model.Beneficio;
 
+import java.util.List;
+
 public class BeneficioService {
     private static final int TAMANHO_MAXIMO_DESCRICAO = 100;
     private static final int TAMANHO_MAXIMO_SIGLA = 5;
@@ -65,5 +67,9 @@ public class BeneficioService {
                     "Sigla é obrigatória."
             );
         }
+    }
+
+    public List<Beneficio> listarTodos(){
+        return beneficioDAO.listarTodos();
     }
 }

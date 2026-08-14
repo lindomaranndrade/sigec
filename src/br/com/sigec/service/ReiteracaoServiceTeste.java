@@ -213,8 +213,7 @@ public class ReiteracaoServiceTeste {
         PedidoExame pedido = new PedidoExame(
                 sentenciado,
                 LocalDate.now().minusDays(10),
-                "0001234-56.2026.8.26.0001",
-                usuario
+                "0001234-56.2026.8.26.0001"
         );
 
         pedido.setId(1);
@@ -223,8 +222,7 @@ public class ReiteracaoServiceTeste {
                 pedido,
                 LocalDate.now().minusDays(5),
                 "Observação de teste",
-                null,
-                usuario
+                null
         );
     }
 }

@@ -2,6 +2,7 @@ package br.com.sigec.service;
 
 import br.com.sigec.dao.UsuarioDAO;
 import br.com.sigec.model.Usuario;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UsuarioService {
     private UsuarioDAO usuarioDAO;
@@ -18,7 +19,10 @@ public class UsuarioService {
         }
         validarLogin(usuario);
         validarSenha(usuario);
+
         validarLoginDuplicado(usuario);
+        //transforma a senha do usuario em hash
+        usuario.setSenha(gerarHash(usuario.getSenha()));
         usuarioDAO.inserir(usuario);
     }
 
@@ -44,8 +48,23 @@ public class UsuarioService {
 
     private void validarLoginDuplicado(Usuario usuario){
         if(usuarioDAO.existeLogin(usuario.getLogin())){
-            throw  new IllegalArgumentException("Login já está em uso.");
+            throw  new IllegalArgumentException("Login não disponível.");
         }
     }
 
+    private String gerarHash(String senha){
+        return BCrypt.hashpw(senha,BCrypt.gensalt());
+    }
+
+    public Usuario autenticar(String login, String senha){
+        Usuario usuario = usuarioDAO.buscarPorLogin(login);
+
+        if(usuario == null){
+            return null;
+        }
+        if (!BCrypt.checkpw(senha, usuario.getSenha())) {
+            return null;
+        }
+        return usuario;
+    }
 }

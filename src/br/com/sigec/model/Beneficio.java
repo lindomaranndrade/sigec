@@ -39,10 +39,6 @@ public class Beneficio {
 
     @Override
     public String toString() {
-        return "Beneficio{" +
-                "id=" + id +
-                ", descricao='" + descricao + '\'' +
-                ", sigla='" + sigla + '\'' +
-                '}';
+        return descricao;
     }
 }

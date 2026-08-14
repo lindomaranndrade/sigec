@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="564.0" spacing="15.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.TelaNovoPedidoController">
+   <children>
+      <Label alignment="CENTER" prefHeight="18.0" prefWidth="601.0" styleClass="form-title" stylesheets="@style.css" text="Novo Pedido">
+         <VBox.margin>
+            <Insets bottom="20.0" top="5.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Label prefWidth="150.0" styleClass="form-label" stylesheets="@style.css" text="Matrícula: " />
+            <TextField fx:id="txtSentenciado" />
+            <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#pesquisarSentenciado" styleClass="search-button" stylesheets="@style.css" text="Pesquisar" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="lblSentenciado" styleClass="sentenciado-info" stylesheets="@style.css" text="Nenhum sentenciado selecionado" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Label styleClass="form-label" stylesheets="@style.css" text="Data da Solicitação:" />
+            <DatePicker fx:id="dpDataSolicitacao" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Label prefWidth="150.0" styleClass="form-label" stylesheets="@style.css" text="Número do Processo:" />
+            <TextField fx:id="txtNumeroProcesso" />
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Label prefWidth="150.0" styleClass="form-label" stylesheets="@style.css" text="Beneficio:  " />
+            <ComboBox fx:id="cbBeneficio" prefWidth="150.0" />
+            <Button fx:id="btnAdicionar" mnemonicParsing="false" onAction="#adicionarBeneficio" styleClass="search-button" stylesheets="@style.css" text="Adicionar" />
+         </children>
+      </HBox>
+      <ListView fx:id="listaBeneficios"
+                prefHeight="200.0"
+                prefWidth="200.0" />
+
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Button
+                    fx:id="btnRemover"
+                    mnemonicParsing="false"
+                    onAction="#removerBeneficio"
+                    styleClass="remove-button"
+                    stylesheets="@style.css"
+                    text="Remover" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" styleClass="secondary-button" stylesheets="@style.css" text="Cancelar" />
+            <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#salvar" styleClass="form-button" stylesheets="@style.css" text="Salvar" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
+   </padding>
+</VBox>

@@ -338,8 +338,7 @@ public class EntrevistaServiceTeste {
         PedidoExame pedido = new PedidoExame(
                 sentenciado,
                 LocalDate.now().minusDays(10),
-                "000123",
-                usuario
+                "000123"
         );
 
         pedido.setStatus(
@@ -354,8 +353,7 @@ public class EntrevistaServiceTeste {
         return new Entrevista(
                 pedido,
                 profissional,
-                LocalDate.now().minusDays(5),
-                usuario
+                LocalDate.now().minusDays(5)
         );
     }
 }

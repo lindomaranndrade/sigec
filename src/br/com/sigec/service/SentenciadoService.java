@@ -84,6 +84,9 @@ public class SentenciadoService {
 
     private void validarMatriculaSomenteNumeros(Sentenciado sentenciado){
 
+        System.out.println("Matrícula recebida pelo Service: ["
+                + sentenciado.getMatricula() + "]");
+
         if(!sentenciado.getMatricula().matches("\\d+")){
             throw new IllegalArgumentException(
                     "Matrícula deve conter apenas números."

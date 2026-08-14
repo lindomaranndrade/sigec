@@ -1,5 +1,7 @@
 package br.com.sigec.model;
 
+import br.com.sigec.session.SessaoUsuario;
+
 import java.time.LocalDate;
 
 public class Reiteracao {
@@ -15,12 +17,12 @@ public class Reiteracao {
 
     }
 
-    public Reiteracao(PedidoExame pedido, LocalDate dataReiteracao, String observacoes, String despacho, Usuario usuario){
+    public Reiteracao(PedidoExame pedido, LocalDate dataReiteracao, String observacoes, String despacho){
         this.pedido = pedido;
         this.dataReiteracao = dataReiteracao;
         this.observacoes = observacoes;
         this.despacho = despacho;
-        this.usuario = usuario;
+        this.usuario = SessaoUsuario.getUsuarioLogado();
         this.dataCadastro = LocalDate.now();
     }
 

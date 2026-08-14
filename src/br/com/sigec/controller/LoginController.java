@@ -1,9 +1,14 @@
 package br.com.sigec.controller;
 
-import br.com.sigec.dao.UsuarioDAO;
 import br.com.sigec.model.Usuario;
+import br.com.sigec.service.UsuarioService;
+import br.com.sigec.session.SessaoUsuario;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class LoginController {
 
@@ -25,19 +30,37 @@ public class LoginController {
     @FXML
     private void entrar() {
 
-        System.out.println("CLICOU");
-
         String login = txtUsuario.getText();
         String senha = txtSenha.getText();
 
-        UsuarioDAO dao = new UsuarioDAO();
+        UsuarioService usuarioService = new UsuarioService();
 
-        Usuario usuario = dao.autenticar(login, senha);
+        Usuario usuario = usuarioService.autenticar(login,senha);
 
         if (usuario != null) {
 
-            System.out.println("LOGIN OK");
-            lblErro.setVisible(false);
+            SessaoUsuario.setUsuarioLogado(usuario);
+
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource(
+                                "/br/com/sigec/view/TelaPrincipal.fxml"
+                        )
+                );
+
+                Parent root = loader.load();
+
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) txtUsuario.getScene().getWindow();
+
+                stage.setResizable(true);
+                stage.setScene(scene);
+                stage.setMaximized(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else {
 

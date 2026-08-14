@@ -2,13 +2,12 @@ package br.com.sigec.service;
 
 import br.com.sigec.dao.EntrevistaDAO;
 import br.com.sigec.dao.PedidoExameDAO;
-import br.com.sigec.model.Entrevista;
+import br.com.sigec.model.Beneficio;
+import br.com.sigec.model.PedidoBeneficio;
 import br.com.sigec.model.PedidoExame;
 import br.com.sigec.model.StatusPedidoExame;
-import br.com.sigec.model.TipoProfissional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoExameService {
@@ -26,7 +25,24 @@ public class PedidoExameService {
 
         validarDataSolicitacaoObrigatoria(pedidoExame);
         validarDataSolicitacaoFutura(pedidoExame);
+
+        for (PedidoBeneficio pedidoBeneficio : pedidoExame.getPedidosBeneficios()) {
+
+            Beneficio beneficio = pedidoBeneficio.getBeneficio();
+
+            if (pedidoExameDAO.existePedidoAtivoParaSentenciadoEBeneficio(
+                    pedidoExame,
+                    beneficio
+            )) {
+                throw new IllegalArgumentException(
+                        "Já existe um pedido ativo para o benefício: "
+                                + beneficio.getDescricao()
+                );
+            }
+        }
+
         pedidoExame.setStatus(StatusPedidoExame.CADASTRADO);
+
         pedidoExameDAO.inserir(pedidoExame);
     }
 
@@ -42,7 +58,7 @@ public class PedidoExameService {
     }
 
     public List<PedidoExame> listarPendentes(){
-        return pedidoExameDAO.listarPentendes();
+        return pedidoExameDAO.listarPendendes();
     }
 
     private void validarPedidoNaoConcluido(PedidoExame pedidoExame){

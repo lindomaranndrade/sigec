@@ -1,5 +1,7 @@
 package br.com.sigec.model;
 
+import br.com.sigec.session.SessaoUsuario;
+
 import java.time.LocalDate;
 
 public class Entrevista {
@@ -17,11 +19,11 @@ public class Entrevista {
     }
 
 
-    public Entrevista(PedidoExame pedido, Profissional profissional, LocalDate dataEntrevista, Usuario usuario){
+    public Entrevista(PedidoExame pedido, Profissional profissional, LocalDate dataEntrevista){
         this.pedidoExame = pedido;
         this.profissional = profissional;
         this.dataEntrevista = dataEntrevista;
-        this.usuario = usuario;
+        this.usuario = SessaoUsuario.getUsuarioLogado();
         this.dataCadastro = LocalDate.now();
     }
 
