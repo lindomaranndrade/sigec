@@ -10,35 +10,35 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="564.0" spacing="15.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.TelaNovoPedidoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="486.0" spacing="10.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.TelaNovoPedidoController">
    <children>
       <Label alignment="CENTER" prefHeight="18.0" prefWidth="601.0" styleClass="form-title" stylesheets="@style.css" text="Novo Pedido">
          <VBox.margin>
             <Insets bottom="20.0" top="5.0" />
          </VBox.margin>
       </Label>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Label prefWidth="150.0" styleClass="form-label" stylesheets="@style.css" text="Matrícula: " />
-            <TextField fx:id="txtSentenciado" />
-            <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#pesquisarSentenciado" styleClass="search-button" stylesheets="@style.css" text="Pesquisar" />
+            <TextField fx:id="txtSentenciado" prefWidth="150.0" />
+            <Button fx:id="btnPesquisar" mnemonicParsing="false" onAction="#pesquisarSentenciado" prefWidth="100.0" styleClass="search-button" stylesheets="@style.css" text="Pesquisar" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0">
          <children>
             <Label fx:id="lblSentenciado" styleClass="sentenciado-info" stylesheets="@style.css" text="Nenhum sentenciado selecionado" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Label styleClass="form-label" stylesheets="@style.css" text="Data da Solicitação:" />
-            <DatePicker fx:id="dpDataSolicitacao" />
+            <Label prefWidth="150.0" styleClass="form-label" stylesheets="@style.css" text="Data da Solicitação:" />
+            <DatePicker fx:id="dpDataSolicitacao" prefWidth="150.0" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Label prefWidth="150.0" styleClass="form-label" stylesheets="@style.css" text="Número do Processo:" />
-            <TextField fx:id="txtNumeroProcesso" />
+            <TextField fx:id="txtNumeroProcesso" prefWidth="150.0" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -48,19 +48,11 @@
             <Button fx:id="btnAdicionar" mnemonicParsing="false" onAction="#adicionarBeneficio" styleClass="search-button" stylesheets="@style.css" text="Adicionar" />
          </children>
       </HBox>
-      <ListView fx:id="listaBeneficios"
-                prefHeight="200.0"
-                prefWidth="200.0" />
+      <ListView fx:id="listaBeneficios" prefHeight="200.0" prefWidth="200.0" />
 
       <HBox alignment="CENTER_LEFT">
          <children>
-            <Button
-                    fx:id="btnRemover"
-                    mnemonicParsing="false"
-                    onAction="#removerBeneficio"
-                    styleClass="remove-button"
-                    stylesheets="@style.css"
-                    text="Remover" />
+            <Button fx:id="btnRemover" mnemonicParsing="false" onAction="#removerBeneficio" styleClass="remove-button" stylesheets="@style.css" text="Remover" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -71,6 +63,6 @@
       </HBox>
    </children>
    <padding>
-      <Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
+      <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
    </padding>
 </VBox>

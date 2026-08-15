@@ -402,3 +402,38 @@ TABELA DE EXAMES
 .remove-button:hover {
     -fx-background-color: #c9302c;
 }
+
+.change-password-link {
+    -fx-text-fill: #D6E4F5;
+    -fx-font-size: 12px;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.change-password-link:hover {
+    -fx-text-fill: white;
+}
+
+.change-password-link:focused {
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* =========================================================
+   MENSAGEM DE VALIDAÇÃO
+========================================================= */
+
+.validation-message {
+    -fx-text-fill: #C0392B;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.success-message {
+    -fx-text-fill: #3BA44C;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}

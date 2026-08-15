@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.ResumoPedidoController">
+   <center>
+      <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="926.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="conteudoVBox" spacing="15.0">
+               <children>
+                  <VBox fx:id="vboxDadosSentenciado" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label fx:id="lblDadosSentenciado" styleClass="form-title" stylesheets="@style.css" text="DADOS DO SENTENCIADO" />
+                        <HBox fx:id="hboxDadosPessoais" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <VBox fx:id="vboxMatricula">
+                                 <children>
+                                    <Label fx:id="lblMatricula" styleClass="form-label" stylesheets="@style.css" text="Matrícula:" />
+                                    <Label fx:id="lblValorMatricula" text="Matricula do sentenciado" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="vboxNome">
+                                 <children>
+                                    <Label fx:id="lblNome" styleClass="form-label" stylesheets="@style.css" text="Nome:" />
+                                    <Label fx:id="lblValorNome" text="Nome do sentenciado" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="vboxSolicitacao" prefHeight="200.0" prefWidth="90.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <children>
+                              <Label fx:id="lblSolicitacao" styleClass="form-title" stylesheets="@style.css" text="SOLICITAÇÃO" />
+                              <HBox fx:id="hboxDadosSolicitacao" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                 <children>
+                                    <VBox fx:id="vboxData" spacing="5.0">
+                                       <children>
+                                          <Label fx:id="lblData" styleClass="form-label" stylesheets="@style.css" text="Data:" />
+                                          <Label fx:id="lblValorData" text="15/05/2026" />
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="vboxProcessoSolicitacao" prefWidth="110.0" spacing="5.0">
+                                       <children>
+                                          <Label fx:id="lblProcesso" styleClass="form-label" stylesheets="@style.css" text="Processo:" />
+                                          <Label fx:id="lblValorProcesso" text="123456/2026" />
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="vboxBeneficios" prefHeight="200.0" prefWidth="220.0">
+                                       <children>
+                                          <Label fx:id="lblBeneficios" styleClass="form-label" stylesheets="@style.css" text="Benefício(s):" />
+                                          <Label fx:id="lblValorBeneficios" text="Progressão de Regime" />
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="vboxSituacaoSolicitacao" prefHeight="200.0" prefWidth="110.0">
+                                       <children>
+                                          <Label fx:id="lblSituacao" styleClass="form-label" stylesheets="@style.css" text="Situação:" />
+                                          <Label fx:id="lblValorSituacao" text="Pendente" />
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="vboxSeiSolicitacao" prefHeight="200.0" prefWidth="170.0">
+                                       <children>
+                                          <Label fx:id="lblSeiSolicitacao" styleClass="form-label" stylesheets="@style.css" text="SEI:" />
+                                          <Label fx:id="lblValorSei" text="123456" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="hboxStatusSolicitacao" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                                       <children>
+                                          <Label fx:id="lblStatusSolicitacao" styleClass="form-label" stylesheets="@style.css" text="Status:" />
+                                          <Label fx:id="lblValorStatusSolicitacao" text="Pendente" />
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="vboxDataConclusaoSolicitacao" prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label fx:id="lblDataConclusaoSolicitacao" styleClass="form-label" stylesheets="@style.css" text="Data de Conclusão:" />
+                                          <Label fx:id="lblValorDataConclusaoSolicitacao" text="15/08/2026" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vboxExameCriminologico" prefHeight="200.0" prefWidth="90.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label fx:id="lblCriminologico" styleClass="form-title" stylesheets="@style.css" text="EXAME CRIMINOLÓGICO" />
+                        <HBox fx:id="hboxAtendimentos" alignment="CENTER" spacing="20.0">
+                           <children>
+                              <VBox fx:id="vboxAtendimentoPsicologo" prefHeight="200.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+                                 <children>
+                                    <Label fx:id="lblTituloAtendimento" styleClass="form-label" stylesheets="@style.css" text="ATENDIMENTO — PSICÓLOGO" />
+                                    <VBox fx:id="vboxProfissional">
+                                       <children>
+                                          <Label fx:id="lblProfissional" text="Profissional:" />
+                                          <Label fx:id="lblValorProfissional" text="Nome do profissional" />
+                                       </children>
+                                    </VBox>
+                                    <HBox fx:id="hboxDadosAtendimento" spacing="30.0">
+                                       <children>
+                                          <VBox fx:id="vboxDataAtendimento">
+                                             <children>
+                                                <Label fx:id="lblDataAtendimento" text="Data:" />
+                                                <Label fx:id="lblValorDataAtendimento" text="15/08/2026" />
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="vboxLaudo">
+                                             <children>
+                                                <Label fx:id="lblLaudo" text="Laudo:" />
+                                                <Label fx:id="lblValorLaudo" text="Entregue" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <VBox fx:id="vboxStatusAtendimento">
+                                       <children>
+                                          <Label fx:id="lblStatusAtendimento" text="Status:" />
+                                          <Label fx:id="lblValorStatusAtendimento" text="Concluído" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="vboxAtendimentoAssistenteSocial" prefHeight="200.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+                                 <children>
+                                    <Label fx:id="lblTituloAtendimento1" styleClass="form-label" stylesheets="@style.css" text="ATENDIMENTO — ASSISTENTE SOCIAL" />
+                                    <VBox fx:id="vboxProfissionalAssistenteSocial">
+                                       <children>
+                                          <Label fx:id="lblProfissionalAssistenteSocial" text="Profissional:" />
+                                          <Label fx:id="lblValorProfissionalAssistenteSocial" text="Nome do profissional" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </VBox>
+                                    <HBox fx:id="hboxDadosAtendimentoAssistenteSocial" spacing="30.0">
+                                       <children>
+                                          <VBox fx:id="vboxDataAtendimentoAssistenteSocial">
+                                             <children>
+                                                <Label fx:id="lblDataAtendimentoSocial" text="Data:" />
+                                                <Label fx:id="lblValorDataAtendimentoSocial" text="15/08/2026" />
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="vboxLaudoAssistenteSocial">
+                                             <children>
+                                                <Label fx:id="lblLaudoSocial" text="Laudo:" />
+                                                <Label fx:id="lblValorLaudoSocial" text="Entregue" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <VBox fx:id="vboxStatusAtendimentoAssistenteSocial">
+                                       <children>
+                                          <Label fx:id="lblStatusAtendimentoSocial" text="Status:" />
+                                          <Label fx:id="lblValorStatusAtendimentoSocial" text="Concluído" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vboxReiteracoes" prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label fx:id="lblReiteracoes" styleClass="form-title" stylesheets="@style.css" text="REITERAÇÕES" />
+                        <HBox fx:id="hboxReiteracoes" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                           <children>
+                              <VBox fx:id="vboxDataReiteracao" prefHeight="200.0" prefWidth="120.0" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="lblDataReiteracao" styleClass="form-label" stylesheets="@style.css" text="Data:" />
+                                    <Label fx:id="lblValorDataReiteracao" text="15/08/2026" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="vboxObservacaoReiteracao" prefHeight="200.0" prefWidth="500.0">
+                                 <children>
+                                    <Label fx:id="lblObservacaoReiteracao" styleClass="form-label" stylesheets="@style.css" text="Observação:" />
+                                    <Label fx:id="lblValorObservacaoReiteracao" text="Aguardando conclusão do atendimento." />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnReiterar" alignment="CENTER" mnemonicParsing="false" styleClass="secondary-button" stylesheets="@style.css" text="Reiterar" HBox.hgrow="NEVER" />
+            <Button fx:id="btnConcluir" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="danger-button" stylesheets="@style.css" text="Concluir" />
+            <Button fx:id="btnFechar" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" styleClass="form-button" stylesheets="@style.css" text="Fechar" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

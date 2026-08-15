@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="346.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.TelaAlterarSenhaController">
+   <children>
+      <Label alignment="CENTER" prefHeight="18.0" prefWidth="601.0" styleClass="form-title" stylesheets="@style.css" text="Alterar Senha">
+         <VBox.margin>
+            <Insets bottom="12.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <Label styleClass="form-label" stylesheets="@style.css" text="Senha Atual:" />
+      <PasswordField fx:id="txtSenhaAtual" maxWidth="300.0" prefHeight="36.0" prefWidth="300.0" />
+      <Label styleClass="form-label" stylesheets="@style.css" text="Nova Senha:" />
+      <PasswordField fx:id="txtNovaSenha" maxWidth="300.0" prefHeight="36.0" prefWidth="300.0" />
+      <Label styleClass="form-label" stylesheets="@style.css" text="Confirmar nova senha:" />
+      <PasswordField fx:id="txtConfirmarSenha" maxWidth="300.0" prefHeight="36.0" prefWidth="300.0" />
+      <Label fx:id="lblMensagem" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="15.0" prefWidth="297.0" styleClass="validation-message" stylesheets="@style.css" text="Label" visible="false" managed="false" />
+      <HBox alignment="TOP_RIGHT" spacing="10.0">
+         <children>
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" styleClass="secondary-button" stylesheets="@style.css" text="Cancelar" />
+            <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#salvar" styleClass="form-button" stylesheets="@style.css" text="Salvar" />
+         </children>
+         <VBox.margin>
+            <Insets left="15.0" right="15.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets left="15.0" right="15.0" />
+   </padding>
+</VBox>

@@ -2,7 +2,10 @@ package br.com.sigec.service;
 
 import br.com.sigec.dao.UsuarioDAO;
 import br.com.sigec.model.Usuario;
+import br.com.sigec.session.SessaoUsuario;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.io.IOException;
 
 public class UsuarioService {
     private UsuarioDAO usuarioDAO;
@@ -24,6 +27,21 @@ public class UsuarioService {
         //transforma a senha do usuario em hash
         usuario.setSenha(gerarHash(usuario.getSenha()));
         usuarioDAO.inserir(usuario);
+    }
+
+    public void alterarSenha(String senhaAtual, String novaSenha){
+        Usuario usuarioLogado = SessaoUsuario.getUsuarioLogado();
+        if(usuarioLogado == null){
+            throw new IllegalArgumentException("Nenhum usuário está logado.");
+        }
+
+        if(autenticar(usuarioLogado.getLogin(),senhaAtual) == null){
+            throw new IllegalArgumentException("Senha atual incorreta");
+        }
+        usuarioLogado.setSenha(novaSenha);
+        validarSenha(usuarioLogado);
+        usuarioLogado.setSenha(gerarHash(usuarioLogado.getSenha()));
+        usuarioDAO.atualizar(usuarioLogado);
     }
 
     private void validarSenha(Usuario usuario){
