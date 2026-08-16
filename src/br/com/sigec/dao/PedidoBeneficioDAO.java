@@ -71,8 +71,11 @@ public class PedidoBeneficioDAO {
 
                     pb.id_beneficio,
 
-                    b.nome
-                        AS beneficio_nome
+                    b.descricao
+                        AS beneficio_descricao,
+
+                    b.sigla
+                        AS beneficio_sigla
 
                 FROM pedido_beneficio pb
 
@@ -119,8 +122,11 @@ public class PedidoBeneficioDAO {
 
                     pb.id_beneficio,
 
-                    b.nome
-                        AS beneficio_nome
+                    b.descricao
+                        AS beneficio_descricao,
+
+                    b.sigla
+                        AS beneficio_sigla
 
                 FROM pedido_beneficio pb
 
@@ -132,7 +138,7 @@ public class PedidoBeneficioDAO {
 
                 WHERE pb.id_pedido_exame = ?
 
-                ORDER BY b.nome
+                ORDER BY b.descricao
                 """;
 
         List<PedidoBeneficio> pedidosBeneficio =
@@ -173,8 +179,11 @@ public class PedidoBeneficioDAO {
 
                     pb.id_beneficio,
 
-                    b.nome
-                        AS beneficio_nome
+                    b.descricao
+                        AS beneficio_descricao,
+
+                    b.sigla
+                        AS beneficio_sigla
 
                 FROM pedido_beneficio pb
 
@@ -214,6 +223,68 @@ public class PedidoBeneficioDAO {
         return pedidosBeneficio;
     }
 
+    public List<PedidoBeneficio> listarPorPedidosExame(List<Integer> idsPedidoExame) {
+
+        if (idsPedidoExame == null || idsPedidoExame.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < idsPedidoExame.size(); i++) {
+            if (i > 0) {
+                placeholders.append(",");
+            }
+            placeholders.append("?");
+        }
+
+        String sql = """
+                SELECT
+
+                    pb.id_pedido_exame,
+
+                    p.numero_processo
+                        AS pedido_exame_numero_processo,
+
+                    pb.id_beneficio,
+
+                    b.descricao
+                        AS beneficio_descricao,
+
+                    b.sigla
+                        AS beneficio_sigla
+
+                FROM pedido_beneficio pb
+
+                    INNER JOIN pedido_exame p
+                        ON pb.id_pedido_exame = p.id
+
+                    INNER JOIN beneficio b
+                        ON pb.id_beneficio = b.id
+
+                WHERE pb.id_pedido_exame IN (""" + placeholders + ")";
+
+        List<PedidoBeneficio> pedidosBeneficio = new ArrayList<>();
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+            for (int i = 0; i < idsPedidoExame.size(); i++) {
+                comando.setInt(i + 1, idsPedidoExame.get(i));
+            }
+
+            try (ResultSet resultado = comando.executeQuery()) {
+                while (resultado.next()) {
+                    pedidosBeneficio.add(montarPedidoBeneficio(resultado));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return pedidosBeneficio;
+    }
+
     private PedidoBeneficio montarPedidoBeneficio(
             ResultSet resultado) throws SQLException {
 
@@ -229,7 +300,10 @@ public class PedidoBeneficioDAO {
                 resultado.getInt("id_beneficio"));
         beneficio.setDescricao(
                 resultado.getString(
-                        "beneficio_nome"));
+                        "beneficio_descricao"));
+        beneficio.setSigla(
+                resultado.getString(
+                        "beneficio_sigla"));
 
         return new PedidoBeneficio(
                 pedido,

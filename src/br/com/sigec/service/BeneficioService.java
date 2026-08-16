@@ -72,4 +72,14 @@ public class BeneficioService {
     public List<Beneficio> listarTodos(){
         return beneficioDAO.listarTodos();
     }
+
+    public void atualizar(Beneficio beneficio){
+        validarBeneficioNulo(beneficio);
+        validarDescricao(beneficio);
+        validarTamanhoDescricao(beneficio);
+        validarSiglaObrigatoria(beneficio);
+        validarTamanhoSigla(beneficio);
+
+        beneficioDAO.atualizar(beneficio);
+    }
 }

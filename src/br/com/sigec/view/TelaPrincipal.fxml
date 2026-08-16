@@ -47,7 +47,17 @@
                     stylesheets="@style.css"
                     text="Fila de Atendimentos"
                     styleClass="menu-button" />
-            <Button mnemonicParsing="false" styleClass="menu-button" stylesheets="@style.css" text="Sentenciados" />
+            <Button
+                    fx:id="btnProfissionais"
+                    mnemonicParsing="false"
+                    onAction="#abrirProfissionais"
+                    prefHeight="50.0"
+                    stylesheets="@style.css"
+                    text="Profissionais"
+                    styleClass="menu-button" />
+
+            <Button fx:id="btnSentenciados" mnemonicParsing="false" onAction="#abrirSentenciados" styleClass="menu-button" stylesheets="@style.css" text="Sentenciados" />
+            <Button fx:id="btnBeneficios" mnemonicParsing="false" onAction="#abrirBeneficios" styleClass="menu-button" stylesheets="@style.css" text="Benefícios" />
             <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#abrirUsuarios" styleClass="menu-button" text="Usuarios" />
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
             <Button fx:id="btnSair" mnemonicParsing="false" onAction="#sair" styleClass="exit-button" text="Sair">

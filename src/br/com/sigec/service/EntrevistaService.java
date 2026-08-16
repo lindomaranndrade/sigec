@@ -4,6 +4,7 @@ import br.com.sigec.dao.EntrevistaDAO;
 import br.com.sigec.model.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class EntrevistaService {
     private EntrevistaDAO entrevistaDAO;
@@ -112,6 +113,27 @@ public class EntrevistaService {
         entrevistaDAO.atualizar(entrevista);
     }
 
+    /**
+     * Cancela apenas o agendamento (profissional + data), não a entrevista.
+     * A entrevista volta para PENDENTE_AGENDAMENTO para permitir um novo agendamento.
+     */
+    public void cancelarAgendamento(Entrevista entrevista) {
+        validarEntrevista(entrevista);
+        validarId(entrevista);
+
+        if (entrevista.getStatus() != StatusEntrevista.AGENDADA) {
+            throw new IllegalArgumentException(
+                    "Só é possível cancelar o agendamento de uma entrevista que esteja agendada"
+            );
+        }
+
+        entrevista.setProfissional(null);
+        entrevista.setDataAgendamento(null);
+        entrevista.setStatus(StatusEntrevista.PENDENTE_AGENDAMENTO);
+
+        entrevistaDAO.atualizar(entrevista);
+    }
+
     // ---------- ENTREGA DE LAUDO ----------
 
     public void registrarEntregaLaudo(Entrevista entrevista, LocalDate dataEntregaLaudo) {
@@ -126,6 +148,20 @@ public class EntrevistaService {
 
         entrevista.setDataEntregaLaudo(dataEntregaLaudo);
         entrevistaDAO.atualizar(entrevista);
+    }
+
+    // ---------- CONSULTAS ----------
+
+    public List<Entrevista> listarPorPedido(int idPedidoExame) {
+        return entrevistaDAO.listarPorPedido(idPedidoExame);
+    }
+
+    public List<Entrevista> listarPorPedidos(List<Integer> idsPedidoExame) {
+        return entrevistaDAO.listarPorPedidos(idsPedidoExame);
+    }
+
+    public List<Entrevista> listarFila() {
+        return entrevistaDAO.listarFila();
     }
 
     // ---------- VALIDAÇÕES INTERNAS ----------

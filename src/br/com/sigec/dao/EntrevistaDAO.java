@@ -130,6 +130,61 @@ public class EntrevistaDAO {
         return executarListagem(sql);
     }
 
+    public List<Entrevista> listarPorPedido(int idPedidoExame) {
+        String sql = baseSelect() + " WHERE e.id_pedido_exame = ? ORDER BY e.id";
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement comando = conexao.prepareStatement(sql)) {
+            comando.setInt(1, idPedidoExame);
+            List<Entrevista> entrevistas = new ArrayList<>();
+            try (ResultSet resultado = comando.executeQuery()) {
+                while (resultado.next()) {
+                    entrevistas.add(montarEntrevista(resultado));
+                }
+            }
+            return entrevistas;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Busca as entrevistas de vários pedidos em uma única consulta
+     * (evita 1 query por pedido ao montar listagens em tela).
+     */
+    public List<Entrevista> listarPorPedidos(List<Integer> idsPedidoExame) {
+        if (idsPedidoExame == null || idsPedidoExame.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < idsPedidoExame.size(); i++) {
+            if (i > 0) {
+                placeholders.append(",");
+            }
+            placeholders.append("?");
+        }
+
+        String sql = baseSelect() + " WHERE e.id_pedido_exame IN (" + placeholders + ") ORDER BY e.id";
+
+        try (Connection conexao = Conexao.conectar();
+             PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+            for (int i = 0; i < idsPedidoExame.size(); i++) {
+                comando.setInt(i + 1, idsPedidoExame.get(i));
+            }
+
+            List<Entrevista> entrevistas = new ArrayList<>();
+            try (ResultSet resultado = comando.executeQuery()) {
+                while (resultado.next()) {
+                    entrevistas.add(montarEntrevista(resultado));
+                }
+            }
+            return entrevistas;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<Entrevista> executarListagem(String sql) {
         List<Entrevista> entrevistas = new ArrayList<>();
         try (Connection conexao = Conexao.conectar();
@@ -150,6 +205,11 @@ public class EntrevistaDAO {
                     e.id,
                     p.id AS pedido_exame_id,
                     p.numero_processo AS pedido_exame_numero_processo,
+                    p.status AS pedido_exame_status,
+                    p.data_solicitacao AS pedido_exame_data_solicitacao,
+                    s.id AS sentenciado_id,
+                    s.matricula AS sentenciado_matricula,
+                    s.nome AS sentenciado_nome,
                     pro.id AS profissional_id,
                     pro.nome AS profissional_nome,
                     e.tipo_atendimento,
@@ -158,19 +218,29 @@ public class EntrevistaDAO {
                     e.data_realizacao,
                     u.id AS usuario_id,
                     u.login AS usuario_login,
+                    u.ativo AS usuario_ativo,
                     e.data_entrega_laudo,
                     e.data_cadastro
                 FROM entrevista e
                     INNER JOIN pedido_exame p ON e.id_pedido_exame = p.id
+                    INNER JOIN sentenciado s ON p.id_sentenciado = s.id
                     LEFT JOIN profissional pro ON e.id_profissional = pro.id
                     INNER JOIN usuario u ON e.id_usuario = u.id
                 """;
     }
 
     private Entrevista montarEntrevista(ResultSet resultado) throws SQLException {
+        Sentenciado sentenciado = new Sentenciado();
+        sentenciado.setId(resultado.getInt("sentenciado_id"));
+        sentenciado.setMatricula(resultado.getString("sentenciado_matricula"));
+        sentenciado.setNome(resultado.getString("sentenciado_nome"));
+
         PedidoExame pedidoExame = new PedidoExame();
         pedidoExame.setId(resultado.getInt("pedido_exame_id"));
         pedidoExame.setNumeroProcesso(resultado.getString("pedido_exame_numero_processo"));
+        pedidoExame.setStatus(StatusPedidoExame.valueOf(resultado.getString("pedido_exame_status")));
+        pedidoExame.setDataSolicitacao(converteData(resultado, "pedido_exame_data_solicitacao"));
+        pedidoExame.setSentenciado(sentenciado);
 
         Entrevista entrevista = new Entrevista();
         entrevista.setId(resultado.getInt("id"));
@@ -192,10 +262,12 @@ public class EntrevistaDAO {
         entrevista.setDataAgendamento(converteData(resultado, "data_agendamento"));
         entrevista.setDataRealizacao(converteData(resultado, "data_realizacao"));
 
-        entrevista.setUsuario(new Usuario(
+        Usuario usuario = new Usuario(
                 resultado.getInt("usuario_id"),
                 resultado.getString("usuario_login")
-        ));
+        );
+        usuario.setAtivo(resultado.getBoolean("usuario_ativo"));
+        entrevista.setUsuario(usuario);
 
         entrevista.setDataEntregaLaudo(converteData(resultado, "data_entrega_laudo"));
         entrevista.setDataCadastro(converteData(resultado, "data_cadastro"));

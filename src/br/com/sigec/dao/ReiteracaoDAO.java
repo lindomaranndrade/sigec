@@ -113,6 +113,96 @@ public class ReiteracaoDAO {
         }
     }
 
+    public List<Reiteracao> listarPorPedidos(List<Integer> idsPedidoExame){
+
+        if (idsPedidoExame == null || idsPedidoExame.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < idsPedidoExame.size(); i++) {
+            if (i > 0) {
+                placeholders.append(",");
+            }
+            placeholders.append("?");
+        }
+
+        List<Reiteracao> reiteracoes = new ArrayList<>();
+        String sql = """
+               SELECT
+               r.id AS id_reiteracao,
+               r.data_reiteracao,
+               r.observacoes,
+               r.despacho,
+               r.data_cadastro,
+
+               p.id AS id_pedido_exame,
+
+               s.id AS id_sentenciado,
+               s.matricula,
+               s.nome
+
+               FROM reiteracao r INNER JOIN pedido_exame p ON (p.id = r.id_pedido_exame)
+               	INNER JOIN sentenciado s ON (s.id = p.id_sentenciado)
+               WHERE r.id_pedido_exame IN (""" + placeholders + ")";
+
+        try(
+                Connection conexao = Conexao.conectar();
+                PreparedStatement comando = conexao.prepareStatement(sql)){
+
+            for (int i = 0; i < idsPedidoExame.size(); i++) {
+                comando.setInt(i + 1, idsPedidoExame.get(i));
+            }
+
+            try (ResultSet resultado = comando.executeQuery()) {
+                while (resultado.next()){
+                    reiteracoes.add(montarReiteracao(resultado));
+                }
+            }
+            return reiteracoes;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Reiteracao> listarPorPedido(int idPedidoExame){
+        List<Reiteracao> reiteracoes = new ArrayList<>();
+        String sql = """
+               SELECT
+               r.id AS id_reiteracao,
+               r.data_reiteracao,
+               r.observacoes,
+               r.despacho,
+               r.data_cadastro,
+
+               p.id AS id_pedido_exame,
+
+               s.id AS id_sentenciado,
+               s.matricula,
+               s.nome
+
+               FROM reiteracao r INNER JOIN pedido_exame p ON (p.id = r.id_pedido_exame)
+               	INNER JOIN sentenciado s ON (s.id = p.id_sentenciado)
+               WHERE r.id_pedido_exame = ?
+               ORDER BY r.data_reiteracao DESC, r.id DESC
+               """;
+        try(
+                Connection conexao = Conexao.conectar();
+                PreparedStatement comando = conexao.prepareStatement(sql)){
+
+            comando.setInt(1, idPedidoExame);
+
+            try(ResultSet resultado = comando.executeQuery()){
+                while (resultado.next()){
+                    reiteracoes.add(montarReiteracao(resultado));
+                }
+            }
+            return reiteracoes;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public void atualizar(Reiteracao reiteracao){
 
         String sql = """

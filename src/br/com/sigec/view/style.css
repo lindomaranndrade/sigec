@@ -353,6 +353,13 @@ TABELA DE EXAMES
     -fx-fill: white;
 }
 
+/* Linha de pedido reiterado */
+
+.exam-table .table-row-cell.linha-reiterada .text {
+    -fx-fill: #A93226;
+    -fx-font-weight: bold;
+}
+
 /* =========================================================
    TABELA
 ========================================================= */

@@ -71,6 +71,26 @@ public class ProfissionalDAO {
         }
     }
 
+    public List<Profissional> listarAtivosPorTipo(TipoProfissional tipo){
+        String sql = "SELECT * FROM profissional WHERE tipo = ? AND ativo = 1 ORDER BY nome";
+        try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
+            comando.setString(1, tipo.name());
+
+            List<Profissional> profissionais = new ArrayList<>();
+
+            try(ResultSet resultado = comando.executeQuery()){
+                while(resultado.next()){
+                    profissionais.add(montarProfissional(resultado));
+                }
+            }
+
+            return profissionais;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Profissional> listarTodos(){
         String sql = "SELECT * FROM profissional";
         try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
@@ -89,7 +109,7 @@ public class ProfissionalDAO {
     }
 
     public void atualizar(Profissional profissional){
-        String sql = "UPDATE profissional SET (nome = ?,tipo=? ,ativo=? ) WHERE id =?";
+        String sql = "UPDATE profissional SET nome = ?, tipo = ?, ativo = ? WHERE id = ?";
         try(Connection conexao = Conexao.conectar(); PreparedStatement comando = conexao.prepareStatement(sql)){
             comando.setString(1, profissional.getNome());
             comando.setString(2,profissional.getTipo().name());

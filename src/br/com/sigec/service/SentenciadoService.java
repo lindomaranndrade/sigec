@@ -3,6 +3,8 @@ package br.com.sigec.service;
 import br.com.sigec.dao.SentenciadoDAO;
 import br.com.sigec.model.Sentenciado;
 
+import java.util.List;
+
 public class SentenciadoService {
     private SentenciadoDAO sentenciadoDAO;
     private static final int TAMANHO_MINIMO_NOME = 3;
@@ -135,6 +137,10 @@ public class SentenciadoService {
         }
 
         return matriculaNormalizada;
+    }
+
+    public List<Sentenciado> listarTodos(){
+        return sentenciadoDAO.listarTodos();
     }
 
     public void atualizarNome(Sentenciado sentenciado){

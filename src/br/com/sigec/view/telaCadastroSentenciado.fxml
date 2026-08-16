@@ -10,7 +10,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.TelaCadastroSentenciadoController">
    <children>
-      <Label alignment="CENTER" prefHeight="18.0" prefWidth="599.0" styleClass="form-title" stylesheets="@style.css" text="Cadastro de Sentenciado">
+      <Label fx:id="lblTitulo" alignment="CENTER" prefHeight="18.0" prefWidth="599.0" styleClass="form-title" stylesheets="@style.css" text="Cadastro de Sentenciado">
          <VBox.margin>
             <Insets bottom="15.0" />
          </VBox.margin>

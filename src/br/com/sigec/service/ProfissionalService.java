@@ -2,6 +2,9 @@ package br.com.sigec.service;
 
 import br.com.sigec.dao.ProfissionalDAO;
 import br.com.sigec.model.Profissional;
+import br.com.sigec.model.TipoProfissional;
+
+import java.util.List;
 
 public class ProfissionalService {
     private ProfissionalDAO profissionalDAO;
@@ -29,6 +32,42 @@ public class ProfissionalService {
         validarTipoObrigatorio(profissional);
 
         profissionalDAO.inserir(profissional);
+    }
+
+    public List<Profissional> listarAtivosPorTipo(TipoProfissional tipo){
+        if(tipo == null){
+            throw new IllegalArgumentException("Tipo de profissional é obrigatório.");
+        }
+        return profissionalDAO.listarAtivosPorTipo(tipo);
+    }
+
+    public List<Profissional> listarTodos(){
+        return profissionalDAO.listarTodos();
+    }
+
+    public void atualizar(Profissional profissional){
+        validarProfissionalNulo(profissional);
+
+        validarNomeObrigatorio(profissional);
+
+        profissional.setNome(
+                profissional.getNome()
+                        .trim()
+                        .replaceAll("\\s+", " ")
+        );
+        validarTamanhoMinimoNome(profissional);
+        validarTamanhoMaximoNome(profissional);
+        validarNomeContemNumeros(profissional);
+
+        validarTipoObrigatorio(profissional);
+
+        profissionalDAO.atualizar(profissional);
+    }
+
+    public void alternarStatus(Profissional profissional){
+        validarProfissionalNulo(profissional);
+        profissional.setAtivo(!profissional.isAtivo());
+        profissionalDAO.atualizar(profissional);
     }
 
     public void validarProfissionalNulo(Profissional profissional){

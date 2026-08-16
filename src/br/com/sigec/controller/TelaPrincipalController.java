@@ -32,7 +32,19 @@ public class TelaPrincipalController {
     private Button btnInicio;
 
     @FXML
+    private Button btnFila;
+
+    @FXML
     private Button btnUsuarios;
+
+    @FXML
+    private Button btnProfissionais;
+
+    @FXML
+    private Button btnSentenciados;
+
+    @FXML
+    private Button btnBeneficios;
 
     @FXML
     public void initialize() {
@@ -48,6 +60,15 @@ public class TelaPrincipalController {
         }
     }
 
+    private void ativarMenu(Button botaoAtivo) {
+        for (Button botao : new Button[]{
+                btnInicio, btnFila, btnProfissionais, btnSentenciados, btnBeneficios, btnUsuarios
+        }) {
+            botao.getStyleClass().remove("menu-button-active");
+        }
+        botaoAtivo.getStyleClass().add("menu-button-active");
+    }
+
     public void abrirUsuarios() throws IOException {
 
         FXMLLoader loader = new FXMLLoader(
@@ -59,9 +80,49 @@ public class TelaPrincipalController {
         Parent root = loader.load();
 
         formContainer.getChildren().setAll(root);
-        btnInicio.getStyleClass().remove("menu-button-active");
-        btnUsuarios.getStyleClass().add("menu-button-active");
+        ativarMenu(btnUsuarios);
+    }
 
+    public void abrirProfissionais() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(
+                        "/br/com/sigec/view/telaGerenciarProfissionais.fxml"
+                )
+        );
+
+        Parent root = loader.load();
+
+        formContainer.getChildren().setAll(root);
+        ativarMenu(btnProfissionais);
+    }
+
+    public void abrirSentenciados() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(
+                        "/br/com/sigec/view/telaGerenciarSentenciados.fxml"
+                )
+        );
+
+        Parent root = loader.load();
+
+        formContainer.getChildren().setAll(root);
+        ativarMenu(btnSentenciados);
+    }
+
+    public void abrirBeneficios() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(
+                        "/br/com/sigec/view/telaGerenciarBeneficios.fxml"
+                )
+        );
+
+        Parent root = loader.load();
+
+        formContainer.getChildren().setAll(root);
+        ativarMenu(btnBeneficios);
     }
 
     public void sair() throws IOException{
@@ -91,8 +152,7 @@ public class TelaPrincipalController {
         root.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         VBox.setVgrow(root, Priority.ALWAYS);
         formContainer.getChildren().setAll(root);
-        btnUsuarios.getStyleClass().remove("menu-button-active");
-        btnInicio.getStyleClass().add("menu-button-active");
+        ativarMenu(btnInicio);
     }
 
     @FXML
@@ -118,8 +178,18 @@ public class TelaPrincipalController {
     }
 
     @FXML
-    public void abrirFilaAtendimentos() {
-        System.out.println("Abrir fila de atendimentos");
+    public void abrirFilaAtendimentos() throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(
+                        "/br/com/sigec/view/telaFilaAtendimentos.fxml"
+                )
+        );
+
+        Parent root = loader.load();
+
+        formContainer.getChildren().setAll(root);
+        ativarMenu(btnFila);
     }
 
 }

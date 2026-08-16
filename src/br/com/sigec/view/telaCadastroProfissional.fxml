@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="400.0" spacing="15.0" styleClass="form-container" stylesheets="@style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.TelaCadastroProfissionalController">
+   <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
+   <children>
+      <Label fx:id="lblTitulo" styleClass="form-title" stylesheets="@style.css" text="NOVO PROFISSIONAL" />
+
+      <VBox spacing="5.0">
+         <children>
+            <Label styleClass="form-label" stylesheets="@style.css" text="Nome:" />
+            <TextField fx:id="txtNome" />
+         </children>
+      </VBox>
+
+      <VBox spacing="5.0">
+         <children>
+            <Label styleClass="form-label" stylesheets="@style.css" text="Tipo:" />
+            <ComboBox fx:id="cbTipo" maxWidth="Infinity" promptText="Selecione o tipo" />
+         </children>
+      </VBox>
+
+      <CheckBox fx:id="chkAtivo" selected="true" text="Ativo" />
+
+      <Label fx:id="lblMensagemErro" styleClass="validation-message" stylesheets="@style.css" text="" visible="false" managed="false" wrapText="true" />
+
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
+         <children>
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" styleClass="secondary-button" stylesheets="@style.css" text="Cancelar" />
+            <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#salvar" styleClass="form-button" stylesheets="@style.css" text="Salvar" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -5,6 +5,7 @@ import br.com.sigec.model.Reiteracao;
 import br.com.sigec.model.StatusPedidoExame;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ReiteracaoService {
     private static final int TAMANHO_MAXIMO_OBSERVACAO = 100;
@@ -51,6 +52,20 @@ public class ReiteracaoService {
         validarUsuarioAtivo(reiteracao);
 
         reiteracaoDAO.atualizar(reiteracao);
+    }
+
+    public List<Reiteracao> listarPorPedido(int idPedidoExame){
+        return reiteracaoDAO.listarPorPedido(idPedidoExame);
+    }
+
+    public List<Reiteracao> listarPorPedidos(List<Integer> idsPedidoExame){
+        return reiteracaoDAO.listarPorPedidos(idsPedidoExame);
+    }
+
+    public boolean permiteReiteracao(StatusPedidoExame status){
+        return status != StatusPedidoExame.CANCELADO
+                && status != StatusPedidoExame.CONCLUIDO
+                && status != StatusPedidoExame.TRANSFERIDO;
     }
 
     private void validarIdValido(Reiteracao reiteracao){

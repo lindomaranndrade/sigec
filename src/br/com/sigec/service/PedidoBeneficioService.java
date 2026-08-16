@@ -4,12 +4,18 @@ import br.com.sigec.dao.PedidoBeneficioDAO;
 import br.com.sigec.model.PedidoBeneficio;
 import br.com.sigec.model.StatusPedidoExame;
 
+import java.util.List;
+
 public class PedidoBeneficioService {
     private PedidoBeneficioDAO pedidoBeneficioDAO;
 
     public PedidoBeneficioService(){
         this.pedidoBeneficioDAO = new PedidoBeneficioDAO();
 
+    }
+
+    public List<PedidoBeneficio> listarPorPedidosExame(List<Integer> idsPedidoExame){
+        return pedidoBeneficioDAO.listarPorPedidosExame(idsPedidoExame);
     }
 
     public void inserir(PedidoBeneficio pedidoBeneficio){

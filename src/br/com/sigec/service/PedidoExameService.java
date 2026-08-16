@@ -81,6 +81,17 @@ public class PedidoExameService {
         return pedidoExameDAO.listarPendendes();
     }
 
+    public List<PedidoExame> listarTodos() {
+        return pedidoExameDAO.listarTodos();
+    }
+
+    public List<PedidoExame> buscarPorMatricula(String matricula) {
+        if (matricula == null || matricula.trim().isEmpty()) {
+            throw new IllegalArgumentException("Matrícula é obrigatória.");
+        }
+        return pedidoExameDAO.buscarPorMatricula(matricula.trim());
+    }
+
     private void validarPedidoNaoConcluido(PedidoExame pedidoExame) {
 
         if (pedidoExame.getStatus() == StatusPedidoExame.CONCLUIDO) {

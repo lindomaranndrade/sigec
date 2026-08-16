@@ -95,6 +95,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
+                              <Label fx:id="lblMensagemConcluido" managed="false" styleClass="status-badge, status-realizada" stylesheets="@style.css" text="Exame concluído." visible="false" wrapText="true" />
                            </children>
                         </VBox>
                      </children>
@@ -255,9 +256,9 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnReiterar" alignment="CENTER" mnemonicParsing="false" styleClass="secondary-button" stylesheets="@style.css" text="Reiterar" HBox.hgrow="NEVER" />
-            <Button fx:id="btnConcluir" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="danger-button" stylesheets="@style.css" text="Concluir" />
-            <Button fx:id="btnFechar" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" styleClass="form-button" stylesheets="@style.css" text="Fechar" />
+            <Button fx:id="btnReiterar" alignment="CENTER" mnemonicParsing="false" onAction="#reiterar" styleClass="secondary-button" stylesheets="@style.css" text="Reiterar" HBox.hgrow="NEVER" />
+            <Button fx:id="btnConcluir" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#concluir" styleClass="danger-button" stylesheets="@style.css" text="Concluir" />
+            <Button fx:id="btnFechar" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" onAction="#fechar" styleClass="form-button" stylesheets="@style.css" text="Fechar" />
          </children>
       </HBox>
    </bottom>
