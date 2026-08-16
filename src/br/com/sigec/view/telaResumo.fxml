@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.ResumoPedidoController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sigec.controller.ResumoPedidoController">
    <center>
       <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="926.0" BorderPane.alignment="CENTER">
          <content>
@@ -110,27 +110,35 @@
                         <Label fx:id="lblCriminologico" styleClass="form-title" stylesheets="@style.css" text="EXAME CRIMINOLÓGICO" />
                         <HBox fx:id="hboxAtendimentos" alignment="CENTER" spacing="20.0">
                            <children>
-                              <VBox fx:id="vboxAtendimentoPsicologo" prefHeight="200.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+
+                              <!-- ===================== ATENDIMENTO - PSICÓLOGO ===================== -->
+                              <VBox fx:id="vboxAtendimentoPsicologo" prefHeight="260.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
                                  <children>
                                     <Label fx:id="lblTituloAtendimento" styleClass="form-label" stylesheets="@style.css" text="ATENDIMENTO — PSICÓLOGO" />
                                     <VBox fx:id="vboxProfissional">
                                        <children>
                                           <Label fx:id="lblProfissional" text="Profissional:" />
-                                          <Label fx:id="lblValorProfissional" text="Nome do profissional" />
+                                          <Label fx:id="lblValorProfissional" text="Não definido" />
                                        </children>
                                     </VBox>
-                                    <HBox fx:id="hboxDadosAtendimento" spacing="30.0">
+                                    <HBox fx:id="hboxDadosAtendimento" spacing="20.0">
                                        <children>
-                                          <VBox fx:id="vboxDataAtendimento">
+                                          <VBox fx:id="vboxDataAgendamento">
                                              <children>
-                                                <Label fx:id="lblDataAtendimento" text="Data:" />
-                                                <Label fx:id="lblValorDataAtendimento" text="15/08/2026" />
+                                                <Label fx:id="lblDataAgendamento" text="Data Agendada:" />
+                                                <Label fx:id="lblValorDataAgendamento" text="-" />
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="vboxDataRealizacao">
+                                             <children>
+                                                <Label fx:id="lblDataRealizacao" text="Data Realizada:" />
+                                                <Label fx:id="lblValorDataRealizacao" text="-" />
                                              </children>
                                           </VBox>
                                           <VBox fx:id="vboxLaudo">
                                              <children>
                                                 <Label fx:id="lblLaudo" text="Laudo:" />
-                                                <Label fx:id="lblValorLaudo" text="Entregue" />
+                                                <Label fx:id="lblValorLaudo" text="Pendente" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -138,38 +146,53 @@
                                     <VBox fx:id="vboxStatusAtendimento">
                                        <children>
                                           <Label fx:id="lblStatusAtendimento" text="Status:" />
-                                          <Label fx:id="lblValorStatusAtendimento" text="Concluído" />
+                                          <Label fx:id="lblValorStatusAtendimento" styleClass="status-badge, status-pendente" text="Pendente" />
                                        </children>
                                     </VBox>
+                                    <HBox fx:id="hboxAcoesPsicologo" spacing="10.0">
+                                       <children>
+                                          <Button fx:id="btnAgendarPsicologo" mnemonicParsing="false" onAction="#agendarPsicologo" styleClass="form-button" stylesheets="@style.css" text="Agendar" />
+                                          <Button fx:id="btnRegistrarRealizacaoPsicologo" mnemonicParsing="false" onAction="#registrarRealizacaoPsicologo" styleClass="secondary-button" stylesheets="@style.css" text="Registrar Realização" />
+                                          <Button fx:id="btnCancelarPsicologo" mnemonicParsing="false" onAction="#cancelarPsicologo" styleClass="danger-button" stylesheets="@style.css" text="Cancelar" />
+                                       </children>
+                                    </HBox>
                                  </children>
                                  <padding>
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                  </padding>
                               </VBox>
-                              <VBox fx:id="vboxAtendimentoAssistenteSocial" prefHeight="200.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
+
+                              <!-- ===================== ATENDIMENTO - ASSISTENTE SOCIAL ===================== -->
+                              <VBox fx:id="vboxAtendimentoAssistenteSocial" prefHeight="260.0" prefWidth="350.0" spacing="10.0" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8; -fx-border-color: #D9DEE5; -fx-border-radius: 8; -fx-border-width: 1;">
                                  <children>
                                     <Label fx:id="lblTituloAtendimento1" styleClass="form-label" stylesheets="@style.css" text="ATENDIMENTO — ASSISTENTE SOCIAL" />
                                     <VBox fx:id="vboxProfissionalAssistenteSocial">
                                        <children>
                                           <Label fx:id="lblProfissionalAssistenteSocial" text="Profissional:" />
-                                          <Label fx:id="lblValorProfissionalAssistenteSocial" text="Nome do profissional" />
+                                          <Label fx:id="lblValorProfissionalAssistenteSocial" text="Não definido" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
                                     </VBox>
-                                    <HBox fx:id="hboxDadosAtendimentoAssistenteSocial" spacing="30.0">
+                                    <HBox fx:id="hboxDadosAtendimentoAssistenteSocial" spacing="20.0">
                                        <children>
-                                          <VBox fx:id="vboxDataAtendimentoAssistenteSocial">
+                                          <VBox fx:id="vboxDataAgendamentoSocial">
                                              <children>
-                                                <Label fx:id="lblDataAtendimentoSocial" text="Data:" />
-                                                <Label fx:id="lblValorDataAtendimentoSocial" text="15/08/2026" />
+                                                <Label fx:id="lblDataAgendamentoSocial" text="Data Agendada:" />
+                                                <Label fx:id="lblValorDataAgendamentoSocial" text="-" />
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="vboxDataRealizacaoSocial">
+                                             <children>
+                                                <Label fx:id="lblDataRealizacaoSocial" text="Data Realizada:" />
+                                                <Label fx:id="lblValorDataRealizacaoSocial" text="-" />
                                              </children>
                                           </VBox>
                                           <VBox fx:id="vboxLaudoAssistenteSocial">
                                              <children>
                                                 <Label fx:id="lblLaudoSocial" text="Laudo:" />
-                                                <Label fx:id="lblValorLaudoSocial" text="Entregue" />
+                                                <Label fx:id="lblValorLaudoSocial" text="Pendente" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -177,14 +200,22 @@
                                     <VBox fx:id="vboxStatusAtendimentoAssistenteSocial">
                                        <children>
                                           <Label fx:id="lblStatusAtendimentoSocial" text="Status:" />
-                                          <Label fx:id="lblValorStatusAtendimentoSocial" text="Concluído" />
+                                          <Label fx:id="lblValorStatusAtendimentoSocial" styleClass="status-badge, status-pendente" text="Pendente" />
                                        </children>
                                     </VBox>
+                                    <HBox fx:id="hboxAcoesSocial" spacing="10.0">
+                                       <children>
+                                          <Button fx:id="btnAgendarSocial" mnemonicParsing="false" onAction="#agendarSocial" styleClass="form-button" stylesheets="@style.css" text="Agendar" />
+                                          <Button fx:id="btnRegistrarRealizacaoSocial" mnemonicParsing="false" onAction="#registrarRealizacaoSocial" styleClass="secondary-button" stylesheets="@style.css" text="Registrar Realização" />
+                                          <Button fx:id="btnCancelarSocial" mnemonicParsing="false" onAction="#cancelarSocial" styleClass="danger-button" stylesheets="@style.css" text="Cancelar" />
+                                       </children>
+                                    </HBox>
                                  </children>
                                  <padding>
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                  </padding>
                               </VBox>
+
                            </children>
                         </HBox>
                      </children>

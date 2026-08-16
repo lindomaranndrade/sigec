@@ -7,22 +7,27 @@ import java.time.LocalDate;
 public class Entrevista {
     private int id;
     private PedidoExame pedidoExame;
-    private Profissional profissional;
-    private LocalDate dataEntrevista;
+    private TipoProfissional tipoAtendimento;
+    private Profissional profissional;      // pode ser null enquanto PENDENTE_AGENDAMENTO
+    private StatusEntrevista status;
+    private LocalDate dataAgendamento;       // pode ser null enquanto PENDENTE_AGENDAMENTO
+    private LocalDate dataRealizacao;        // só preenchida quando REALIZADA
     private Usuario usuario;
     private LocalDate dataEntregaLaudo;
     private LocalDate dataCadastro;
-    // se a data de entrega estiver diferente de null é pq foi entregue
 
-    public Entrevista(){
-
+    public Entrevista() {
     }
 
-
-    public Entrevista(PedidoExame pedido, Profissional profissional, LocalDate dataEntrevista){
+    /**
+     * Cria uma entrevista "vazia", ainda na fila, sem profissional
+     * nem data definidos. Use este construtor quando o PedidoExame
+     * é criado e o sistema gera automaticamente as entrevistas exigidas.
+     */
+    public Entrevista(PedidoExame pedido, TipoProfissional tipoAtendimento) {
         this.pedidoExame = pedido;
-        this.profissional = profissional;
-        this.dataEntrevista = dataEntrevista;
+        this.tipoAtendimento = tipoAtendimento;
+        this.status = StatusEntrevista.PENDENTE_AGENDAMENTO;
         this.usuario = SessaoUsuario.getUsuarioLogado();
         this.dataCadastro = LocalDate.now();
     }
@@ -43,6 +48,14 @@ public class Entrevista {
         this.pedidoExame = pedidoExame;
     }
 
+    public TipoProfissional getTipoAtendimento() {
+        return tipoAtendimento;
+    }
+
+    public void setTipoAtendimento(TipoProfissional tipoAtendimento) {
+        this.tipoAtendimento = tipoAtendimento;
+    }
+
     public Profissional getProfissional() {
         return profissional;
     }
@@ -51,12 +64,28 @@ public class Entrevista {
         this.profissional = profissional;
     }
 
-    public LocalDate getDataEntrevista() {
-        return dataEntrevista;
+    public StatusEntrevista getStatus() {
+        return status;
     }
 
-    public void setDataEntrevista(LocalDate dataEntrevista) {
-        this.dataEntrevista = dataEntrevista;
+    public void setStatus(StatusEntrevista status) {
+        this.status = status;
+    }
+
+    public LocalDate getDataAgendamento() {
+        return dataAgendamento;
+    }
+
+    public void setDataAgendamento(LocalDate dataAgendamento) {
+        this.dataAgendamento = dataAgendamento;
+    }
+
+    public LocalDate getDataRealizacao() {
+        return dataRealizacao;
+    }
+
+    public void setDataRealizacao(LocalDate dataRealizacao) {
+        this.dataRealizacao = dataRealizacao;
     }
 
     public Usuario getUsuario() {
@@ -87,10 +116,13 @@ public class Entrevista {
     public String toString() {
         return "Entrevista{" +
                 "id=" + id +
-                ", pedidoExame=" + pedidoExame.toString() +
+                ", pedidoExame=" + pedidoExame +
+                ", tipoAtendimento=" + tipoAtendimento +
                 ", profissional=" + profissional +
-                ", dataEntrevista=" + dataEntrevista +
-                ", usuario=" + usuario.toString() +
+                ", status=" + status +
+                ", dataAgendamento=" + dataAgendamento +
+                ", dataRealizacao=" + dataRealizacao +
+                ", usuario=" + usuario +
                 ", dataEntregaLaudo=" + dataEntregaLaudo +
                 ", dataCadastro=" + dataCadastro +
                 '}';

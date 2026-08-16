@@ -39,6 +39,14 @@
                     stylesheets="@style.css"
                     text="Inicio"
                     styleClass="menu-button" />
+            <Button
+                    fx:id="btnFila"
+                    mnemonicParsing="false"
+                    onAction="#abrirFilaAtendimentos"
+                    prefHeight="50.0"
+                    stylesheets="@style.css"
+                    text="Fila de Atendimentos"
+                    styleClass="menu-button" />
             <Button mnemonicParsing="false" styleClass="menu-button" stylesheets="@style.css" text="Sentenciados" />
             <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#abrirUsuarios" styleClass="menu-button" text="Usuarios" />
             <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />

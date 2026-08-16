@@ -437,3 +437,34 @@ TABELA DE EXAMES
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
+
+/* =========================================================
+   BADGE DE STATUS DO ATENDIMENTO
+========================================================= */
+
+.status-badge {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 12;
+}
+
+.status-pendente {
+    -fx-background-color: #EAECEE;
+    -fx-text-fill: #7F8C8D;
+}
+
+.status-agendada {
+    -fx-background-color: #FCF3CF;
+    -fx-text-fill: #B7950B;
+}
+
+.status-realizada {
+    -fx-background-color: #EAF4EC;
+    -fx-text-fill: #236B43;
+}
+
+.status-cancelada {
+    -fx-background-color: #FADBD8;
+    -fx-text-fill: #A93226;
+}

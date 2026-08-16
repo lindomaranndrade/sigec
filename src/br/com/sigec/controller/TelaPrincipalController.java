@@ -117,4 +117,9 @@ public class TelaPrincipalController {
         }
     }
 
+    @FXML
+    public void abrirFilaAtendimentos() {
+        System.out.println("Abrir fila de atendimentos");
+    }
+
 }
