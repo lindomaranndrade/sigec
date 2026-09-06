@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RELATÓRIO DE ESTADO ATUAL — SIGEC</title>
+<style>
+:root{
+  --bg:#f7f8fa; --panel:#ffffff; --text:#1b2230; --muted:#5b6472;
+  --border:#e2e5ea; --accent:#0b2a5b; --accent2:#082B63;
+  --code-bg:#eef1f6; --warn-bg:#fff7e6; --warn-border:#f0b429;
+  --table-head:#0b2a5b; --table-head-text:#ffffff; --table-alt:#f4f6f9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+  line-height:1.65; font-size:16px;
+}
+.page{max-width:900px;margin:0 auto;padding:48px 56px 96px}
+.report-header{
+  background:linear-gradient(135deg,var(--accent2),#123a7a);
+  color:#fff; padding:36px 56px; margin-bottom:0;
+}
+.report-header h1{margin:0 0 8px; font-size:1.6rem; letter-spacing:.02em}
+.report-header .meta{font-size:.92rem; opacity:.92}
+.panel{background:var(--panel); border:1px solid var(--border); border-radius:0 0 10px 10px; padding:8px 56px 40px}
+h1{font-size:1.5rem;color:var(--accent2);border-bottom:2px solid var(--accent2);padding-bottom:8px;margin-top:2.2em}
+h2{font-size:1.28rem;color:var(--accent2);margin-top:2.2em;border-bottom:1px solid var(--border);padding-bottom:6px}
+h3{font-size:1.08rem;color:var(--accent);margin-top:1.8em}
+h4{font-size:.98rem;color:var(--accent);margin-top:1.5em}
+p{margin:0.9em 0}
+strong{color:var(--accent2)}
+code{
+  background:var(--code-bg); color:#3a2a00; padding:.12em .38em; border-radius:4px;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace; font-size:.88em;
+}
+pre{background:var(--code-bg); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--border)}
+pre code{background:none;padding:0}
+blockquote{
+  background:var(--warn-bg); border-left:4px solid var(--warn-border);
+  margin:1.4em 0; padding:.9em 1.2em; border-radius:0 6px 6px 0; color:#4a3b00;
+}
+blockquote p{margin:.4em 0}
+table{border-collapse:collapse;width:100%;margin:1.4em 0;font-size:.92rem;display:block;overflow-x:auto;white-space:normal}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;vertical-align:top}
+thead th{background:var(--table-head);color:var(--table-head-text)}
+tbody tr:nth-child(even){background:var(--table-alt)}
+ul,ol{padding-left:1.5em}
+li{margin:.35em 0}
+hr{border:none;border-top:1px solid var(--border);margin:2.4em 0}
+a{color:var(--accent)}
+.toc-wrap{background:var(--table-alt);border:1px solid var(--border);border-radius:8px;padding:18px 24px;margin:1.6em 0}
+.toc-wrap summary{cursor:pointer;font-weight:600;color:var(--accent2)}
+.toc-wrap ol{margin-top:.8em}
+@media print{
+  body{background:#fff}
+  .page{max-width:none;padding:0}
+  .report-header{background:var(--accent2) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="report-header">
+  <h1>RELATÓRIO DE ESTADO ATUAL — SIGEC</h1>
+  <div class="meta">Relatório de estado atual do projeto SIGEC — gerado por análise assistida por IA (Claude)</div>
+</div>
+<div class="page">
+<div class="panel">
+<p><strong>Data da análise:</strong> 06/09/2026 (revisada três vezes no mesmo dia: 1ª revisão após confirmação do schema real do banco; 2ª revisão após o usuário reportar que a adequação de <code>Entrevista</code>/<code>EntrevistaDAO</code>/<code>EntrevistaService</code> havia sido executada — baseada apenas nesse relato, sem releitura de código; 3ª revisão — esta — após acesso direto e leitura dos arquivos atualizados na pasta do projeto no computador do usuário, confirmando o que a 2ª revisão havia tratado como reportado) <strong>Projeto analisado:</strong> <code>C:\Users\Lindomar\Documents\SIGEC\SIGEC</code> <strong>Método:</strong> leitura direta dos arquivos do projeto (código-fonte, FXML, arquivos de configuração do IntelliJ e do Git), via acesso de leitura à pasta do projeto no computador do usuário. Nenhum arquivo do projeto foi alterado, criado ou excluído durante esta análise (em nenhuma das três revisões) — apenas cópias de leitura foram utilizadas para exame. O único arquivo criado foi este relatório. Adicionalmente, o usuário forneceu um script <code>.sql</code> gerado pelo SSMS ("Generate Scripts") com a estrutura <strong>real e atual</strong> do banco <code>SIGEC</code> (tabelas, chaves e constraints), que foi usado para confirmar ou corrigir os pontos que a versão inicial deste relatório havia marcado como "Não confirmado" a partir apenas do script <code>banco/scripts/01_criacao_banco.sql</code> versionado no projeto (esse script se mostrou desatualizado — ver seção 7).</p>
+<p>Este relatório reflete <strong>exclusivamente</strong> o que foi encontrado no código do projeto e nesse script de schema real. Onde ainda não foi possível confirmar algo, isso está marcado explicitamente como <strong>"Não confirmado"</strong>. Trechos marcados como <em>inferência</em> são conclusões do analista a partir de evidências indiretas, não fatos diretamente lidos no código/schema.</p>
+<blockquote>
+<p><strong>⚠️ Nota sobre a 3ª revisão (importante para a disciplina fato vs. inferência deste relatório):</strong> a 2ª revisão havia atualizado o relatório com base apenas no relato do usuário de que a adequação de Entrevista (especificada em <code>PROMPT_ADEQUACAO_ENTREVISTA_SIGEC.md</code>) tinha sido executada, sem reler o código — todos os trechos correspondentes estavam marcados como "conforme especificação/reportado pelo usuário". Nesta 3ª revisão, o código atual do projeto foi <strong>efetivamente lido de volta</strong>, diretamente da pasta do projeto no computador do usuário: <code>model/Entrevista.java</code>, <code>model/StatusEntrevista.java</code> (arquivo novo), <code>dao/EntrevistaDAO.java</code>, <code>service/EntrevistaService.java</code>, <code>dao/TesteEntrevistaDAO.java</code>, <code>service/EntrevistaServiceTeste.java</code> e <code>service/PedidoExameService.java</code> foram lidos por inteiro; <code>controller/TelaExamesPendentesController.java</code> e <code>view/telaExamesPendentes.fxml</code> foram lidos para confirmar que nenhuma tela foi ligada ao novo backend; e <code>banco/scripts/01_criacao_banco.sql</code> foi conferido (mesmo tamanho e data de modificação do arquivo original — <strong>confirmado que não foi alterado</strong>). <strong>O que estava marcado como "conforme especificação/reportado pelo usuário" nas seções abaixo agora está confirmado por leitura direta do código atual</strong> e o texto foi atualizado de acordo. Uma ressalva permanece: <strong>o código foi lido, mas não foi executado</strong> contra o banco de dados real nesta análise (nem nas revisões anteriores) — ou seja, a compilação e o comportamento em tempo de execução (rodar <code>TesteEntrevistaDAO.main()</code>, por exemplo) continuam <strong>não confirmados</strong>, apenas verificados por leitura/inspeção do SQL e da lógica Java. As duas restrições de escopo definidas pelo usuário continuam confirmadas como respeitadas: (1) <code>banco/scripts/01_criacao_banco.sql</code> não foi alterado — continua desatualizado (seção 7.1); (2) nenhuma tela/Controller foi ligada ao novo backend de Entrevista — a funcionalidade continua sem UI.</p>
+</blockquote>
+<hr />
+<h2 id="1-visão-geral-do-sigec">1. VISÃO GERAL DO SIGEC</h2>
+<p><strong>Objetivo do sistema</strong> (conforme descrito no <code>README.md</code> do próprio projeto): o SIGEC — Sistema Integrado de Gestão de Execução Criminal — é um sistema desktop em Java para apoiar o gerenciamento de processos da execução penal, especificamente o fluxo de <strong>pedidos de exame criminológico</strong> de sentenciados (pessoas cumprindo pena), incluindo o vínculo desses pedidos a benefícios da execução penal (ex.: progressão de regime), o agendamento/registro de atendimentos por profissionais (psicólogo e assistente social) e o registro de reiterações (cobranças/insistências sobre pedidos pendentes).</p>
+<p><strong>Problema que resolve</strong> (inferência a partir do domínio modelado): controlar, de forma centralizada, quais sentenciados têm pedidos de exame criminológico em aberto, quais benefícios estão vinculados a cada pedido, se os atendimentos com os profissionais responsáveis já ocorreram, e permitir reiterar pedidos que estão demorando — substituindo um controle manual (ex.: planilhas), tal como mencionado no próprio código (há referência a "coluna de Psiquiatra" da "planilha da penitenciária" em conhecimento de contexto do usuário, mas isso não está documentado no código-fonte em si).</p>
+<p><strong>Contexto de utilização:</strong> o README declara explicitamente que o projeto foi concebido como um <strong>projeto de aprendizado prático</strong> ("com o objetivo de aprofundar conhecimentos em Java, Programação Orientada a Objetos, JDBC e SQL Server"), simulando um cenário próximo de aplicações corporativas reais, e evitando deliberadamente frameworks de persistência (Hibernate/JPA) para entender a camada JDBC manualmente. Portanto, o "usuário final" declarado do sistema é o próprio autor, no papel de administrador/usuário do órgão prisional.</p>
+<p><strong>Como o sistema funciona, de forma geral (fluxo real confirmado no código):</strong></p>
+<ol type="1">
+<li>O usuário abre a aplicação e vê uma tela de login.</li>
+<li>Após autenticação, é levado a uma tela principal com menu lateral (Início, Usuários, Sair) e uma área de conteúdo central que troca de tela sem abrir novas janelas.</li>
+<li>Por padrão, a tela inicial mostra os <strong>pedidos de exame pendentes</strong> (status <code>CADASTRADO</code> ou <code>SOLICITADO</code>).</li>
+<li>A partir dali é possível cadastrar um novo pedido de exame, vinculando um sentenciado (localizado por matrícula, ou cadastrado na hora se não existir) e um ou mais benefícios.</li>
+<li>Funcionalidades de atendimento (entrevista com profissional), reiteração e conclusão de pedido <strong>existem na camada de regras de negócio (Service/DAO)</strong>, mas — como detalhado nas seções 6 e 10 — <strong>não possuem tela funcional que as acione</strong> no estado atual do código.</li>
+</ol>
+<hr />
+<h2 id="2-tecnologias">2. TECNOLOGIAS</h2>
+<p>Tecnologias efetivamente identificadas nos arquivos de configuração e no código:</p>
+<ul>
+<li><strong>Java 21</strong> — confirmado em <code>.idea/misc.xml</code> (<code>languageLevel="JDK_21"</code>, <code>project-jdk-name="ms-21"</code>, sugerindo o Microsoft Build of OpenJDK 21). O README também declara "Java 21".</li>
+<li><strong>JavaFX 17.0.12 (build "win")</strong> — confirmado em <code>.idea/libraries/javafx.xml</code>, que referencia os jars <code>javafx-base</code>, <code>javafx-graphics</code>, <code>javafx-controls</code> e <code>javafx-fxml</code>, todos na versão <code>17.0.12</code>, localizados no repositório Maven local do usuário (<code>$USER_HOME$/.m2/repository/org/openjfx/...</code>). <strong>Observação:</strong> os arquivos FXML declaram <code>xmlns="http://javafx.com/javafx/26"</code> (namespace de versão 26), o que diverge da versão 17.0.12 efetivamente usada em tempo de execução — ver item 10 (inconsistência de metadados, provavelmente por causa da versão do Scene Builder usada para editar os FXML).</li>
+<li><strong>FXML + Scene Builder</strong> — todas as telas são definidas em arquivos <code>.fxml</code> carregados via <code>FXMLLoader</code>.</li>
+<li><strong>JavaFX CSS</strong> — um único arquivo <code>style.css</code> compartilhado entre as telas, aplicando um tema de dashboard administrativo (paleta azul-marinho <code>#082B63</code>/<code>#0b2a5b</code>, cantos arredondados, sombras).</li>
+<li><strong>JDBC puro</strong> (sem ORM) — confirmado em toda a camada <code>dao/</code>, que usa <code>java.sql.Connection</code>, <code>PreparedStatement</code>, <code>ResultSet</code> diretamente, com blocos <code>try-with-resources</code>.</li>
+<li><strong>Driver JDBC:</strong> <code>mssql-jdbc-13.4.0.jre11.jar</code> (Microsoft JDBC Driver para SQL Server), incluído diretamente na pasta <code>lib/</code> do projeto (não via gerenciador de dependências).</li>
+<li><strong>Banco de dados:</strong> SQL Server (confirmado pela URL de conexão <code>jdbc:sqlserver://localhost:1433;databaseName=SIGEC;...</code> em <code>Conexao.java</code> e pela sintaxe T-SQL do script de criação, ex.: <code>IDENTITY(1,1)</code>, tipo <code>BIT</code>).</li>
+<li><strong>jBCrypt 0.4</strong> (<code>org.mindrot.jbcrypt</code>) — usado para hash de senha de usuário (<code>UsuarioService</code>).</li>
+<li><strong>Git</strong> — repositório Git presente (pasta <code>.git</code> com histórico de commits, <code>FETCH_HEAD</code>, <code>ORIG_HEAD</code>, etc.), confirmando uso de controle de versão. <strong>Não confirmado</strong> o estado do repositório remoto (branches, se está sincronizado) nem o conteúdo detalhado do histórico de commits — essa análise não examinou o log de commits em profundidade.</li>
+<li><strong>IntelliJ IDEA</strong> como IDE — projeto estruturado como módulo IntelliJ (<code>SIGEC.iml</code>, pasta <code>.idea/</code>), <strong>sem</strong> Maven (<code>pom.xml</code>) nem Gradle (<code>build.gradle</code>) no projeto. As dependências do JavaFX e do jBCrypt são resolvidas como bibliotecas de projeto do IntelliJ apontando para jars já baixados no repositório Maven local do usuário — ou seja, o projeto não tem um mecanismo de build automatizado e portátil (ver seção 11).</li>
+</ul>
+<p>Não foram encontradas nesta análise: frameworks de injeção de dependência, frameworks de teste (JUnit/TestNG/Mockito — nenhuma dependência ou import desse tipo foi localizado), logging estruturado (todo o log é via <code>System.out.println</code>/<code>e.printStackTrace()</code>), nem qualquer camada REST/web.</p>
+<hr />
+<h2 id="3-estrutura-do-projeto">3. ESTRUTURA DO PROJETO</h2>
+<pre><code>SIGEC/
+├── README.md
+├── SIGEC.iml                          (módulo IntelliJ)
+├── .idea/                             (config. do IntelliJ: SDK, libraries, run configuration)
+├── .gitignore
+├── lib/
+│   └── mssql-jdbc-13.4.0.jre11.jar    (driver JDBC versionado no projeto)
+├── out/                               (build output do IntelliJ — artefato de compilação, ignorado no Git)
+├── banco/
+│   ├── modelos/
+│   │   ├── modelo_conceitual.drawio + .jpg
+│   │   └── modelo_logico.drawio + .jpg
+│   └── scripts/
+│       └── 01_criacao_banco.sql       (único script SQL encontrado)
+└── src/br/com/sigec/
+    ├── Main.java                      (ponto de entrada JavaFX)
+    ├── controller/                    (8 classes) — controllers JavaFX ligados aos FXML
+    ├── dao/                           (8 DAOs + 8 classes &quot;Teste*DAO&quot;)
+    ├── service/                       (8 Services + 8 classes &quot;*ServiceTeste&quot; + TesteBcrypt)
+    ├── model/                         (8 classes de entidade + 2 enums)
+    ├── session/                       (SessaoUsuario — sessão do usuário logado)
+    ├── util/                          (Conexao — fábrica de conexão JDBC; TesteConexao)
+    ├── view/                          (9 arquivos .fxml + style.css)
+    └── images/                        (7 imagens PNG usadas nas telas)</code></pre>
+<p><strong>Responsabilidade de cada pacote:</strong></p>
+<ul>
+<li><strong><code>controller</code></strong> — classes JavaFX (<code>@FXML</code>) que respondem a eventos de UI (cliques, submissão de formulário) e chamam a camada <code>service</code>. Contém: <code>LoginController</code>, <code>TelaPrincipalController</code>, <code>TelaExamesPendentesController</code>, <code>TelaNovoPedidoController</code>, <code>TelaCadastroSentenciadoController</code>, <code>CadastroUsuarioController</code>, <code>TelaAlterarSenhaController</code>, <code>ResumoPedidoController</code>.</li>
+<li><strong><code>dao</code></strong> — acesso direto ao banco via JDBC, um DAO por entidade principal (<code>UsuarioDAO</code>, <code>SentenciadoDAO</code>, <code>BeneficioDAO</code>, <code>PedidoExameDAO</code>, <code>PedidoBeneficioDAO</code>, <code>ReiteracaoDAO</code>, <code>EntrevistaDAO</code>, <code>ProfissionalDAO</code>), cada um com métodos <code>inserir</code>, <code>buscarPorId</code>, <code>listarTodos</code>, <code>atualizar</code>, <code>excluir</code> (nem todos implementam todos esses métodos — variação caso a caso). Também contém 8 classes <code>Teste&lt;Entidade&gt;DAO</code> com método <code>main</code>, usadas manualmente para validar cada DAO durante o desenvolvimento (não são testes automatizados).</li>
+<li><strong><code>service</code></strong> — regras de negócio e validações (obrigatoriedade de campos, tamanhos mínimos/máximos, duplicidade, transições de status permitidas), intermediando <code>controller</code> e <code>dao</code>. Um Service por entidade principal, espelhando os DAOs. Também contém 8 classes <code>*ServiceTeste</code> com método <code>main</code> (testes manuais dos Services, incluindo fluxos de erro) e <code>TesteBcrypt</code> (teste manual de hashing de senha).</li>
+<li><strong><code>model</code></strong> — classes de domínio simples (POJOs), sem anotações de framework, com getters/setters e <code>toString()</code>. Entidades: <code>Usuario</code>, <code>Sentenciado</code>, <code>Beneficio</code>, <code>Profissional</code>, <code>PedidoExame</code>, <code>PedidoBeneficio</code> (associação N:N), <code>Reiteracao</code>, <code>Entrevista</code>. Enums: <code>StatusPedidoExame</code> (<code>CADASTRADO</code>, <code>SOLICITADO</code>, <code>CONCLUIDO</code>, <code>CANCELADO</code>, <code>TRANSFERIDO</code>) e <code>TipoProfissional</code> (<code>PSICOLOGO</code>, <code>ASSISTENTE_SOCIAL</code>).</li>
+<li><strong><code>session</code></strong> — classe estática única <code>SessaoUsuario</code>, guarda o <code>Usuario</code> atualmente logado em memória (não há gerenciamento de sessão multiusuário — é uma aplicação desktop single-user por instância).</li>
+<li><strong><code>util</code></strong> — <code>Conexao</code> (única fábrica de <code>java.sql.Connection</code>, com URL/usuário/senha do SQL Server fixos no código) e <code>TesteConexao</code> (classe manual para testar a conectividade).</li>
+<li><strong><code>view</code></strong> — os arquivos <code>.fxml</code> de cada tela e o <code>style.css</code> compartilhado.</li>
+<li><strong><code>images</code></strong> — imagens estáticas (logo, ícones de usuário/senha, planos de fundo) usadas nos FXML.</li>
+</ul>
+<hr />
+<h2 id="4-arquitetura">4. ARQUITETURA</h2>
+<p>O README declara a seguinte arquitetura em camadas:</p>
+<pre><code>View (FXML)
+ ↓
+Controller
+ ↓
+Service
+ ↓
+DAO
+ ↓
+SQL Server</code></pre>
+<p><strong>Essa arquitetura é, no geral, confirmada pelo código</strong>: todos os controllers instanciam e chamam classes <code>Service</code> (nunca <code>DAO</code> diretamente para operações de escrita/validação), e todos os <code>Service</code> instanciam e chamam classes <code>DAO</code>, que por sua vez usam <code>util.Conexao</code> para obter a conexão JDBC.</p>
+<p><strong>Exceções/desvios encontrados em relação a essa arquitetura declarada:</strong></p>
+<ul>
+<li><code>TelaNovoPedidoController.pesquisarSentenciado()</code> instancia <code>SentenciadoDAO</code> <strong>diretamente</strong> (<code>new SentenciadoDAO()</code>) para buscar um sentenciado por matrícula, <strong>pulando a camada <code>SentenciadoService</code></strong>. É o único ponto do código onde um <code>Controller</code> acessa um <code>DAO</code> sem passar por um <code>Service</code>.</li>
+<li><code>session.SessaoUsuario</code> também instancia <code>UsuarioDAO</code> diretamente (fora do padrão Controller→Service→DAO, mas isso é esperado, já que <code>SessaoUsuario</code> não é um Controller).</li>
+<li>Não existe uma camada de "Model" no sentido MVC (o pacote <code>model</code> é apenas o conjunto de entidades/DTOs, não contém lógica de apresentação).</li>
+<li>Não há injeção de dependência: cada <code>Controller</code>/<code>Service</code> cria suas próprias instâncias de <code>Service</code>/<code>DAO</code> via <code>new</code>.</li>
+<li>Não há transações explícitas entre múltiplas operações DAO (ex.: <code>PedidoExameDAO.inserir()</code> insere o pedido e os benefícios vinculados em um mesmo método, mas usando duas <code>PreparedStatement</code>s sem controle explícito de transação/commit-rollback conjunto — cada <code>Connection</code> obtida por <code>Conexao.conectar()</code> está, por padrão, em modo autocommit).</li>
+</ul>
+<p><strong>Padrão de navegação de telas:</strong> a aplicação usa dois mecanismos de composição de UI:</p>
+<ol type="1">
+<li><strong>Troca de <code>Scene</code></strong> inteira (usada em <code>LoginController</code> → <code>TelaPrincipal</code> e em <code>TelaPrincipalController.sair()</code> → <code>telaLoginMaior</code>).</li>
+<li><strong>Substituição de conteúdo dentro de um container</strong> (<code>VBox formContainer</code> dentro de um <code>StackPane</code>/<code>BorderPane</code>) — usada pelo menu lateral da <code>TelaPrincipal</code> para trocar entre "Exames Pendentes" e "Usuários" sem abrir nova janela.</li>
+<li><strong>Janelas modais</strong> (<code>new Stage()</code> com <code>Modality.APPLICATION_MODAL</code> ou <code>showAndWait()</code>) — usadas para: Novo Pedido, Cadastro de Sentenciado, Alterar Senha.</li>
+</ol>
+<hr />
+<h2 id="5-telas-do-sistema">5. TELAS DO SISTEMA</h2>
+<p>Inventário de todos os arquivos <code>.fxml</code> encontrados em <code>src/br/com/sigec/view/</code>:</p>
+<h3 id="51-telaloginmaiorfxml">5.1 telaLoginMaior.fxml</h3>
+<ul>
+<li><strong>Finalidade:</strong> tela de login/autenticação.</li>
+<li><strong>Controller:</strong> <code>LoginController</code>.</li>
+<li><strong>Principais componentes:</strong> <code>TextField txtUsuario</code>, <code>PasswordField txtSenha</code>, <code>Button btnEntrar</code>, <code>Label lblErro</code> (inicialmente invisível).</li>
+<li><strong>Funcionalidades:</strong> autentica usuário via <code>UsuarioService.autenticar()</code>; se sucesso, seta <code>SessaoUsuario</code> e troca a <code>Scene</code> para <code>TelaPrincipal.fxml</code>; se falha, exibe <code>lblErro</code>.</li>
+<li><strong>Como é acessada:</strong> é a <strong>primeira tela</strong> carregada pela aplicação (<code>Main.java</code>).</li>
+<li><strong>Para onde navega:</strong> <code>TelaPrincipal.fxml</code> (login bem-sucedido).</li>
+</ul>
+<h3 id="52-telaprincipalfxml">5.2 TelaPrincipal.fxml</h3>
+<ul>
+<li><strong>Finalidade:</strong> shell/casca principal do sistema após login (cabeçalho, menu lateral, área de conteúdo).</li>
+<li><strong>Controller:</strong> <code>TelaPrincipalController</code>.</li>
+<li><strong>Principais componentes:</strong> <code>BorderPane</code>; header com <code>Label lblUsuario</code> e <code>Hyperlink lnkAlterarSenha</code>; menu lateral (<code>VBox menuLateral</code>) com botões <code>btnInicio</code>, um botão "Sentenciados" <strong>sem <code>fx:id</code> e sem <code>onAction</code></strong>, <code>btnUsuarios</code>, <code>btnSair</code>; área central <code>StackPane contentArea</code> contendo <code>VBox formContainer</code> onde as sub-telas são injetadas.</li>
+<li><strong>Funcionalidades:</strong> ao inicializar, já chama automaticamente <code>abrirExamesPendentes()</code>; permite trocar para a tela de Usuários; permite abrir "Alterar Senha" (modal); permite sair (volta ao login).</li>
+<li><strong>Como é acessada:</strong> carregada pelo <code>LoginController</code> após autenticação bem-sucedida.</li>
+<li><strong>Para onde navega:</strong> <code>telaExamesPendentes.fxml</code> (padrão/Início), <code>cadastroUsuario.fxml</code> (Usuários), <code>telaAlterarSenha.fxml</code> (modal), <code>telaLoginMaior.fxml</code> (Sair).</li>
+</ul>
+<h3 id="53-telaexamespendentesfxml">5.3 telaExamesPendentes.fxml</h3>
+<ul>
+<li><strong>Finalidade:</strong> listar pedidos de exame pendentes (status <code>CADASTRADO</code>/<code>SOLICITADO</code>) e servir de ponto de partida para criar novos pedidos.</li>
+<li><strong>Controller:</strong> <code>TelaExamesPendentesController</code>.</li>
+<li><strong>Principais componentes:</strong> <code>TextField txtMatricula</code>, <code>Button btnPesquisar</code> (sem <code>onAction</code> no FXML), <code>TableView&lt;PedidoExame&gt; tabelaExames</code> com colunas Matrícula, Nome, Benefício (<code>colTipoBeneficio</code> — <strong>declarada mas sem <code>setCellValueFactory</code> no controller</strong>, portanto sempre vazia) e Data da Solicitação; botões <code>btnNovo</code>, <code>btnAtender</code> (sem <code>onAction</code>), <code>btnReiterar</code> (sem <code>onAction</code>).</li>
+<li><strong>Funcionalidades:</strong> ao inicializar, carrega a lista de pedidos pendentes via <code>PedidoExameService.listarPendentes()</code> e popula a tabela (apenas colunas Matrícula, Nome e Data — a coluna Benefício fica sem dados); botão "NOVO" abre a tela de Novo Pedido em janela modal.</li>
+<li><strong>Como é acessada:</strong> carregada por padrão dentro da <code>TelaPrincipal</code> (Início) e ao clicar em "Inicio" no menu lateral.</li>
+<li><strong>Para onde navega:</strong> <code>telaNovoPedido.fxml</code> (modal, via botão NOVO).</li>
+</ul>
+<h3 id="54-telanovopedidofxml">5.4 telaNovoPedido.fxml</h3>
+<ul>
+<li><strong>Finalidade:</strong> cadastrar um novo Pedido de Exame vinculando um Sentenciado e um ou mais Benefícios.</li>
+<li><strong>Controller:</strong> <code>TelaNovoPedidoController</code>.</li>
+<li><strong>Principais componentes:</strong> <code>TextField txtSentenciado</code> (matrícula) + <code>Button btnPesquisar</code>; <code>Label lblSentenciado</code> (feedback do sentenciado encontrado); <code>DatePicker dpDataSolicitacao</code>; <code>TextField txtNumeroProcesso</code>; <code>ComboBox&lt;Beneficio&gt; cbBeneficio</code> + <code>Button btnAdicionar</code>; <code>ListView&lt;Beneficio&gt; listaBeneficios</code> + <code>Button btnRemover</code>; <code>Button btnCancelar</code>, <code>btnSalvar</code>.</li>
+<li><strong>Funcionalidades:</strong> pesquisa sentenciado por matrícula (se não encontrado, oferece cadastro imediato via <code>telaCadastroSentenciado.fxml</code>); adiciona/remove benefícios da lista local (impede duplicados na própria lista); ao salvar, cria o <code>PedidoExame</code> com os benefícios selecionados via <code>PedidoExameService.inserir()</code> (que valida se já existe pedido ativo para o mesmo benefício/sentenciado).</li>
+<li><strong>Como é acessada:</strong> modal aberta pelo botão "NOVO" da tela de Exames Pendentes.</li>
+<li><strong>Para onde navega:</strong> <code>telaCadastroSentenciado.fxml</code> (modal, se sentenciado não encontrado).</li>
+</ul>
+<h3 id="55-telacadastrosentenciadofxml">5.5 telaCadastroSentenciado.fxml</h3>
+<ul>
+<li><strong>Finalidade:</strong> cadastro rápido de um novo Sentenciado.</li>
+<li><strong>Controller:</strong> <code>TelaCadastroSentenciadoController</code>.</li>
+<li><strong>Principais componentes:</strong> <code>TextField txtMatricula</code>, <code>TextField txtNome</code>, <code>Button btnCancelar</code>, <code>Button btnSalvar</code>.</li>
+<li><strong>Funcionalidades:</strong> valida e insere o sentenciado via <code>SentenciadoService.inserir()</code>; fecha a janela ao salvar com sucesso; exibe alerta em caso de erro de validação.</li>
+<li><strong>Como é acessada:</strong> modal aberta a partir da pesquisa de sentenciado em <code>telaNovoPedido.fxml</code>, quando a matrícula não é encontrada.</li>
+<li><strong>Para onde navega:</strong> nenhuma (janela fecha após salvar/cancelar).</li>
+</ul>
+<h3 id="56-cadastrousuariofxml">5.6 cadastroUsuario.fxml</h3>
+<ul>
+<li><strong>Finalidade:</strong> cadastro de novos usuários do sistema.</li>
+<li><strong>Controller:</strong> <code>CadastroUsuarioController</code>.</li>
+<li><strong>Principais componentes:</strong> <code>TextField txtNome</code>, <code>txtLogin</code>; <code>PasswordField txtSenha</code>, <code>txtConfirmarSenha</code>; <code>Button btnCadastrar</code>, <code>btnLimpar</code>.</li>
+<li><strong>Funcionalidades:</strong> valida se senha e confirmação conferem; cadastra usuário via <code>UsuarioService.cadastrar()</code> (login único, senha com hash BCrypt); botão "Limpar" reseta os campos.</li>
+<li><strong>Como é acessada:</strong> exibida dentro do <code>formContainer</code> da <code>TelaPrincipal</code> ao clicar em "Usuarios" no menu lateral.</li>
+<li><strong>Para onde navega:</strong> nenhuma (fica embutida na tela principal).</li>
+</ul>
+<h3 id="57-telaalterarsenhafxml">5.7 telaAlterarSenha.fxml</h3>
+<ul>
+<li><strong>Finalidade:</strong> o usuário logado alterar a própria senha.</li>
+<li><strong>Controller:</strong> <code>TelaAlterarSenhaController</code>.</li>
+<li><strong>Principais componentes:</strong> <code>PasswordField txtSenhaAtual</code>, <code>txtNovaSenha</code>, <code>txtConfirmarSenha</code>; <code>Label lblMensagem</code> (feedback de sucesso/erro); <code>Button btnCancelar</code>, <code>btnSalvar</code>.</li>
+<li><strong>Funcionalidades:</strong> valida senha atual (reautentica via <code>UsuarioService</code>), confere nova senha com confirmação, e persiste a nova senha (com novo hash) via <code>UsuarioService.alterarSenha()</code>.</li>
+<li><strong>Como é acessada:</strong> modal aberta pelo link "Alterar Senha" no cabeçalho da <code>TelaPrincipal</code>.</li>
+<li><strong>Para onde navega:</strong> nenhuma (janela modal, fecha ao cancelar; permanece aberta após salvar, mostrando mensagem de sucesso).</li>
+</ul>
+<h3 id="58-telaresumofxml-não-integrada-ao-fluxo-atual--ver-seção-6-e-10">5.8 telaResumo.fxml <em>(não integrada ao fluxo atual — ver seção 6 e 10)</em></h3>
+<ul>
+<li><strong>Finalidade (pelo desenho da tela):</strong> exibir o resumo detalhado de um Pedido de Exame: dados do sentenciado, dados da solicitação (data, processo, benefícios, situação, SEI, status, data de conclusão), exame criminológico (atendimento psicólogo e assistente social — profissional, data, laudo, status) e reiterações (data, observação); botões "Reiterar", "Concluir", "Fechar".</li>
+<li><strong>Controller:</strong> <code>ResumoPedidoController</code>.</li>
+<li><strong>Principais componentes:</strong> dezenas de <code>Label</code>s de rótulo/valor organizados em <code>VBox</code>/<code>HBox</code> dentro de um <code>ScrollPane</code>; três botões no rodapé (<code>btnReiterar</code>, <code>btnConcluir</code>, <code>btnFechar</code>).</li>
+<li><strong>Funcionalidades reais:</strong> <strong>nenhuma.</strong> O FXML contém apenas valores estáticos de exemplo (ex.: <code>text="15/05/2026"</code>, <code>text="Nome do sentenciado"</code>, <code>text="Progressão de Regime"</code>), os três botões do rodapé <strong>não têm <code>onAction</code></strong>, e o <code>ResumoPedidoController.initialize()</code> apenas imprime <code>"ResumoPedidoController carregado!"</code> no console — não busca nem popula nenhum dado real.</li>
+<li><strong>Como é acessada:</strong> <strong>não é acessada por nenhum ponto do código atual</strong> — não há nenhuma chamada <code>FXMLLoader</code> referenciando <code>telaResumo.fxml</code> em nenhum controller do projeto (confirmado por busca textual em todo o código-fonte).</li>
+<li><strong>Para onde navega:</strong> N/A (tela não está ligada ao fluxo).</li>
+</ul>
+<h3 id="59-telabasefxml-sem-controller--protótipo-não-referenciado">5.9 telaBase.fxml <em>(sem controller — protótipo não referenciado)</em></h3>
+<ul>
+<li><strong>Finalidade (pelo desenho):</strong> parece ser um protótipo anterior de layout de menu lateral (botões "Exames", "Sentenciados", "Profissionais", "Relatórios", "Usuários", "Sair"), com imagem de fundo (<code>bkpBase.png</code>) e um painel de conteúdo (<code>contentPane</code>) vazio.</li>
+<li><strong>Controller:</strong> <strong>nenhum</strong> — este é o único FXML do projeto sem atributo <code>fx:controller</code>.</li>
+<li><strong>Principais componentes:</strong> <code>Pane</code> raiz, <code>ImageView</code> de fundo, <code>Pane</code> de conteúdo (<code>contentPane</code>), 6 botões de menu (nenhum com <code>onAction</code>).</li>
+<li><strong>Funcionalidades:</strong> nenhuma (nenhum botão está ligado a qualquer ação).</li>
+<li><strong>Como é acessada:</strong> <strong>não é referenciada por nenhum <code>FXMLLoader</code> em todo o código</strong> (confirmado por busca textual).</li>
+<li><strong>Para onde navega:</strong> N/A.</li>
+</ul>
+<hr />
+<h2 id="6-funcionalidades">6. FUNCIONALIDADES</h2>
+<h3 id="implementadas">Implementadas</h3>
+<p>(fluxo completo View → Controller → Service → DAO → banco, com tela funcional acionando a regra de negócio)</p>
+<ul>
+<li><strong>Login/autenticação</strong> de usuário com verificação de senha via hash BCrypt (<code>LoginController</code> → <code>UsuarioService.autenticar()</code> → <code>UsuarioDAO.buscarPorLogin()</code>).</li>
+<li><strong>Cadastro de usuário</strong> com validação de login/senha e geração de hash BCrypt (<code>CadastroUsuarioController</code> → <code>UsuarioService.cadastrar()</code>).</li>
+<li><strong>Alteração de senha</strong> do usuário logado, exigindo confirmação da senha atual (<code>TelaAlterarSenhaController</code> → <code>UsuarioService.alterarSenha()</code>).</li>
+<li><strong>Cadastro de Sentenciado</strong>, com validação de nome, matrícula (normalização de pontuação, apenas números, tamanho mínimo/máximo) e checagem de duplicidade de matrícula (<code>TelaCadastroSentenciadoController</code> → <code>SentenciadoService.inserir()</code>).</li>
+<li><strong>Pesquisa de Sentenciado por matrícula</strong> (<code>TelaNovoPedidoController.pesquisarSentenciado()</code>, acessando <code>SentenciadoDAO</code> diretamente).</li>
+<li><strong>Cadastro de Pedido de Exame</strong> vinculado a um Sentenciado e a um ou mais Benefícios, com validação para impedir pedido ativo duplicado para o mesmo sentenciado/benefício (<code>TelaNovoPedidoController.salvar()</code> → <code>PedidoExameService.inserir()</code>).</li>
+<li><strong>Listagem de pedidos de exame pendentes</strong> (status <code>CADASTRADO</code> ou <code>SOLICITADO</code>), ocultando os demais status (<code>TelaExamesPendentesController.initialize()</code> → <code>PedidoExameService.listarPendentes()</code>).</li>
+<li><strong>Navegação principal</strong> entre "Início" (Exames Pendentes) e "Usuários", além de logout.</li>
+<li><strong>Persistência JDBC (CRUD)</strong> funcional e completa nos DAOs de: <code>Usuario</code>, <code>Sentenciado</code>, <code>Beneficio</code>, <code>PedidoExame</code> (+ <code>pedido_beneficio</code>), <code>Reiteracao</code>, <code>Entrevista</code>, <code>Profissional</code> — todos exercitados com sucesso (segundo as mensagens de log <code>"✅"</code>) pelas classes de teste manual correspondentes.</li>
+</ul>
+<h3 id="parcialmente-implementadas">Parcialmente implementadas</h3>
+<p>(regra de negócio e persistência prontas na camada Service/DAO, mas <strong>sem tela/controller que as acione</strong> na aplicação em execução)</p>
+<ul>
+<li><p><strong>Conclusão de Pedido de Exame</strong> — <code>PedidoExameService.concluirPedido()</code> está totalmente implementado (exige número SEI preenchido e confirmação de que o pedido foi atendido tanto por psicólogo quanto por assistente social, via <code>EntrevistaDAO.foiAtendidoPorAmbos()</code>), mas <strong>nenhum botão/controller do sistema o chama</strong>. É exercitado apenas por <code>PedidoExameServiceTeste</code> (classe de teste manual).</p></li>
+<li><p><strong>Reiteração de Pedido</strong> — <code>ReiteracaoService</code>/<code>ReiteracaoDAO</code> completos (inserir, atualizar, validações de status do pedido e de data), mas <strong>sem tela/controller que os utilize</strong>. O botão "REITERAR" existe em <code>telaExamesPendentes.fxml</code>, porém sem <code>onAction</code> definido.</p></li>
+<li><p><strong>Atendimento/Entrevista com profissional</strong> — <em>(confirmado por leitura direta do código atualizado na 3ª revisão — ver nota no topo do relatório)</em> <code>EntrevistaService</code>/<code>EntrevistaDAO</code> foram reescritos para o ciclo de vida <code>PENDENTE_AGENDAMENTO → AGENDADA → REALIZADA</code>, com <code>CANCELADA</code> alcançável a partir de <code>PENDENTE_AGENDAMENTO</code> ou <code>AGENDADA</code>, e estão hoje alinhados à estrutura real da tabela <code>entrevista</code> (seção 7.2 detalha o histórico da divergência e a adequação). <strong>Como o fluxo funciona, lido diretamente do código:</strong></p>
+<ol type="1">
+<li><code>EntrevistaService.criarPendente(pedidoExame, tipoAtendimento)</code> valida que o pedido não está <code>CANCELADO</code>/<code>CONCLUIDO</code>/<code>TRANSFERIDO</code>, que <code>tipoAtendimento</code> não é nulo e que o usuário logado existe e está ativo; monta uma <code>Entrevista</code> já com <code>status = PENDENTE_AGENDAMENTO</code> e chama <code>EntrevistaDAO.inserir()</code> (<code>INSERT</code> só com <code>id_pedido_exame</code>, <code>tipo_atendimento</code>, <code>status</code>, <code>id_usuario</code>, <code>data_cadastro</code> — as demais colunas ficam <code>NULL</code> até o agendamento).</li>
+<li><code>EntrevistaService.agendar(idEntrevista, profissional, dataAgendamento)</code> busca a entrevista, exige que o status atual seja <code>PENDENTE_AGENDAMENTO</code> ou <code>AGENDADA</code> (permite reagendar), valida que o profissional existe, está ativo e que <code>profissional.getTipo()</code> bate com <code>entrevista.getTipoAtendimento()</code>, valida que a data não é anterior à data de solicitação do pedido, e chama <code>EntrevistaDAO.agendar()</code> (<code>UPDATE</code> que grava <code>id_profissional</code>, <code>data_agendamento</code> e muda <code>status</code> para <code>AGENDADA</code>).</li>
+<li><code>EntrevistaService.registrarRealizacao(idEntrevista, dataRealizacao, dataEntregaLaudo)</code> exige que o status atual seja <code>AGENDADA</code>, valida que a data de realização não é futura nem anterior à data de agendamento, e que a data de entrega do laudo (se informada) não é anterior à data de realização; chama <code>EntrevistaDAO.registrarRealizacao()</code> (<code>UPDATE</code> que grava <code>data_realizacao</code>/<code>data_entrega_laudo</code> e muda <code>status</code> para <code>REALIZADA</code>).</li>
+<li><code>EntrevistaService.cancelar(idEntrevista)</code> exige que o status atual seja <code>PENDENTE_AGENDAMENTO</code> ou <code>AGENDADA</code> (não permite cancelar uma entrevista já <code>REALIZADA</code>) e chama <code>EntrevistaDAO.cancelar()</code> (<code>UPDATE ... SET status = 'CANCELADA'</code>).</li>
+<li><code>EntrevistaDAO.buscarPorId</code>/<code>listarTodos</code>/<code>listarPorPedidoExame</code> usam <code>LEFT JOIN</code> com <code>profissional</code> (em vez do <code>INNER JOIN</code> antigo) e o método <code>montarEntrevista()</code> verifica <code>resultado.wasNull()</code> no <code>id_profissional</code> antes de montar o objeto <code>Profissional</code>, deixando <code>entrevista.setProfissional(null)</code> quando ainda não há profissional atribuído — corrigindo o problema que a 1ª revisão havia apontado.</li>
+<li><code>EntrevistaDAO.foiAtendidoPorAmbos(idPedido)</code> — usado por <code>PedidoExameService.concluirPedido()</code> — foi simplificado para <code>SELECT COUNT(DISTINCT tipo_atendimento) FROM entrevista WHERE id_pedido_exame = ? AND status = 'REALIZADA'</code>, retornando <code>true</code> quando o resultado é <code>&gt;= 2</code>; ou seja, agora só conta como "atendido" um tipo de atendimento cuja entrevista tenha de fato sido <code>REALIZADA</code> (antes bastava existir o registro).</li>
+</ol>
+<p>Continua <strong>sem tela/controller que o utilize</strong> (botão "ATENDER" em <code>telaExamesPendentes.fxml</code>, confirmado nesta revisão, segue sem <code>onAction</code>) — o escopo dessa adequação foi deliberadamente só de backend, por decisão do usuário. Ou seja, esta funcionalidade passa a estar na mesma situação que Reiteração e Conclusão de Pedido: backend pronto e funcionalmente coerente pela leitura do código, só falta UI. <strong>Ressalva:</strong> o código foi lido e analisado, mas não foi executado contra o banco nesta análise — o comportamento em tempo de execução permanece <strong>não confirmado</strong>.</p></li>
+<li><p><strong>Gestão de Benefícios</strong> — <code>BeneficioService.inserir()</code>/<code>BeneficioDAO</code> completos (CRUD), mas <strong>não existe nenhuma tela de cadastro de Benefício</strong> no projeto. A única forma encontrada de inserir um benefício é via classe de teste manual <code>TesteBeneficioDAO</code> ou diretamente no banco.</p></li>
+<li><p><strong>Gestão de Profissionais</strong> — <code>ProfissionalService.inserir()</code>/<code>ProfissionalDAO</code> completos (CRUD), mas <strong>não existe nenhuma tela de cadastro/gestão de Profissional</strong> no projeto.</p></li>
+<li><p><strong>Tela de Resumo do Pedido</strong> (<code>telaResumo.fxml</code> + <code>ResumoPedidoController</code>) — layout visual completo, mas sem nenhuma lógica de carregamento de dados reais e sem estar conectada a nenhum ponto de navegação do sistema (ver item 5.8).</p></li>
+</ul>
+<h3 id="não-utilizadas-ou-aparentemente-abandonadas">Não utilizadas ou aparentemente abandonadas</h3>
+<ul>
+<li><strong><code>telaBase.fxml</code></strong> — sem <code>fx:controller</code>, sem nenhuma referência via <code>FXMLLoader</code> em todo o projeto; aparenta ser um protótipo de layout anterior, substituído pelo conjunto <code>TelaPrincipal.fxml</code> + <code>style.css</code>.</li>
+<li><strong><code>UsuarioDAO.autenticar(login, senha)</code></strong> — método que compara a senha em texto puro diretamente via SQL (<code>WHERE senha = ?</code>). <strong>Não é chamado em nenhum lugar do código</strong> (o fluxo real de login usa <code>UsuarioService.autenticar()</code>, que compara com BCrypt). É código morto — e, se algum dia voltasse a ser usado, comprometeria a segurança da autenticação (ver seção 10).</li>
+<li><strong>Botão "Sentenciados"</strong> no menu lateral de <code>TelaPrincipal.fxml</code> — presente na interface, mas sem <code>fx:id</code> e sem <code>onAction</code>; clicar nele não tem efeito.</li>
+<li><strong>Botão "Pesquisar" (<code>btnPesquisar</code>)</strong> em <code>telaExamesPendentes.fxml</code> — presente, mas sem <code>onAction</code>; sem efeito ao clicar.</li>
+<li><strong>Coluna "Benefício" (<code>colTipoBeneficio</code>)</strong> na tabela de <code>telaExamesPendentes.fxml</code> — existe no FXML e é referenciada no controller, mas nunca recebe <code>setCellValueFactory</code>; portanto sempre aparece vazia.</li>
+<li><strong>16 classes <code>Teste*</code></strong> (<code>Teste&lt;Entidade&gt;DAO</code> em <code>dao/</code> e <code>&lt;Entidade&gt;ServiceTeste</code> em <code>service/</code>, mais <code>TesteBcrypt</code> e <code>TesteConexao</code>) — não fazem parte do fluxo de produção da aplicação (não são chamadas pelos controllers); são classes com método <code>main()</code> usadas manualmente pelo autor para validar DAOs e Services durante o desenvolvimento. Não há evidência de que estejam "abandonadas" no sentido de obsoletas — parecem ser mantidas como scripts de verificação manual —, mas tecnicamente não são testes automatizados (não há JUnit no projeto).</li>
+</ul>
+<h3 id="planejadasnão-implementadas">Planejadas/não implementadas</h3>
+<p>Não foram encontrados comentários <code>TODO</code>/<code>FIXME</code> explícitos no código apontando funcionalidades futuras específicas. A única evidência indireta de funcionalidades cogitadas é o próprio <code>telaBase.fxml</code> (protótipo abandonado), cujos botões sugerem que telas de "Sentenciados", "Profissionais" e "Relatórios" foram cogitadas em algum momento — mas isso é <strong>inferência</strong>, não uma funcionalidade documentada como planejada no código atual.</p>
+<hr />
+<h2 id="7-banco-de-dados">7. BANCO DE DADOS</h2>
+<p><strong>Fontes analisadas:</strong> (1) <code>banco/scripts/01_criacao_banco.sql</code>, o script versionado dentro do projeto; (2) <code>banco/modelos/modelo_logico.drawio</code>, o diagrama lógico; e (3) um script gerado pelo SSMS ("Generate Scripts") <strong>fornecido diretamente pelo usuário</strong>, contendo a estrutura <strong>real e atual</strong> do banco <code>SIGEC</code> em 06/09/2026 (tabelas, chaves primárias, chaves estrangeiras e constraints de todos os objetos). A fonte (3) é tratada como a <strong>verdade atual do banco</strong>; onde ela diverge das fontes (1)/(2), isso é reportado explicitamente como divergência do projeto em relação ao banco real, e não mais como "não confirmado". Não houve conexão direta desta análise a um SQL Server — a fonte (3) foi extraída e fornecida pelo usuário a partir do seu próprio ambiente.</p>
+<p><strong>Banco:</strong> <code>SIGEC</code> (SQL Server, <code>CREATE DATABASE SIGEC</code>; compatibility level 170).</p>
+<p><strong>Tabelas — estrutura REAL e ATUAL do banco (confirmada pelo script fornecido pelo usuário):</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Tabela</th>
+<th>Colunas</th>
+<th>PK</th>
+<th>FKs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>usuario</code></td>
+<td>id, nome VARCHAR(100) NOT NULL, login VARCHAR(100) NOT NULL UNIQUE, senha VARCHAR(255) NOT NULL, ativo BIT NOT NULL</td>
+<td>id</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>sentenciado</code></td>
+<td>id, matricula VARCHAR(<strong>8</strong>) NOT NULL UNIQUE (<code>UQ_SENTENCIADO_MATRICULA</code>), nome VARCHAR(100) NOT NULL</td>
+<td>id</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>beneficio</code></td>
+<td>id, descricao VARCHAR(100) NOT NULL UNIQUE, <strong>sigla VARCHAR(20) NULL</strong></td>
+<td>id</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>profissional</code></td>
+<td>id, nome VARCHAR(100) NOT NULL, tipo VARCHAR(30) NOT NULL, ativo BIT NOT NULL</td>
+<td>id</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>pedido_exame</code></td>
+<td>id, id_sentenciado NOT NULL, data_cadastro NOT NULL, data_solicitacao NOT NULL, status VARCHAR(30) NOT NULL, id_usuario NOT NULL, numero_processo VARCHAR(100) NULL, numero_sei VARCHAR(100) NULL, <strong>data_conclusao NULL</strong></td>
+<td>id</td>
+<td>id_sentenciado→sentenciado, id_usuario→usuario</td>
+</tr>
+<tr class="even">
+<td><code>pedido_beneficio</code></td>
+<td>id_beneficio NOT NULL, id_pedido_exame NOT NULL</td>
+<td>(id_beneficio, id_pedido_exame) composta</td>
+<td>id_beneficio→beneficio, id_pedido_exame→pedido_exame</td>
+</tr>
+<tr class="odd">
+<td><code>reiteracao</code></td>
+<td>id, id_pedido_exame NOT NULL, data_reiteracao NOT NULL, id_usuario NOT NULL, observacoes VARCHAR(200) NULL, despacho VARCHAR(100) NULL, data_cadastro NOT NULL</td>
+<td>id</td>
+<td>id_pedido_exame→pedido_exame, id_usuario→usuario</td>
+</tr>
+<tr class="even">
+<td><code>entrevista</code></td>
+<td><strong>id, id_pedido_exame NOT NULL, id_profissional NULL, data_agendamento DATE NULL, id_usuario NOT NULL, data_entrega_laudo DATE NULL, data_cadastro NOT NULL, data_realizacao DATE NULL, tipo_atendimento VARCHAR(30) NOT NULL, status VARCHAR(30) NOT NULL</strong></td>
+<td>id</td>
+<td>id_pedido_exame→pedido_exame, id_profissional→profissional, id_usuario→usuario</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Constraints de checagem (<code>CHECK</code>) confirmadas — apenas na tabela <code>entrevista</code>:</strong></p>
+<ul>
+<li><code>CK_entrevista_status</code>: <code>status</code> só aceita <code>'CANCELADA'</code>, <code>'REALIZADA'</code>, <code>'AGENDADA'</code> ou <code>'PENDENTE_AGENDAMENTO'</code>.</li>
+<li><code>CK_entrevista_tipo_atendimento</code>: <code>tipo_atendimento</code> só aceita <code>'ASSISTENTE_SOCIAL'</code> ou <code>'PSICOLOGO'</code>. (Nenhuma outra tabela do banco possui <code>CHECK</code> — por exemplo, <code>profissional.tipo</code>, que também deveria só aceitar <code>PSICOLOGO</code>/<code>ASSISTENTE_SOCIAL</code>, não tem essa restrição a nível de banco, dependendo inteiramente da validação em <code>ProfissionalService</code>.)</li>
+</ul>
+<p><strong>Relacionamentos:</strong> <code>pedido_exame</code> N:1 com <code>sentenciado</code> e <code>usuario</code>; <code>pedido_exame</code> N:N com <code>beneficio</code> via a tabela associativa <code>pedido_beneficio</code>; <code>reiteracao</code> e <code>entrevista</code> N:1 com <code>pedido_exame</code>; <code>entrevista</code> também N:1 com <code>profissional</code> (relação agora <strong>opcional</strong>, já que <code>id_profissional</code> é <code>NULL</code>-ável) e N:1 com <code>usuario</code>.</p>
+<p><strong>Procedures, views, triggers:</strong> <strong>confirmado que não existem</strong> — o script de schema completo fornecido pelo usuário cobre todos os objetos do banco (tabelas, chaves, constraints) e não contém nenhuma <code>PROCEDURE</code>, <code>VIEW</code> ou <code>TRIGGER</code>.</p>
+<p><strong>Como o Java acessa o banco:</strong> exclusivamente via JDBC puro (driver <code>mssql-jdbc</code>), através da classe única <code>util.Conexao</code>, que abre uma nova <code>Connection</code> por chamada (<code>DriverManager.getConnection</code>) com URL, usuário e senha fixos no código-fonte (ver seção 10, item de segurança). Cada método de cada DAO abre e fecha sua própria conexão via <code>try-with-resources</code>; não há <em>connection pool</em>.</p>
+<h3 id="71-o-script-01_criacao_bancosql-do-projeto-está-desatualizado-agora-confirmado">7.1 O script <code>01_criacao_banco.sql</code> do projeto está desatualizado (agora confirmado)</h3>
+<p>Comparando o script versionado no projeto com a estrutura real do banco:</p>
+<ol type="1">
+<li><strong><code>beneficio.sigla</code> existe de fato no banco real</strong> (VARCHAR(20), NULL) — o script do projeto não a tem. <strong>Confirmado</strong>: o script está desatualizado; o código (<code>Beneficio.java</code>, <code>BeneficioDAO</code>, <code>BeneficioService</code>) está alinhado com o banco real, não com o script.</li>
+<li><strong><code>pedido_exame.data_conclusao</code> é <code>NULL</code>-ável no banco real</strong> — o script do projeto a declara <code>NOT NULL</code>. <strong>Confirmado</strong>: o script está desatualizado nesse ponto; o código (<code>PedidoExameDAO.inserir()</code>, que insere <code>NULL</code> nesse campo) está correto em relação ao banco real.</li>
+<li><strong><code>sentenciado.matricula</code> é <code>VARCHAR(8)</code> no banco real</strong>, não <code>VARCHAR(11)</code> como no script do projeto. Não é um problema prático — <code>SentenciadoService</code> limita a matrícula normalizada a no máximo 7 caracteres — mas é mais uma evidência de que o script está desatualizado.</li>
+<li><strong>Coluna <code>entrevista.laudo_entregue</code> não existe no banco real</strong> (o script do projeto a tem). Ou seja, o ponto anteriormente levantado ("coluna existe mas não é usada pelo código") está superado: a coluna aparentemente foi removida do banco em algum momento, junto com a reformulação mais ampla da tabela <code>entrevista</code> descrita a seguir.</li>
+</ol>
+<h3 id="72-divergência-entre-a-tabela-entrevista-e-o-código-java--histórico-e-adequação-confirmada-por-leitura-direta-do-código">7.2 Divergência entre a tabela <code>entrevista</code> e o código Java — histórico e adequação (confirmada por leitura direta do código)</h3>
+<p>Esta subseção documenta um achado da 1ª revisão deste relatório (a divergência), o que o usuário reportou como resolução na 2ª revisão (na época, não reverificado por leitura de código) e o que a 3ª revisão confirmou ao ler diretamente os arquivos atualizados na pasta do projeto no computador do usuário.</p>
+<p><strong>Situação original (confirmada por leitura de código na 1ª revisão):</strong> a tabela <code>entrevista</code> no banco real tinha uma estrutura <strong>significativamente diferente</strong> da que <code>Entrevista.java</code>, <code>EntrevistaDAO.java</code> e <code>EntrevistaService.java</code> esperavam:</p>
+<table>
+<thead>
+<tr class="header">
+<th>No banco real (hoje)</th>
+<th>No código Java original (<code>Entrevista</code>/<code>EntrevistaDAO</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data_agendamento</code> (DATE, NULL)</td>
+<td>não existia no model nem era lida/gravada pelo DAO</td>
+</tr>
+<tr class="even">
+<td><code>data_realizacao</code> (DATE, NULL)</td>
+<td>não existia no model nem era lida/gravada pelo DAO</td>
+</tr>
+<tr class="odd">
+<td><code>tipo_atendimento</code> (VARCHAR(30), <strong>NOT NULL</strong>, restrita por CHECK a <code>PSICOLOGO</code>/<code>ASSISTENTE_SOCIAL</code>)</td>
+<td>não existia no model nem era gravada pelo DAO</td>
+</tr>
+<tr class="even">
+<td><code>status</code> (VARCHAR(30), <strong>NOT NULL</strong>, restrita por CHECK a <code>AGENDADA</code>/<code>REALIZADA</code>/<code>CANCELADA</code>/<code>PENDENTE_AGENDAMENTO</code>)</td>
+<td>não existia no model nem era gravada pelo DAO</td>
+</tr>
+<tr class="odd">
+<td><code>id_profissional</code> agora <strong>NULL</strong>-ável</td>
+<td>model/DAO tratavam <code>Profissional</code> como sempre presente (<code>entrevista.getProfissional().getId()</code> sem checagem de nulo)</td>
+</tr>
+<tr class="even">
+<td>não existia mais uma coluna <code>data_entrevista</code></td>
+<td><code>EntrevistaDAO</code> lia/gravava <code>data_entrevista</code> em <strong>todos</strong> os seus métodos (<code>inserir</code>, <code>atualizar</code>, <code>buscarPorId</code>, <code>listarTodos</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Consequência que motivou a adequação:</strong> todo SQL do <code>EntrevistaDAO</code> original que referenciava <code>data_entrevista</code> tentaria acessar uma coluna inexistente no banco real, e não preenchia <code>tipo_atendimento</code>/<code>status</code> (obrigatórias) — ou seja, <code>inserir</code>, <code>atualizar</code>, <code>buscarPorId</code> e <code>listarTodos</code> não funcionariam se executados contra o banco no estado em que a 1ª revisão os encontrou. Só <code>foiAtendidoPorAmbos(idPedido)</code> permanecia compatível.</p>
+<p><strong>Situação corrigida (confirmada por leitura direta de <code>model/Entrevista.java</code>, <code>model/StatusEntrevista.java</code>, <code>dao/EntrevistaDAO.java</code> e <code>service/EntrevistaService.java</code> na pasta do projeto):</strong></p>
+<ul>
+<li><code>Entrevista.java</code> foi reescrito com os campos <code>pedidoExame</code>, <code>profissional</code> (agora nullable), <code>tipoAtendimento</code> (reaproveitando o enum já existente <code>TipoProfissional</code>), <code>status</code> (novo enum <code>StatusEntrevista</code>: <code>PENDENTE_AGENDAMENTO</code>/<code>AGENDADA</code>/<code>REALIZADA</code>/<code>CANCELADA</code>, em arquivo próprio <code>model/StatusEntrevista.java</code>), <code>dataAgendamento</code>, <code>dataRealizacao</code>, <code>dataEntregaLaudo</code>, <code>usuario</code>, <code>dataCadastro</code> — o antigo campo <code>dataEntrevista</code> foi removido por completo (nenhuma referência a ele no arquivo atual). Há um construtor dedicado <code>Entrevista(PedidoExame, TipoProfissional)</code> que já monta a entrevista com <code>status = PENDENTE_AGENDAMENTO</code>, <code>usuario = SessaoUsuario.getUsuarioLogado()</code> e <code>dataCadastro = LocalDate.now()</code>.</li>
+<li><code>EntrevistaDAO.java</code> passa a ter métodos dedicados por transição de estado, no lugar de um <code>inserir</code>/<code>atualizar</code> genérico: <code>inserir(Entrevista)</code> (<code>INSERT</code> com <code>id_pedido_exame</code>, <code>tipo_atendimento</code>, <code>status</code>, <code>id_usuario</code>, <code>data_cadastro</code>, recuperando a chave gerada via <code>Statement.RETURN_GENERATED_KEYS</code>), <code>agendar(idEntrevista, idProfissional, dataAgendamento)</code> (→ <code>AGENDADA</code>), <code>registrarRealizacao(idEntrevista, dataRealizacao, dataEntregaLaudo)</code> (→ <code>REALIZADA</code>, com <code>dataEntregaLaudo</code> gravada como <code>NULL</code> via <code>Types.DATE</code> quando não informada), <code>cancelar(idEntrevista)</code> (→ <code>CANCELADA</code>), <code>listarPorPedidoExame(idPedidoExame)</code> (novo), além de <code>buscarPorId</code>/<code>listarTodos</code> reescritos com <strong><code>LEFT JOIN</code></strong> com <code>profissional</code> (no lugar do <code>INNER JOIN</code> original) e <code>excluir</code> mantido como estava (<code>DELETE FROM entrevista WHERE id = ?</code>). O método privado <code>montarEntrevista()</code> lê <code>resultado.getInt("profissional_id")</code> e checa <code>resultado.wasNull()</code> antes de montar o objeto <code>Profissional</code>, deixando <code>entrevista.setProfissional(null)</code> quando não há profissional atribuído — a lacuna que a 1ª revisão havia identificado (JOIN excluindo silenciosamente entrevistas sem profissional) está corrigida.</li>
+<li><code>foiAtendidoPorAmbos(idPedido)</code> <strong>manteve nome e assinatura</strong> (continua sendo chamado por <code>PedidoExameService.concluirPedido()</code> sem alteração — confirmado lendo <code>PedidoExameService.java</code>), mas a consulta foi simplificada para <code>SELECT COUNT(DISTINCT tipo_atendimento) FROM entrevista WHERE id_pedido_exame = ? AND status = 'REALIZADA'</code> (sem JOIN com <code>profissional</code>) — refinando a semântica de "atendido" para exigir que o atendimento tenha de fato ocorrido (<code>status = 'REALIZADA'</code>), não apenas que exista um registro de entrevista.</li>
+<li><code>EntrevistaService.java</code> passou a ter métodos <code>criarPendente</code>, <code>agendar</code>, <code>registrarRealizacao</code> e <code>cancelar</code>, cada um validando as transições de estado permitidas (<code>registrarRealizacao</code> só a partir de <code>AGENDADA</code>; <code>cancelar</code> só a partir de <code>PENDENTE_AGENDAMENTO</code>/<code>AGENDADA</code>; <code>agendar</code> a partir de <code>PENDENTE_AGENDAMENTO</code> ou <code>AGENDADA</code>, permitindo reagendar) e regras de negócio associadas (<code>profissional.getTipo() == entrevista.getTipoAtendimento()</code>, datas de agendamento não anteriores à solicitação do pedido, realização não futura nem anterior ao agendamento, entrega de laudo não anterior à realização).</li>
+<li><code>dao/TesteEntrevistaDAO.java</code> e <code>service/EntrevistaServiceTeste.java</code> (classes de teste manual) também foram reescritas para exercitar o novo fluxo (<code>criarPendente</code>/<code>agendar</code>/<code>registrarRealizacao</code>/<code>cancelar</code> e os casos de validação), no mesmo estilo <code>System.out.println</code>/<code>✅</code>/<code>❌</code> já usado no projeto.</li>
+<li>Por decisão explícita do usuário, esta adequação foi <strong>só de código Java</strong>: <code>banco/scripts/01_criacao_banco.sql</code> não foi tocado — <strong>confirmado nesta revisão</strong>: mesmo tamanho (2376 bytes) e mesma data de modificação do arquivo original, sem qualquer alteração (permanece desatualizado — seção 7.1) — e nenhuma tela/Controller foi ligada a esse backend — <strong>confirmado nesta revisão</strong> ao reler <code>TelaExamesPendentesController.java</code>/<code>telaExamesPendentes.fxml</code>: o botão "ATENDER" continua sem <code>onAction</code> (permanece sem UI — seções 6 e 10).</li>
+</ul>
+<p><strong>Ressalva de método (válida desde a 1ª revisão e ainda válida aqui):</strong> esta confirmação foi feita por <strong>leitura e inspeção do código-fonte e do SQL nele embutido</strong>, comparando-os com o schema real do banco — <strong>nenhum código Java foi executado contra o banco nesta análise</strong>. Ou seja, está confirmado que o código <em>deveria</em> funcionar conforme o schema (os nomes de coluna, tipos e a lógica de transição de estado batem com a estrutura real da tabela <code>entrevista</code>), mas o comportamento em tempo de execução (compilação limpa, ausência de erros de SQL, resultado real de rodar <code>TesteEntrevistaDAO.main()</code>) permanece <strong>não confirmado</strong>.</p>
+<p><strong>Interpretação (inferência, ainda válida):</strong> o banco foi evoluído para representar um fluxo explícito de "agendamento → realização" do atendimento (com <code>status</code> controlando esse ciclo e <code>tipo_atendimento</code> guardando explicitamente psicólogo vs. assistente social), e o código Java foi trazido para acompanhar esse desenho.</p>
+<hr />
+<h2 id="8-principais-classes">8. PRINCIPAIS CLASSES</h2>
+<p><em>(getters/setters triviais omitidos)</em></p>
+<ul>
+<li><p><strong><code>Main</code></strong> — ponto de entrada JavaFX (<code>extends Application</code>); carrega <code>telaLoginMaior.fxml</code> na inicialização e define o ícone/título da janela. Depende de <code>FXMLLoader</code>.</p></li>
+<li><p><strong><code>util.Conexao</code></strong> — responsabilidade única: criar uma <code>java.sql.Connection</code> para o SQL Server (<code>conectar()</code>). Concentra URL, usuário e senha. É dependência direta de <strong>todos</strong> os DAOs.</p></li>
+<li><p><strong><code>session.SessaoUsuario</code></strong> — mantém, em um campo <code>static</code>, o <code>Usuario</code> atualmente logado (<code>getUsuarioLogado</code>/<code>setUsuarioLogado</code>). <strong>Ponto de atenção:</strong> o campo é inicializado estaticamente com <code>usuarioDAO.buscarPorId(1)</code> — ou seja, ao carregar a classe pela primeira vez (antes de qualquer login), o sistema já tenta buscar o usuário de id 1 no banco (ver seção 10). Usada por <code>PedidoExame</code>, <code>Reiteracao</code>, <code>Entrevista</code> (para preencher o usuário responsável automaticamente) e pelos controllers de tela principal/logout.</p></li>
+<li><p><strong><code>UsuarioService</code></strong> — responsável por cadastro, autenticação (<code>autenticar</code>, com <code>BCrypt.checkpw</code>) e troca de senha (<code>alterarSenha</code>) de usuários; aplica validações de tamanho mínimo de login/senha e unicidade de login. Depende de <code>UsuarioDAO</code> e <code>SessaoUsuario</code>.</p></li>
+<li><p><strong><code>PedidoExameService</code></strong> — a classe de regra de negócio mais rica do sistema: <code>inserir()</code> (valida sentenciado/usuário/data, impede pedido ativo duplicado por benefício), <code>concluirPedido()</code> (valida SEI e atendimento por ambos profissionais antes de mudar status para <code>CONCLUIDO</code>), <code>listarPendentes()</code>. Depende de <code>PedidoExameDAO</code> e <code>EntrevistaDAO</code>.</p></li>
+<li><p><strong><code>SentenciadoService</code></strong> — valida e normaliza nome e matrícula do sentenciado (remove pontuação, exige apenas números, checa duplicidade). Depende de <code>SentenciadoDAO</code>.</p></li>
+<li><p><strong><code>EntrevistaService</code></strong> — <em>(confirmado por leitura direta do código na 3ª revisão)</em> expõe <code>criarPendente</code>, <code>agendar</code>, <code>registrarRealizacao</code> e <code>cancelar</code>, validando as transições permitidas do ciclo <code>PENDENTE_AGENDAMENTO → AGENDADA → REALIZADA</code> (com <code>CANCELADA</code> a partir de <code>PENDENTE_AGENDAMENTO</code>/<code>AGENDADA</code>), compatibilidade entre <code>profissional.getTipo()</code> e <code>tipoAtendimento</code>, e datas coerentes (agendamento não anterior à solicitação do pedido; realização não futura nem anterior ao agendamento; entrega de laudo não anterior à realização). Depende de <code>EntrevistaDAO</code>.</p></li>
+<li><p><strong><code>ReiteracaoService</code></strong> — valida uma reiteração de forma análoga (status do pedido, datas, usuário ativo, tamanho da observação). Depende de <code>ReiteracaoDAO</code>.</p></li>
+<li><p><strong><code>BeneficioService</code></strong> / <strong><code>ProfissionalService</code></strong> — validações de cadastro (descrição/sigla do benefício; nome/tipo do profissional, incluindo checagem de que o nome não contém números). Dependem de <code>BeneficioDAO</code>/<code>ProfissionalDAO</code> respectivamente.</p></li>
+<li><p><strong><code>PedidoExameDAO</code></strong> — o DAO mais complexo: monta <code>PedidoExame</code> a partir de <em>joins</em> com <code>usuario</code> e <code>sentenciado</code>; possui <code>listarPendendes()</code> (nome com erro de digitação — ver seção 10), <code>existePedidoAtivoParaSentenciadoEBeneficio()</code> (usada pela regra de negócio de duplicidade).</p></li>
+<li><p><strong><code>EntrevistaDAO</code></strong> — <em>(confirmado por leitura direta do código na 3ª revisão — ver seção 7.2)</em> inclui <code>inserir</code> (cria <code>PENDENTE_AGENDAMENTO</code>), <code>agendar</code>, <code>registrarRealizacao</code>, <code>cancelar</code>, <code>listarPorPedidoExame</code> (novo), <code>buscarPorId</code>/<code>listarTodos</code> (agora com <code>LEFT JOIN</code> em <code>profissional</code>, tratando <code>id_profissional</code> nulo) e <code>excluir</code>. Mantém <code>foiAtendidoPorAmbos(idPedido)</code> com o mesmo nome/assinatura usados por <code>PedidoExameService.concluirPedido()</code>, mas com a consulta simplificada (usa <code>tipo_atendimento</code> diretamente e exige <code>status = 'REALIZADA'</code>).</p></li>
+<li><p><strong><code>LoginController</code></strong> — controla a tela de login; depende de <code>UsuarioService</code> e <code>SessaoUsuario</code>; ao autenticar com sucesso, troca a <code>Scene</code> inteira para <code>TelaPrincipal.fxml</code>.</p></li>
+<li><p><strong><code>TelaPrincipalController</code></strong> — controla o "shell" da aplicação pós-login; gerencia a troca de conteúdo no <code>formContainer</code> e a navegação para Usuários/Exames/Alterar Senha/Sair. Depende de <code>SessaoUsuario</code>.</p></li>
+<li><p><strong><code>TelaNovoPedidoController</code></strong> — a lógica de UI mais complexa do projeto: gerencia pesquisa de sentenciado (com fluxo de cadastro inline), seleção de múltiplos benefícios em uma <code>ListView</code> local, e a montagem final do objeto <code>PedidoExame</code> com sua lista de <code>PedidoBeneficio</code> antes de delegar ao <code>PedidoExameService</code>.</p></li>
+</ul>
+<hr />
+<h2 id="9-principais-fluxos">9. PRINCIPAIS FLUXOS</h2>
+<p>Apenas fluxos <strong>confirmados no código</strong> estão documentados abaixo.</p>
+<p><strong>Login:</strong> <code>telaLoginMaior.fxml</code> → <code>LoginController.entrar()</code> → <code>UsuarioService.autenticar(login, senha)</code> → <code>UsuarioDAO.buscarPorLogin(login)</code> (SQL filtra <code>ativo = 1</code>) → <code>BCrypt.checkpw(senha, hash)</code> → se válido, <code>SessaoUsuario.setUsuarioLogado(usuario)</code> e troca de <code>Scene</code> para <code>TelaPrincipal.fxml</code>; se inválido, exibe <code>lblErro</code>.</p>
+<p><strong>Navegação principal (pós-login):</strong> <code>TelaPrincipalController.initialize()</code> chama automaticamente <code>abrirExamesPendentes()</code>, que carrega <code>telaExamesPendentes.fxml</code> dentro do <code>formContainer</code>. O menu lateral permite alternar para <code>abrirUsuarios()</code> (carrega <code>cadastroUsuario.fxml</code> no mesmo container) ou <code>sair()</code> (troca a <code>Scene</code> de volta para o login, limpando a sessão).</p>
+<p><strong>Cadastro de usuário:</strong> <code>cadastroUsuario.fxml</code> → <code>CadastroUsuarioController.cadastrar()</code> (confere senha == confirmação) → <code>UsuarioService.cadastrar()</code> (valida login/senha, checa login duplicado, gera hash BCrypt) → <code>UsuarioDAO.inserir()</code>.</p>
+<p><strong>Consulta de pedidos pendentes:</strong> <code>TelaExamesPendentesController.initialize()</code> → <code>PedidoExameService.listarPendentes()</code> → <code>PedidoExameDAO.listarPendendes()</code> (SQL com <code>status IN ('CADASTRADO','SOLICITADO')</code> e <em>joins</em> com <code>usuario</code>/<code>sentenciado</code>) → popula <code>TableView</code>.</p>
+<p><strong>Cadastro de Pedido de Exame (com Sentenciado e Benefícios):</strong> Botão "NOVO" em Exames Pendentes → abre <code>telaNovoPedido.fxml</code> (modal) →</p>
+<ol type="1">
+<li><code>pesquisarSentenciado()</code>: busca por matrícula direto via <code>SentenciadoDAO</code>. Se não encontrado, oferece cadastro imediato (<code>Alert</code> de confirmação) → abre <code>telaCadastroSentenciado.fxml</code> (modal) → <code>SentenciadoService.inserir()</code>.</li>
+<li>Usuário adiciona benefícios (<code>ComboBox</code> populado por <code>BeneficioService.listarTodos()</code>) a uma <code>ListView</code> local, com checagem de duplicidade <strong>na lista local</strong> (não consulta o banco neste ponto).</li>
+<li><code>salvar()</code>: monta <code>PedidoExame</code> + lista de <code>PedidoBeneficio</code>, chama <code>PedidoExameService.inserir()</code>, que valida sentenciado/usuário/data e a ausência de pedido ativo duplicado por benefício (<code>PedidoExameDAO.existePedidoAtivoParaSentenciadoEBeneficio</code>), define status inicial <code>CADASTRADO</code>, e persiste via <code>PedidoExameDAO.inserir()</code> (que insere o pedido e, em sequência, cada vínculo em <code>pedido_beneficio</code>).</li>
+</ol>
+<p><strong>Cadastro de Sentenciado (fluxo isolado):</strong> <code>telaCadastroSentenciado.fxml</code> → <code>TelaCadastroSentenciadoController.salvar()</code> → <code>SentenciadoService.inserir()</code> (normaliza e valida nome/matrícula, checa duplicidade) → <code>SentenciadoDAO.inserir()</code>.</p>
+<p><strong>Alteração de senha:</strong> <code>telaAlterarSenha.fxml</code> → <code>TelaAlterarSenhaController.salvar()</code> → <code>UsuarioService.alterarSenha(senhaAtual, novaSenha)</code> (reautentica o usuário logado com a senha atual, valida a nova senha, gera novo hash) → <code>UsuarioDAO.atualizar()</code>.</p>
+<p><strong>Atendimento/Entrevista (confirmado por leitura direta do código na 3ª revisão — sem UI que o acione, ver seções 6 e 10):</strong> <code>EntrevistaService.criarPendente(pedidoExame, tipoAtendimento)</code> → valida pedido/tipo/usuário → <code>EntrevistaDAO.inserir()</code> grava a entrevista com <code>status = 'PENDENTE_AGENDAMENTO'</code> (sem profissional/data ainda) → <code>EntrevistaService.agendar(idEntrevista, profissional, dataAgendamento)</code> → busca a entrevista, valida status (<code>PENDENTE_AGENDAMENTO</code>/<code>AGENDADA</code>), profissional (ativo e do tipo correto) e data → <code>EntrevistaDAO.agendar()</code> grava <code>id_profissional</code>/<code>data_agendamento</code> e muda <code>status</code> para <code>'AGENDADA'</code> → <code>EntrevistaService.registrarRealizacao(idEntrevista, dataRealizacao, dataEntregaLaudo)</code> → valida status (<code>AGENDADA</code>) e datas → <code>EntrevistaDAO.registrarRealizacao()</code> grava <code>data_realizacao</code>/<code>data_entrega_laudo</code> e muda <code>status</code> para <code>'REALIZADA'</code> → (alternativamente) <code>EntrevistaService.cancelar(idEntrevista)</code> → valida status (<code>PENDENTE_AGENDAMENTO</code>/<code>AGENDADA</code>) → <code>EntrevistaDAO.cancelar()</code> muda <code>status</code> para <code>'CANCELADA'</code>. Este fluxo completo é hoje coerente com o schema real da tabela <code>entrevista</code> (seção 7.2), mas <strong>nenhum ponto de UI o aciona</strong> — confirmado nesta revisão que <code>telaExamesPendentes.fxml</code>/<code>TelaExamesPendentesController</code> continuam sem <code>onAction</code> no botão "ATENDER".</p>
+<p><strong>Demais fluxos existentes apenas na camada de regra de negócio (sem UI que os acione — ver seções 6 e 10):</strong> reiteração (<code>ReiteracaoService</code>/<code>ReiteracaoDAO</code>), conclusão de pedido (<code>PedidoExameService.concluirPedido</code>, que continua chamando <code>EntrevistaDAO.foiAtendidoPorAmbos()</code> sem alteração de assinatura), resumo de pedido (<code>ResumoPedidoController</code>, sem carregamento de dados).</p>
+<hr />
+<h2 id="10-estado-atual">10. ESTADO ATUAL</h2>
+<h3 id="o-que-está-funcionandoimplementado">O que está funcionando/implementado</h3>
+<ul>
+<li>Login com autenticação segura (hash BCrypt).</li>
+<li>CRUD completo (a nível de DAO) para as 8 entidades principais.</li>
+<li>Cadastro de usuário e alteração de senha, ponta a ponta (tela → banco).</li>
+<li>Cadastro de sentenciado, ponta a ponta, com validações de negócio.</li>
+<li>Cadastro de pedido de exame vinculado a sentenciado e benefício(s), ponta a ponta, com regra de não duplicidade.</li>
+<li>Listagem de pedidos pendentes na tela inicial.</li>
+<li>Layout visual consistente e "moderno" (dashboard style), aplicado via <code>style.css</code> compartilhado.</li>
+<li>Persistência 100% JDBC manual, sem ORM, conforme proposta pedagógica do README.</li>
+</ul>
+<h3 id="o-que-está-parcialmente-implementado">O que está parcialmente implementado</h3>
+<ul>
+<li>Backend completo (Service + DAO, com regras de negócio inclusive) para <strong>reiteração</strong>, <strong>conclusão de pedido</strong> e, agora, <strong>atendimento/entrevista</strong> — mas nenhuma das três tem uma tela funcional que as acione. Os botões correspondentes existem na UI (<code>REITERAR</code>/<code>ATENDER</code> em Exames Pendentes; <code>Reiterar</code>, <code>Concluir</code> em <code>telaResumo.fxml</code>) mas não têm <code>onAction</code>.</li>
+<li><strong>Atendimento/entrevista</strong> <em>(confirmado por leitura direta do código na 3ª revisão — ver seção 7.2)</em>: o backend (<code>EntrevistaService</code>/<code>EntrevistaDAO</code>) foi reescrito para o ciclo <code>PENDENTE_AGENDAMENTO → AGENDADA → REALIZADA</code>/<code>CANCELADA</code> e está alinhado à estrutura real da tabela <code>entrevista</code> — deixou de ter o problema de incompatibilidade de schema que a 1ª revisão deste relatório havia identificado. Continua exatamente como reiteração/conclusão: falta só a UI (o código em si não foi executado nesta análise, apenas lido e comparado ao schema).</li>
+<li><code>telaResumo.fxml</code>: layout completo, sem dados reais nem navegação até ela.</li>
+</ul>
+<h3 id="o-que-parece-faltar">O que parece faltar</h3>
+<ul>
+<li>Telas de cadastro/gestão de <strong>Benefício</strong> e de <strong>Profissional</strong> (o backend existe, a UI não).</li>
+<li>Uma tela de gestão de <strong>Sentenciados</strong> fora do fluxo de "novo pedido" (o botão "Sentenciados" no menu não tem ação).</li>
+<li>Uma tela de <strong>Relatórios</strong> (mencionada apenas no protótipo abandonado <code>telaBase.fxml</code> — inferência, não confirmado como plano ativo).</li>
+<li><em>Wiring</em> (ligação <code>onAction</code>) dos botões "Pesquisar" (Exames Pendentes), "Atender" e "Reiterar".</li>
+<li>Carregamento de dados reais em <code>telaResumo.fxml</code>, e uma forma de navegar até ela a partir de algum ponto do sistema.</li>
+<li>Preenchimento da coluna "Benefício" na tabela de Exames Pendentes (<code>colTipoBeneficio</code> sem <code>setCellValueFactory</code>).</li>
+</ul>
+<h3 id="problemas-ou-inconsistências-encontradas">Problemas ou inconsistências encontradas</h3>
+<ol type="1">
+<li><strong>[RESOLVIDO, confirmado por leitura direta do código na 3ª revisão] Incompatibilidade entre <code>EntrevistaDAO</code> e a tabela <code>entrevista</code> real.</strong> A 1ª revisão deste relatório havia identificado que o código Java ainda estava escrito em cima da coluna <code>data_entrevista</code> (removida do banco) e não preenchia <code>tipo_atendimento</code>/<code>status</code> (obrigatórias). Nesta 3ª revisão, a leitura direta de <code>Entrevista.java</code>/<code>EntrevistaDAO.java</code>/<code>EntrevistaService.java</code> na pasta do projeto confirmou que foram reescritos para o schema real, sem nenhuma referência remanescente a <code>data_entrevista</code> (ver seção 7.2 para o detalhamento completo). Ressalva: confirmado por leitura/inspeção do código, não por execução — o comportamento em tempo de execução (compilar e rodar contra o banco) permanece não confirmado.</li>
+<li><strong>Credencial do banco de dados em texto puro no código-fonte</strong> (<code>util/Conexao.java</code>), sem uso de variável de ambiente ou arquivo de configuração externo. O <code>.gitignore</code> do projeto não exclui esse arquivo — portanto, se ele já foi commitado ao Git em algum momento, a senha estará no histórico do repositório. <strong>Não confirmado</strong> (não foi examinado o histórico de commits nesta análise) se isso já ocorreu; recomenda-se verificar manualmente (<code>git log -p -- src/br/com/sigec/util/Conexao.java</code>) e, havendo exposição, trocar a senha do banco.</li>
+<li><strong>Script <code>01_criacao_banco.sql</code> do projeto está desatualizado em relação ao banco real (confirmado)</strong> — ver seção 7.1: falta <code>beneficio.sigla</code> (que existe no banco real), declara <code>pedido_exame.data_conclusao</code> como <code>NOT NULL</code> (no banco real é <code>NULL</code>-ável), declara <code>sentenciado.matricula</code> como <code>VARCHAR(11)</code> (no banco real é <code>VARCHAR(8)</code>) e ainda traz uma versão antiga de <code>entrevista</code> (sem <code>data_agendamento</code>/<code>data_realizacao</code>/<code>tipo_atendimento</code>/<code>status</code>, com <code>laudo_entregue</code> que não existe mais). <strong>Este item permanece confirmadamente em aberto</strong> — por decisão explícita do usuário, a adequação de Entrevista foi só de código Java; o script SQL não foi tocado. Recomenda-se substituir esse script por um novo, gerado a partir do banco real.</li>
+<li><strong><code>ProfissionalDAO.atualizar()</code></strong> monta a instrução <code>UPDATE profissional SET (nome = ?,tipo=? ,ativo=? ) WHERE id =?</code> — essa sintaxe com parênteses ao redor da lista de atribuições <strong>não é válida</strong> para um <code>UPDATE</code> simples em T-SQL. <strong>Não confirmado</strong> se esse método já foi executado com sucesso (não há classe de teste manual para <code>ProfissionalDAO.atualizar</code> no projeto); é um risco concreto de falha em tempo de execução.</li>
+<li><strong><code>SessaoUsuario</code> busca o usuário de id 1 em um inicializador estático</strong>, executado assim que a classe é referenciada pela primeira vez — antes de qualquer tela de login. Isso acopla a aplicação à existência de um registro específico (<code>id = 1</code>) na tabela <code>usuario</code> e pode lançar exceção se esse registro não existir ou o banco estiver inacessível nesse momento.</li>
+<li><strong><code>UsuarioDAO.autenticar(login, senha)</code></strong> compara senha em texto puro via SQL — método morto (não utilizado pelo fluxo real), mas presente no código; risco caso seja reativado por engano no futuro.</li>
+<li><strong>Inconsistência de nomenclatura:</strong> <code>PedidoExameDAO.listarPendendes()</code> (com erro de digitação) é o método efetivamente chamado por <code>PedidoExameService.listarPendentes()</code> — apenas uma questão de nome interno, sem efeito funcional.</li>
+<li><strong>Mismatch de metadados JavaFX:</strong> os arquivos FXML declaram <code>xmlns="http://javafx.com/javafx/26"</code>, enquanto as bibliotecas JavaFX do projeto são da versão <code>17.0.12</code>. Provavelmente reflexo da versão do Scene Builder usada para editar os FXML sendo mais nova que o runtime configurado; <strong>não confirmado</strong> se isso causa qualquer problema em tempo de execução.</li>
+<li><strong>Telas órfãs:</strong> <code>telaBase.fxml</code> (sem controller) e <code>telaResumo.fxml</code>/<code>ResumoPedidoController</code> não são referenciadas por nenhum <code>FXMLLoader</code> no código atual.</li>
+<li><strong><code>profissional.tipo</code> sem <code>CHECK</code> constraint no banco</strong>, ao contrário de <code>entrevista.tipo_atendimento</code> (que tem <code>CK_entrevista_tipo_atendimento</code>, restrita a <code>PSICOLOGO</code>/<code>ASSISTENTE_SOCIAL</code>). A integridade de <code>profissional.tipo</code> depende inteiramente da validação em <code>ProfissionalService</code> — não é reforçada pelo banco.</li>
+</ol>
+<h3 id="código-aparentemente-antigo-ou-não-utilizado">Código aparentemente antigo ou não utilizado</h3>
+<ul>
+<li><code>telaBase.fxml</code> (protótipo de menu, substituído por <code>TelaPrincipal.fxml</code>).</li>
+<li><code>UsuarioDAO.autenticar(login, senha)</code> (código morto/vestigial).</li>
+<li>Botões sem ação: "Sentenciados" (menu principal), "Pesquisar" (Exames Pendentes).</li>
+<li>As 16 classes <code>Teste*</code>/<code>*ServiceTeste</code> (mais <code>TesteBcrypt</code>, <code>TesteConexao</code>) não fazem parte do runtime de produção — são, aparentemente, ferramentas de verificação manual mantidas intencionalmente pelo autor durante o desenvolvimento, não testes automatizados nem código de produção esquecido.</li>
+</ul>
+<hr />
+<h2 id="11-configuração-e-execução">11. CONFIGURAÇÃO E EXECUÇÃO</h2>
+<p>O que é necessário para executar o projeto atualmente, com base exclusivamente no que foi encontrado:</p>
+<ul>
+<li><strong>JDK:</strong> 21 (<code>.idea/misc.xml</code>: <code>languageLevel="JDK_21"</code>, <code>project-jdk-name="ms-21"</code> — nome sugere Microsoft Build of OpenJDK 21, mas isso depende de como o SDK "ms-21" está configurado localmente no IntelliJ do usuário; <strong>não confirmado</strong> o instalador/distribuição exata).</li>
+<li><strong>JavaFX:</strong> 17.0.12, build "win" (Windows) — os 4 jars (<code>javafx-base</code>, <code>javafx-graphics</code>, <code>javafx-controls</code>, <code>javafx-fxml</code>) são referenciados a partir do repositório Maven local do usuário (<code>$USER_HOME$/.m2/repository/org/openjfx/...</code>), <strong>não</strong> de uma pasta dentro do projeto. Ou seja, esses jars precisam já existir na máquina (tipicamente baixados via Maven em algum momento), mesmo o projeto não usando Maven como build tool.</li>
+<li><strong>Driver JDBC:</strong> <code>mssql-jdbc-13.4.0.jre11.jar</code>, incluído diretamente em <code>lib/</code> dentro do próprio projeto (portanto, portátil — não depende do <code>.m2</code>).</li>
+<li><strong>jBCrypt:</strong> versão 0.4, também referenciado do repositório Maven local do usuário.</li>
+<li><strong>Classe principal (Main class):</strong> <code>br.com.sigec.Main</code>.</li>
+<li><strong>Argumentos de VM necessários</strong> (conforme <code>.idea/runConfigurations/Main.xml</code>):
+<pre><code>--module-path &quot;&lt;caminho para os 4 jars do JavaFX 17.0.12 win no .m2 local&gt;&quot; --add-modules javafx.controls,javafx.fxml</code></pre></li>
+<li><strong>Banco de dados:</strong> SQL Server acessível em <code>localhost:1433</code>, com um banco chamado <code>SIGEC</code>, usuário <code>sa</code>, com a senha configurada em <code>util/Conexao.java</code>. Conexão configurada com <code>encrypt=true;trustServerCertificate=true</code> (certificado do servidor não é validado — aceitável apenas em ambiente de desenvolvimento local). <strong>Importante:</strong> o script <code>banco/scripts/01_criacao_banco.sql</code> versionado no projeto <strong>está confirmadamente desatualizado</strong> (seção 7.1) — recriar o banco a partir dele geraria uma estrutura diferente da que o código realmente usa hoje (faltaria <code>beneficio.sigla</code>; <code>entrevista</code> ficaria com a estrutura antiga). Para reproduzir o ambiente em outra máquina, é necessário um script atualizado a partir do banco real, não o script atualmente versionado.</li>
+<li><strong>IDE:</strong> o projeto está fortemente acoplado ao IntelliJ IDEA (arquivo <code>.iml</code>, pasta <code>.idea/</code> com SDK, bibliotecas e run configuration específicos). <strong>Não há</strong> wrapper Maven (<code>mvnw</code>), Gradle (<code>gradlew</code>) nem qualquer script de build alternativo (<code>.sh</code>/<code>.bat</code>) encontrado no projeto — rodar fora do IntelliJ exigiria reproduzir manualmente o classpath e os argumentos de VM acima.</li>
+<li><strong>Não confirmado:</strong> se existe, no banco em uso, um usuário com <code>id = 1</code> pré-cadastrado — necessário para que <code>SessaoUsuario</code> não lance exceção ao ser referenciada pela primeira vez (ver seção 10, item 4).</li>
+</ul>
+<hr />
+<h2 id="12-mapa-do-sistema">12. MAPA DO SISTEMA</h2>
+<p>Mapa das partes principais, usando os nomes reais encontrados no projeto:</p>
+<pre><code>Main.java
+  ↓
+telaLoginMaior.fxml → LoginController
+  ↓ (autenticar)
+UsuarioService.autenticar() → UsuarioDAO.buscarPorLogin() → tabela usuario
+  ↓ (sucesso)
+TelaPrincipal.fxml → TelaPrincipalController
+  ↓ (abrirExamesPendentes, padrão)
+telaExamesPendentes.fxml → TelaExamesPendentesController
+  ↓ (listarPendentes)
+PedidoExameService.listarPendentes() → PedidoExameDAO.listarPendendes()
+  → tabelas pedido_exame + usuario + sentenciado (JOIN)
+  ↓ (botão NOVO)
+telaNovoPedido.fxml → TelaNovoPedidoController
+  ├─ pesquisarSentenciado() → SentenciadoDAO.buscarPorMatricula() → tabela sentenciado
+  │     ↓ (não encontrado)
+  │   telaCadastroSentenciado.fxml → TelaCadastroSentenciadoController
+  │     → SentenciadoService.inserir() → SentenciadoDAO.inserir() → tabela sentenciado
+  ├─ cbBeneficio ← BeneficioService.listarTodos() → BeneficioDAO.listarTodos() → tabela beneficio
+  └─ salvar() → PedidoExameService.inserir()
+        → PedidoExameDAO.existePedidoAtivoParaSentenciadoEBeneficio() (validação)
+        → PedidoExameDAO.inserir() → tabelas pedido_exame + pedido_beneficio
+
+TelaPrincipal (menu lateral)
+  ├─ btnUsuarios → cadastroUsuario.fxml → CadastroUsuarioController
+  │     → UsuarioService.cadastrar() → UsuarioDAO.inserir() → tabela usuario
+  ├─ lnkAlterarSenha → telaAlterarSenha.fxml → TelaAlterarSenhaController
+  │     → UsuarioService.alterarSenha() → UsuarioDAO.atualizar() → tabela usuario
+  └─ btnSair → volta para telaLoginMaior.fxml
+
+[Backend pronto, sem UI que aciona — ver seções 6/9/10]
+PedidoExameService.concluirPedido() → EntrevistaDAO.foiAtendidoPorAmbos() → tabelas entrevista + profissional  (compatível com o schema atual)
+EntrevistaService (criarPendente/agendar/registrarRealizacao/cancelar) / EntrevistaDAO → tabela entrevista + profissional (LEFT JOIN)  [confirmado por leitura direta do código na 3ª revisão — seção 7.2; alinhado ao schema real]
+ReiteracaoService / ReiteracaoDAO → tabela reiteracao
+telaResumo.fxml → ResumoPedidoController (sem dados)</code></pre>
+<hr />
+<h2 id="13-pontos-importantes-para-retomar-o-desenvolvimento">13. PONTOS IMPORTANTES PARA RETOMAR O DESENVOLVIMENTO</h2>
+<h3 id="1-muito-importante">1. Muito importante</h3>
+<ul>
+<li><strong>Rodar <code>TesteEntrevistaDAO.main()</code> para validar em tempo de execução a adequação de <code>Entrevista</code>/<code>EntrevistaDAO</code>/<code>EntrevistaService</code></strong> <em>(o código já foi confirmado por leitura direta na 3ª revisão deste relatório — seção 7.2 — mas nunca foi executado nesta análise)</em>: com o SQL Server local acessível, rodar manualmente essa classe e confirmar visualmente que <code>criarPendente</code>/<code>agendar</code>/<code>registrarRealizacao</code>/<code>cancelar</code> funcionam contra o banco real e que o projeto compila sem erros. É o único passo que falta para fechar totalmente esta frente antes de partir para a UI de "Atender".</li>
+<li><strong>Decidir e implementar a ligação das telas com o backend já pronto</strong>: Reiterar, Concluir Pedido e, agora, Atender/Entrevista já têm backend funcional (este último conforme especificação reportada) e só precisam de UI — é a lacuna mais evidente para fechar em seguida.</li>
+<li><strong>Atualizar (ou substituir) <code>banco/scripts/01_criacao_banco.sql</code></strong> a partir de um script gerado do banco real — o script atual do projeto está confirmadamente desatualizado em vários pontos (seção 7.1) e não deve ser usado para recriar o ambiente. Este item <strong>permanece em aberto</strong>: por decisão explícita do usuário, não fez parte da adequação de Entrevista.</li>
+<li><strong>Verificar <code>ProfissionalDAO.atualizar()</code></strong> — a query como está parece sintaticamente inválida para T-SQL; testar antes de depender dela.</li>
+<li><strong>Tratar a credencial do banco</strong>: mover para fora do código-fonte versionado (variável de ambiente, arquivo de configuração ignorado pelo Git) e verificar se já não foi exposta no histórico do Git.</li>
+</ul>
+<h3 id="2-importante">2. Importante</h3>
+<ul>
+<li><strong>Revisar <code>SessaoUsuario</code></strong> — o carregamento estático do usuário <code>id = 1</code> no carregamento da classe é um padrão frágil; entender por que foi feito assim e se é intencional (ex.: usuário "sistema" padrão) antes de mexer.</li>
+<li><strong>Decidir o destino de <code>telaResumo.fxml</code></strong> — ela parece ser a tela natural para reunir Atender/Reiterar/Concluir; vale considerar reaproveitá-la como o hub dessas ações, em vez de wire-ar os botões da tabela de Exames Pendentes separadamente.</li>
+<li><strong>Criar telas de gestão de Benefício e Profissional</strong> — sem elas, essas tabelas só podem ser populadas manualmente/via classe de teste.</li>
+<li><strong>Remover ou wire-ar</strong> os botões sem ação ("Sentenciados" no menu, "Pesquisar" em Exames Pendentes) e preencher a coluna "Benefício" da tabela de pendentes.</li>
+</ul>
+<h3 id="3-secundário">3. Secundário</h3>
+<ul>
+<li>Remover ou documentar explicitamente o propósito de <code>telaBase.fxml</code> e de <code>UsuarioDAO.autenticar()</code> (código morto).</li>
+<li>Corrigir o nome <code>listarPendendes</code> → <code>listarPendentes</code> no DAO, por consistência.</li>
+<li>Avaliar se vale introduzir um framework de teste (JUnit) para substituir as classes <code>Teste*</code>/<code>*ServiceTeste</code> por testes automatizados reais — hoje a cobertura de regressão depende de rodar manualmente essas classes e ler o console.</li>
+<li>Considerar adicionar controle de transação explícito em operações que envolvem múltiplas tabelas (ex.: inserção de <code>pedido_exame</code> + <code>pedido_beneficio</code>).</li>
+</ul>
+<hr />
+<h2 id="14-resumo-executivo">14. RESUMO EXECUTIVO</h2>
+<p>O SIGEC está em um estado de <strong>MVP funcional parcial</strong>: o esqueleto arquitetural (View/FXML → Controller → Service → DAO → SQL Server, via JDBC puro, sem framework) está implementado de forma consistente e é seguido na grande maioria do código, e o fluxo central do sistema — <strong>login, cadastro de usuário, cadastro de sentenciado e criação de um pedido de exame vinculado a benefícios, com listagem dos pedidos pendentes</strong> — funciona ponta a ponta, com validações de negócio razoavelmente maduras (duplicidade de matrícula, duplicidade de pedido ativo por benefício, hashing de senha com BCrypt).</p>
+<p>A 1ª revisão deste relatório, feita já com a estrutura real e atual do banco em mãos, havia identificado como ponto mais crítico o fato de a tabela <code>entrevista</code> ter sido evoluída no banco (agora com <code>status</code>, <code>tipo_atendimento</code>, <code>data_agendamento</code> e <code>data_realizacao</code>, refletindo um fluxo explícito de agendamento → realização do atendimento) sem que o código Java correspondente acompanhasse essa mudança. Na 2ª revisão, o usuário reportou que essa adequação havia sido executada, mas isso não tinha sido reverificado por leitura de código. <strong>Nesta 3ª revisão, o código atual foi lido diretamente da pasta do projeto no computador do usuário e a adequação foi confirmada:</strong> <code>Entrevista</code>, <code>EntrevistaDAO</code> e <code>EntrevistaService</code> foram reescritos para o ciclo <code>PENDENTE_AGENDAMENTO → AGENDADA → REALIZADA</code>/<code>CANCELADA</code> (com métodos dedicados <code>criarPendente</code>/<code>agendar</code>/<code>registrarRealizacao</code>/<code>cancelar</code>), estão alinhados ao schema real (seção 7.2), e as classes de teste manuais (<code>TesteEntrevistaDAO</code>, <code>EntrevistaServiceTeste</code>) foram atualizadas junto. Com isso, Atendimento/Entrevista passa a estar na mesma situação que Reiteração e Conclusão de Pedido: backend íntegro e compatível com o banco atual (pela leitura do código — ainda não executado nesta análise), faltando apenas ligar uma tela a ele. Da mesma forma, não existem telas de cadastro para <code>Benefício</code> e <code>Profissional</code>, o que significa que, hoje, popular essas duas tabelas exige rodar código manualmente ou inserir dados direto no banco.</p>
+<p>As partes mais importantes do sistema para retomar o trabalho são: (1) a camada <code>service</code>, que concentra praticamente todas as regras de negócio reais e é a parte mais sólida e completa do projeto; (2) a tabela <code>pedido_exame</code> e seu ciclo de status (<code>CADASTRADO</code> → <code>SOLICITADO</code> → <code>CONCLUIDO</code>/<code>CANCELADO</code>/<code>TRANSFERIDO</code>), que é o eixo central do domínio; (3) o ciclo de vida de <code>entrevista</code> (<code>PENDENTE_AGENDAMENTO</code> → <code>AGENDADA</code> → <code>REALIZADA</code>/<code>CANCELADA</code>), confirmado no código nesta revisão, e que vale validar em tempo de execução rodando <code>TesteEntrevistaDAO.main()</code> antes de construir a tela de atendimento sobre ele; e (4) <code>telaExamesPendentes.fxml</code>, que é hoje o hub de navegação real do sistema (mesmo tendo botões inertes).</p>
+<p>Antes de qualquer nova funcionalidade, vale revisar quatro pontos que podem gerar surpresas: (a) rodar <code>TesteEntrevistaDAO.main()</code> para validar em tempo de execução a adequação de <code>EntrevistaDAO</code>/<code>EntrevistaService</code> ao schema real da tabela <code>entrevista</code> (seção 7.2) — o código já foi confirmado por leitura nesta revisão, mas nunca foi executado, então é o único passo que falta antes de construir a UI de "Atender" sobre ele; (b) o fato de que <code>banco/scripts/01_criacao_banco.sql</code>, o script versionado no projeto, está desatualizado em vários pontos e não deve ser usado para recriar o ambiente — confirmado nesta revisão que o arquivo continua exatamente como estava, sem nenhuma alteração; (c) a instrução de <code>UPDATE</code> em <code>ProfissionalDAO.atualizar()</code>, que parece sintaticamente inválida e nunca foi exercitada por nenhuma classe de teste; e (d) a exposição da senha do banco em texto puro no código-fonte versionado. Nenhum desses pontos foi corrigido pelo analista nesta análise — apenas lidos, comparados e registrados, conforme solicitado.</p>
+
+</div>
+</div>
+</body>
+</html>
