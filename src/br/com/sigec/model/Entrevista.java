@@ -8,21 +8,23 @@ public class Entrevista {
     private int id;
     private PedidoExame pedidoExame;
     private Profissional profissional;
-    private LocalDate dataEntrevista;
-    private Usuario usuario;
+    private TipoProfissional tipoAtendimento;
+    private StatusEntrevista status;
+    private LocalDate dataAgendamento;
+    private LocalDate dataRealizacao;
     private LocalDate dataEntregaLaudo;
+    private Usuario usuario;
     private LocalDate dataCadastro;
-    // se a data de entrega estiver diferente de null é pq foi entregue
 
     public Entrevista(){
 
     }
 
-
-    public Entrevista(PedidoExame pedido, Profissional profissional, LocalDate dataEntrevista){
-        this.pedidoExame = pedido;
-        this.profissional = profissional;
-        this.dataEntrevista = dataEntrevista;
+    // Cria uma entrevista "na fila", ainda sem profissional nem data de agendamento definidos
+    public Entrevista(PedidoExame pedidoExame, TipoProfissional tipoAtendimento){
+        this.pedidoExame = pedidoExame;
+        this.tipoAtendimento = tipoAtendimento;
+        this.status = StatusEntrevista.PENDENTE_AGENDAMENTO;
         this.usuario = SessaoUsuario.getUsuarioLogado();
         this.dataCadastro = LocalDate.now();
     }
@@ -51,12 +53,36 @@ public class Entrevista {
         this.profissional = profissional;
     }
 
-    public LocalDate getDataEntrevista() {
-        return dataEntrevista;
+    public TipoProfissional getTipoAtendimento() {
+        return tipoAtendimento;
     }
 
-    public void setDataEntrevista(LocalDate dataEntrevista) {
-        this.dataEntrevista = dataEntrevista;
+    public void setTipoAtendimento(TipoProfissional tipoAtendimento) {
+        this.tipoAtendimento = tipoAtendimento;
+    }
+
+    public StatusEntrevista getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEntrevista status) {
+        this.status = status;
+    }
+
+    public LocalDate getDataAgendamento() {
+        return dataAgendamento;
+    }
+
+    public void setDataAgendamento(LocalDate dataAgendamento) {
+        this.dataAgendamento = dataAgendamento;
+    }
+
+    public LocalDate getDataRealizacao() {
+        return dataRealizacao;
+    }
+
+    public void setDataRealizacao(LocalDate dataRealizacao) {
+        this.dataRealizacao = dataRealizacao;
     }
 
     public Usuario getUsuario() {
@@ -89,7 +115,10 @@ public class Entrevista {
                 "id=" + id +
                 ", pedidoExame=" + pedidoExame.toString() +
                 ", profissional=" + profissional +
-                ", dataEntrevista=" + dataEntrevista +
+                ", tipoAtendimento=" + tipoAtendimento +
+                ", status=" + status +
+                ", dataAgendamento=" + dataAgendamento +
+                ", dataRealizacao=" + dataRealizacao +
                 ", usuario=" + usuario.toString() +
                 ", dataEntregaLaudo=" + dataEntregaLaudo +
                 ", dataCadastro=" + dataCadastro +

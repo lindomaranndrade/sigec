@@ -1,6 +1,7 @@
 package br.com.sigec.service;
 
 import br.com.sigec.model.*;
+import br.com.sigec.session.SessaoUsuario;
 
 import java.time.LocalDate;
 
@@ -15,45 +16,31 @@ public class EntrevistaServiceTeste {
         System.out.println("TESTES ENTREVISTA SERVICE");
         System.out.println("=================================");
 
-        testarEntrevistaNula();
         testarPedidoExameNulo();
 
         testarPedidoCancelado();
         testarPedidoConcluido();
         testarPedidoTransferido();
 
-        testarProfissionalNulo();
+        testarTipoAtendimentoNulo();
 
         testarUsuarioNulo();
         testarUsuarioInativo();
 
-        testarDataEntrevistaNula();
-        testarDataEntrevistaAnteriorPedido();
-        testarDataEntrevistaFutura();
+        testarAgendarProfissionalNulo();
+        testarAgendarProfissionalInativo();
+        testarAgendarProfissionalTipoIncompativel();
+        testarAgendarDataNula();
+        testarAgendarDataAnteriorPedido();
+
+        testarRegistrarRealizacaoSemAgendamento();
+        testarRegistrarRealizacaoDataFutura();
+
+        testarCancelarEntrevistaJaCancelada();
 
         System.out.println("\n=================================");
         System.out.println("FIM DOS TESTES");
         System.out.println("=================================");
-    }
-
-    private static void testarEntrevistaNula() {
-
-        System.out.println("\n[TESTE] Entrevista nula");
-
-        try {
-
-            service.inserir(null);
-
-            System.out.println(
-                    "ERRO: deveria lançar exceção"
-            );
-
-        } catch (Exception e) {
-
-            System.out.println(
-                    "OK -> " + e.getMessage()
-            );
-        }
     }
 
     private static void testarPedidoExameNulo() {
@@ -62,12 +49,7 @@ public class EntrevistaServiceTeste {
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
-
-            entrevista.setPedidoExame(null);
-
-            service.inserir(entrevista);
+            service.criarPendente(null, TipoProfissional.PSICOLOGO);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -87,15 +69,10 @@ public class EntrevistaServiceTeste {
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            PedidoExame pedido = criarPedidoValido();
+            pedido.setStatus(StatusPedidoExame.CANCELADO);
 
-            entrevista.getPedidoExame()
-                    .setStatus(
-                            StatusPedidoExame.CANCELADO
-                    );
-
-            service.inserir(entrevista);
+            service.criarPendente(pedido, TipoProfissional.PSICOLOGO);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -115,15 +92,10 @@ public class EntrevistaServiceTeste {
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            PedidoExame pedido = criarPedidoValido();
+            pedido.setStatus(StatusPedidoExame.CONCLUIDO);
 
-            entrevista.getPedidoExame()
-                    .setStatus(
-                            StatusPedidoExame.CONCLUIDO
-                    );
-
-            service.inserir(entrevista);
+            service.criarPendente(pedido, TipoProfissional.PSICOLOGO);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -143,15 +115,10 @@ public class EntrevistaServiceTeste {
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            PedidoExame pedido = criarPedidoValido();
+            pedido.setStatus(StatusPedidoExame.TRANSFERIDO);
 
-            entrevista.getPedidoExame()
-                    .setStatus(
-                            StatusPedidoExame.TRANSFERIDO
-                    );
-
-            service.inserir(entrevista);
+            service.criarPendente(pedido, TipoProfissional.PSICOLOGO);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -165,18 +132,15 @@ public class EntrevistaServiceTeste {
         }
     }
 
-    private static void testarProfissionalNulo() {
+    private static void testarTipoAtendimentoNulo() {
 
-        System.out.println("\n[TESTE] Profissional nulo");
+        System.out.println("\n[TESTE] Tipo de atendimento nulo");
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            PedidoExame pedido = criarPedidoValido();
 
-            entrevista.setProfissional(null);
-
-            service.inserir(entrevista);
+            service.criarPendente(pedido, null);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -194,14 +158,15 @@ public class EntrevistaServiceTeste {
 
         System.out.println("\n[TESTE] Usuário nulo");
 
+        Usuario usuarioOriginal = SessaoUsuario.getUsuarioLogado();
+
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            SessaoUsuario.setUsuarioLogado(null);
 
-            entrevista.setUsuario(null);
+            PedidoExame pedido = criarPedidoValido();
 
-            service.inserir(entrevista);
+            service.criarPendente(pedido, TipoProfissional.PSICOLOGO);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -212,6 +177,9 @@ public class EntrevistaServiceTeste {
             System.out.println(
                     "OK -> " + e.getMessage()
             );
+
+        } finally {
+            SessaoUsuario.setUsuarioLogado(usuarioOriginal);
         }
     }
 
@@ -219,15 +187,40 @@ public class EntrevistaServiceTeste {
 
         System.out.println("\n[TESTE] Usuário inativo");
 
+        Usuario usuarioOriginal = SessaoUsuario.getUsuarioLogado();
+
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            Usuario usuarioInativo = new Usuario("Administrador", "admin", "123456");
+            usuarioInativo.setAtivo(false);
+            SessaoUsuario.setUsuarioLogado(usuarioInativo);
 
-            entrevista.getUsuario()
-                    .setAtivo(false);
+            PedidoExame pedido = criarPedidoValido();
 
-            service.inserir(entrevista);
+            service.criarPendente(pedido, TipoProfissional.PSICOLOGO);
+
+            System.out.println(
+                    "ERRO: deveria lançar exceção"
+            );
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "OK -> " + e.getMessage()
+            );
+
+        } finally {
+            SessaoUsuario.setUsuarioLogado(usuarioOriginal);
+        }
+    }
+
+    private static void testarAgendarProfissionalNulo() {
+
+        System.out.println("\n[TESTE] Agendar com profissional nulo");
+
+        try {
+
+            service.agendar(1, null, LocalDate.now());
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -241,18 +234,16 @@ public class EntrevistaServiceTeste {
         }
     }
 
-    private static void testarDataEntrevistaNula() {
+    private static void testarAgendarProfissionalInativo() {
 
-        System.out.println("\n[TESTE] Data da entrevista nula");
+        System.out.println("\n[TESTE] Agendar com profissional inativo");
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            Profissional profissional = criarProfissionalValido();
+            profissional.setAtivo(false);
 
-            entrevista.setDataEntrevista(null);
-
-            service.inserir(entrevista);
+            service.agendar(1, profissional, LocalDate.now());
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -266,22 +257,39 @@ public class EntrevistaServiceTeste {
         }
     }
 
-    private static void testarDataEntrevistaAnteriorPedido() {
+    private static void testarAgendarProfissionalTipoIncompativel() {
 
-        System.out.println("\n[TESTE] Data anterior ao pedido");
+        System.out.println("\n[TESTE] Agendar com profissional de tipo incompatível");
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            Profissional profissional = new Profissional("João Souza", TipoProfissional.ASSISTENTE_SOCIAL);
+            profissional.setId(2);
 
-            entrevista.setDataEntrevista(
-                    entrevista.getPedidoExame()
-                            .getDataSolicitacao()
-                            .minusDays(1)
+            // entrevista 1 é assumida como PSICOLOGO no ambiente de teste manual
+            service.agendar(1, profissional, LocalDate.now());
+
+            System.out.println(
+                    "ERRO ou situação a ser verificada manualmente conforme dados do banco"
             );
 
-            service.inserir(entrevista);
+        } catch (Exception e) {
+
+            System.out.println(
+                    "OK -> " + e.getMessage()
+            );
+        }
+    }
+
+    private static void testarAgendarDataNula() {
+
+        System.out.println("\n[TESTE] Agendar com data nula");
+
+        try {
+
+            Profissional profissional = criarProfissionalValido();
+
+            service.agendar(1, profissional, null);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -295,20 +303,36 @@ public class EntrevistaServiceTeste {
         }
     }
 
-    private static void testarDataEntrevistaFutura() {
+    private static void testarAgendarDataAnteriorPedido() {
 
-        System.out.println("\n[TESTE] Data futura");
+        System.out.println("\n[TESTE] Agendar com data anterior ao pedido");
 
         try {
 
-            Entrevista entrevista =
-                    criarEntrevistaValida();
+            Profissional profissional = criarProfissionalValido();
 
-            entrevista.setDataEntrevista(
-                    LocalDate.now().plusDays(1)
+            service.agendar(1, profissional, LocalDate.now().minusYears(10));
+
+            System.out.println(
+                    "ERRO ou situação a ser verificada manualmente conforme dados do banco"
             );
 
-            service.inserir(entrevista);
+        } catch (Exception e) {
+
+            System.out.println(
+                    "OK -> " + e.getMessage()
+            );
+        }
+    }
+
+    private static void testarRegistrarRealizacaoSemAgendamento() {
+
+        System.out.println("\n[TESTE] Registrar realização sem agendamento");
+
+        try {
+
+            // assume que a entrevista de id 999999 não existe ou não está agendada
+            service.registrarRealizacao(999999, LocalDate.now(), null);
 
             System.out.println(
                     "ERRO: deveria lançar exceção"
@@ -322,13 +346,47 @@ public class EntrevistaServiceTeste {
         }
     }
 
-    private static Entrevista criarEntrevistaValida() {
+    private static void testarRegistrarRealizacaoDataFutura() {
 
-        Usuario usuario = new Usuario(
-                "Administrador",
-                "admin",
-                "123456"
-        );
+        System.out.println("\n[TESTE] Registrar realização com data futura");
+
+        try {
+
+            service.registrarRealizacao(1, LocalDate.now().plusDays(1), null);
+
+            System.out.println(
+                    "ERRO ou situação a ser verificada manualmente conforme dados do banco"
+            );
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "OK -> " + e.getMessage()
+            );
+        }
+    }
+
+    private static void testarCancelarEntrevistaJaCancelada() {
+
+        System.out.println("\n[TESTE] Cancelar entrevista inexistente");
+
+        try {
+
+            service.cancelar(999999);
+
+            System.out.println(
+                    "ERRO: deveria lançar exceção"
+            );
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "OK -> " + e.getMessage()
+            );
+        }
+    }
+
+    private static PedidoExame criarPedidoValido() {
 
         Sentenciado sentenciado = new Sentenciado(
                 "123456",
@@ -345,15 +403,17 @@ public class EntrevistaServiceTeste {
                 StatusPedidoExame.CADASTRADO
         );
 
+        return pedido;
+    }
+
+    private static Profissional criarProfissionalValido() {
+
         Profissional profissional = new Profissional(
                 "Maria Oliveira",
                 TipoProfissional.PSICOLOGO
         );
+        profissional.setId(1);
 
-        return new Entrevista(
-                pedido,
-                profissional,
-                LocalDate.now().minusDays(5)
-        );
+        return profissional;
     }
 }

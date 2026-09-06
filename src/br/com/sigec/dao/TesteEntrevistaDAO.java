@@ -2,91 +2,87 @@ package br.com.sigec.dao;
 
 import br.com.sigec.model.Entrevista;
 import br.com.sigec.model.PedidoExame;
-import br.com.sigec.model.Profissional;
-import br.com.sigec.model.Usuario;
+import br.com.sigec.model.TipoProfissional;
 
 import java.time.LocalDate;
 
 public class TesteEntrevistaDAO {
     public static void main(String[] args) {
 
+        EntrevistaDAO entrevistaDAO = new EntrevistaDAO();
 
-            EntrevistaDAO entrevistaDAO = new EntrevistaDAO();
+        try {
 
-            try {
+            System.out.println("=================================");
+            System.out.println("TESTE DE INSERÇÃO (PENDENTE_AGENDAMENTO)");
+            System.out.println("=================================");
 
-                System.out.println("=================================");
-                System.out.println("TESTE DE INSERÇÃO");
-                System.out.println("=================================");
+            PedidoExame pedidoExame = new PedidoExame();
+            pedidoExame.setId(3);
 
-                PedidoExame pedidoExame = new PedidoExame();
-                pedidoExame.setId(3);
+            Entrevista entrevista = new Entrevista(pedidoExame, TipoProfissional.PSICOLOGO);
 
-                Profissional profissional = new Profissional();
-                profissional.setId(1);
+            entrevistaDAO.inserir(entrevista);
 
-                Usuario usuario = new Usuario();
-                usuario.setId(1);
+            System.out.println("✅ Entrevista inserida com sucesso!");
+            System.out.println("ID gerado: " + entrevista.getId());
 
-                Entrevista entrevista = new Entrevista();
+            System.out.println("\n=================================");
+            System.out.println("BUSCA APÓS INSERÇÃO");
+            System.out.println("=================================");
 
-                entrevista.setPedidoExame(pedidoExame);
-                entrevista.setProfissional(profissional);
-                entrevista.setUsuario(usuario);
-                entrevista.setDataEntrevista(LocalDate.now());
-                entrevista.setDataEntregaLaudo(null);
-                entrevista.setDataCadastro(LocalDate.now());
+            Entrevista pendente = entrevistaDAO.buscarPorId(entrevista.getId());
 
-                entrevistaDAO.inserir(entrevista);
-
-                System.out.println("✅ Entrevista inserida com sucesso!");
-                System.out.println("ID gerado: " + entrevista.getId());
-
-
-
-                System.out.println("\n=================================");
-                System.out.println("TESTE DE BUSCA");
-                System.out.println("=================================");
-
-                Entrevista encontrada =
-                        entrevistaDAO.buscarPorId(entrevista.getId());
-
-                if (encontrada != null) {
-                    System.out.println("✅ Entrevista encontrada!");
-                    System.out.println(encontrada);
-                }
-
-
-
-                System.out.println("\n=================================");
-                System.out.println("TESTE DE ATUALIZAÇÃO");
-                System.out.println("=================================");
-
-                encontrada.setDataEntregaLaudo(LocalDate.now());
-
-                entrevistaDAO.atualizar(encontrada);
-
-                System.out.println("✅ Entrevista atualizada com sucesso!");
-
-
-
-                System.out.println("\n=================================");
-                System.out.println("BUSCA APÓS ATUALIZAÇÃO");
-                System.out.println("=================================");
-
-                Entrevista atualizada =
-                        entrevistaDAO.buscarPorId(encontrada.getId());
-
-                System.out.println(atualizada);
-
-                System.out.println("\n🎉 TESTE FINALIZADO COM SUCESSO!");
-
-            } catch (Exception e) {
-
-                System.out.println("\n❌ ERRO DURANTE O TESTE");
-                e.printStackTrace();
-
+            if (pendente != null) {
+                System.out.println("✅ Entrevista encontrada!");
+                System.out.println(pendente);
+            } else {
+                System.out.println("❌ Entrevista não encontrada!");
             }
+
+            System.out.println("\n=================================");
+            System.out.println("TESTE DE AGENDAMENTO");
+            System.out.println("=================================");
+
+            entrevistaDAO.agendar(entrevista.getId(), 1, LocalDate.now());
+
+            System.out.println("✅ Entrevista agendada com sucesso!");
+
+            Entrevista agendada = entrevistaDAO.buscarPorId(entrevista.getId());
+            System.out.println(agendada);
+
+            System.out.println("\n=================================");
+            System.out.println("TESTE DE REGISTRO DE REALIZAÇÃO");
+            System.out.println("=================================");
+
+            entrevistaDAO.registrarRealizacao(entrevista.getId(), LocalDate.now(), LocalDate.now());
+
+            System.out.println("✅ Realização registrada com sucesso!");
+
+            Entrevista realizada = entrevistaDAO.buscarPorId(entrevista.getId());
+            System.out.println(realizada);
+
+            System.out.println("\n=================================");
+            System.out.println("TESTE DE CANCELAMENTO (outra entrevista)");
+            System.out.println("=================================");
+
+            Entrevista outraEntrevista = new Entrevista(pedidoExame, TipoProfissional.ASSISTENTE_SOCIAL);
+            entrevistaDAO.inserir(outraEntrevista);
+
+            entrevistaDAO.cancelar(outraEntrevista.getId());
+
+            System.out.println("✅ Entrevista cancelada com sucesso!");
+
+            Entrevista cancelada = entrevistaDAO.buscarPorId(outraEntrevista.getId());
+            System.out.println(cancelada);
+
+            System.out.println("\n🎉 TESTE FINALIZADO COM SUCESSO!");
+
+        } catch (Exception e) {
+
+            System.out.println("\n❌ ERRO DURANTE O TESTE");
+            e.printStackTrace();
+
         }
     }
-
+}
