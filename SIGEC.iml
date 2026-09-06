@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-client-cio-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-client-core-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-events-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-http-cio-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-http-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-io-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-network-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-network-tls-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-serialization-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-server-cio-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-server-core-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-server-sse-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-server-websockets-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-sse-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-utils-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-websocket-serialization-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/ktor-websockets-jvm-3.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/slf4j-api-2.0.16.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/annotations-23.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/claude-code-jetbrains-plugin-0.1.14-beta.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/config-1.4.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/jansi-2.4.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlin-logging-jvm-7.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlin-reflect-2.0.21.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlin-sdk-jvm-0.4.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlin-stdlib-2.1.20.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlinx-coroutines-core-jvm-1.9.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlinx-coroutines-slf4j-1.9.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlinx-io-bytestring-jvm-0.5.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlinx-io-core-jvm-0.5.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlinx-serialization-core-jvm-1.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/claude-code-jetbrains-plugin-0.1.14-beta/claude-code-jetbrains-plugin/lib/kotlinx-serialization-json-jvm-1.8.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mssql-jdbc-13.4.0.jre11.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="javafx.base" level="project" />
+    <orderEntry type="library" name="jbcrypt-0.4" level="project" />
+  </component>
+</module>

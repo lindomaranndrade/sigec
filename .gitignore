@@ -30,7 +30,16 @@ bin/
 .DS_Store
 
 ### IntelliJ IDEA ###
-.idea/
-*.iml
 out/
 *.class
+
+*.iml
+!SIGEC.iml
+
+.idea/*
+!.idea/libraries/
+.idea/libraries/*
+!.idea/libraries/jbcrypt_0_4.xml
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/vcs.xml
